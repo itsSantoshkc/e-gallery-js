@@ -1,43 +1,69 @@
-import { NextResponse } from "next/server";
-import fs, { writeFile } from "fs";
-import path, { join } from "path";
+import { NextRequest, NextResponse } from "next/server";
+import path from "path";
+import fs from "fs";
 import { randomUUID } from "crypto";
+import { insertNewProduct, insertProductImage } from "@/data/product";
+import { db } from "@/db/db";
+import { product } from "@/schema/ProductSchema";
+import { eq } from "drizzle-orm";
 
-export async function POST(req) {
-  const UPLOAD_DIR = "C:/Users/thapa/Downloads/Egallery/e-gallery/public";
-  const formData = await req.formData();
-  const images = formData.getAll("image[]");
-  const productDetails = {
-    title: formData.get("title"),
-    description: formData.get("description"),
-    price: formData.get("price"),
-  };
-  console.log(images);
-  for (let i = 0; i < images.length; i++) {
-    const file = await images[i];
-    console.log(file);
-    if (file) {
-      if (!fs.existsSync(UPLOAD_DIR)) {
-        fs.mkdirSync(UPLOAD_DIR);
-      }
-      const buffer = Buffer.from(await file.arrayBuffer());
-      if (!fs.existsSync(UPLOAD_DIR)) {
-        fs.mkdirSync(UPLOAD_DIR);
-      }
-      console.log(file.type);
-      fs.writeFileSync(
-        path.resolve(UPLOAD_DIR, `${randomUUID()}.png}`),
-        buffer
-      );
-    } else {
-      return NextResponse.json({
-        success: false,
-      });
+export const POST = async (req) => {
+  const productId = randomUUID();
+  try {
+    const formData = await req.formData();
+    const body = formData.getAll("file[]");
+
+    const title = formData.get("title");
+    const description = formData.get("description");
+    const price = formData.get("price");
+    const label = formData.get("label");
+    const availableQuantity = formData.get("availableQuantity");
+    const ownerId = formData.get("ownerId");
+
+    const UPLOAD_DIR = path.resolve(`public/uploads/${productId}`);
+
+    const newProduct = await insertNewProduct(
+      productId,
+      title,
+      description,
+      price,
+      label,
+      availableQuantity,
+      ownerId
+    );
+    if (newProduct === null) {
+      throw new Error("Failed to insert data");
     }
-  }
 
-  return NextResponse.json({
-    success: true,
-    name: body.file.name,
-  });
-}
+    for (let i = 0; i < body.length; i++) {
+      const file = body[i] || null;
+      if (file !== "undefined") {
+        if (file) {
+          const fileName = `${randomUUID()}.${file.type.split("/")[1]}`;
+          const buffer = Buffer.from(await file.arrayBuffer());
+          if (!fs.existsSync(UPLOAD_DIR)) {
+            fs.mkdirSync(UPLOAD_DIR);
+          }
+          fs.writeFileSync(path.resolve(UPLOAD_DIR, fileName), buffer);
+          await insertProductImage(
+            productId,
+            `/uploads/${productId}/${fileName}`
+          );
+        } else {
+          return NextResponse.json({
+            success: false,
+          });
+        }
+      }
+    }
+
+    return NextResponse.json({
+      success: true,
+    });
+  } catch (error) {
+    await db.delete(product).where(eq(product.id, productId));
+    return NextResponse.json({
+      success: false,
+    });
+  }
+};

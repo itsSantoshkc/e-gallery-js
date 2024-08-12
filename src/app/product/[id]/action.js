@@ -4,6 +4,7 @@ import { db } from "@/db/db";
 import { product, product_userLiked } from "@/schema/ProductSchema";
 import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export async function likePost(userID, productID, totalLikes) {
   try {
@@ -29,12 +30,13 @@ export async function likePost(userID, productID, totalLikes) {
         likedAt: new Date(),
       });
     }
+
     revalidatePath(`/product/${productID}`);
   } catch (error) {
-    console.log(error);
+    return null;
   }
 }
-export async function DisLikePost(userID, productID, totalLikes) {
+export async function dislikePost(userID, productID, totalLikes) {
   try {
     const userLiked = await db
       .select()
@@ -46,7 +48,7 @@ export async function DisLikePost(userID, productID, totalLikes) {
         )
       )
       .limit(1);
-    if (userLiked.length <= 0) {
+    if (userLiked.length > 0) {
       await db
         .update(product)
         .set({ totalLikes: totalLikes - 1 })
@@ -61,8 +63,26 @@ export async function DisLikePost(userID, productID, totalLikes) {
           )
         );
     }
+
     revalidatePath(`/product/${productID}`);
   } catch (error) {
-    console.log(error);
+    return null;
   }
 }
+
+export const getPostLiked = async (productId, userId) => {
+  const responseData = await db
+    .select()
+    .from(product_userLiked)
+    .where(
+      and(
+        eq(product_userLiked.productId, productId),
+        eq(product_userLiked.userId, userId)
+      )
+    );
+  if (responseData[0]) {
+    return true;
+  }
+  return false;
+  // return products[0].totalLikes;
+};

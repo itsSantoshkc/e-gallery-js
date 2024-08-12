@@ -239,7 +239,7 @@ const page = (props) => {
                     <label className="w-1/5 px-2 text-center ">Province</label>
                     <Select defaultValue={state} onValueChange={setState}>
                       <SelectTrigger className="w-4/5 h-16 px-4 text-sm border-l border-stone-300 rounded-r-xl sm:text-base">
-                        <SelectValue placeholder="Select a fruit" />
+                        <SelectValue placeholder="Select Your State" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup className=" *:text-sm rounded-xl sm:*:text-base">

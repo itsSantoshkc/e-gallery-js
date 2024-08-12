@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import SessionWrapper from "@/components/SessionWrapper";
 import { Toaster } from "@/components/ui/sonner";
+import { AlertDestructive } from "@/components/Alert";
 
 export const Metadata = {
   title: "E-Gallery",
@@ -19,7 +20,10 @@ export default function RootLayout({ children }) {
             <NextTopLoader color="#ef233c" />
             <Navbar />
           </div>
-          <div className="h-[95vh] pt-[5vh] ">{children}</div>
+          <div className="h-[95vh] pt-[5vh] ">
+            <AlertDestructive />
+            {children}
+          </div>
           <Toaster richColors />
         </body>
       </html>

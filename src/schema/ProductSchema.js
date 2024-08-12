@@ -35,9 +35,7 @@ export const labels = mysqlTable("labels", {
 // );
 
 export const product = mysqlTable("product", {
-  id: varchar("id", { length: 255 })
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
+  id: varchar("id", { length: 255 }).primaryKey(),
   name: varchar("name", { length: 255 }),
   price: float("price").notNull(),
   description: varchar("description", { length: 500 }),

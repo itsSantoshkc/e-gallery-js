@@ -51,14 +51,14 @@ export const getProductById = async (id) => {
     .limit(1);
   // : {
   //   id;
-  //   name ;
+  //   name | null;
   //   price: number;
-  //   description ;
-  //   availableQuantity: number ;
+  //   description | null;
+  //   availableQuantity: number | null;
   //   OwnerId;
-  //   ownerName? ;
-  //   productImages?: (string )[];
-  //   labels?: (string )[] ;
+  //   ownerName? | null;
+  //   productImages?: (string | null)[];
+  //   labels?: (string | null)[] | null;
   // }[]
   const productImages = await getProductImages(id);
   // image:ownerAvatar for getting owner avatar
@@ -147,4 +147,41 @@ export const getProducts = async () => {
     return products;
   }
   return null;
+};
+
+export const insertNewProduct = async (
+  productId,
+  title,
+  description,
+  price,
+  label,
+  availableQuantity,
+  ownerId
+) => {
+  try {
+    await db.insert(product).values({
+      id: productId,
+      name: title,
+      description: description,
+      price: price,
+      availableQuantity: availableQuantity,
+      OwnerId: ownerId,
+    });
+    return;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+export const insertProductImage = async (productId, imageId) => {
+  try {
+    await db.insert(product_image).values({
+      productId: productId,
+      image: imageId,
+    });
+    return;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
 };

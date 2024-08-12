@@ -1,24 +1,52 @@
 import { AddItemInCart } from "@/helper/addToCart";
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState, useTransition } from "react";
 import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 
 import { toast } from "sonner";
-import { likePost } from "./action";
+import { dislikePost, getPostLiked, likePost } from "./action";
+import { useSession } from "next-auth/react";
 
 const ProductDetails = (props) => {
+  const { data: session, status } = useSession();
+  const [isPending, startTransition] = useTransition();
   const [itemQuantity, setItemQuantity] = useState(0);
-  const handleIncrementItemQuantity = () => {
+  const [totalLikes, setTotalLikes] = useState(props.totalLikes);
+  const [postLiked, setPostLiked] = useState(false);
+  const handleIncrementItemQuantity = async () => {
     setItemQuantity(itemQuantity + 1);
   };
-  const handleDecrementItemQuantity = () => {
+  const handleDecrementItemQuantity = async () => {
     if (itemQuantity !== 0) {
       return setItemQuantity(itemQuantity - 1);
     }
+
     return setItemQuantity(0);
   };
 
+  const handleLikePost = () => {
+    const likeThePost = likePost(props.userId, props.id, props.totalLikes);
+    if (likeThePost !== null) {
+      totalLikes !== null ? setTotalLikes(() => totalLikes + 1) : "";
+      setPostLiked(true);
+    }
+  };
+  const handleDislikePost = () => {
+    const DislikeThePost = dislikePost(
+      props.userId,
+      props.id,
+      props.totalLikes
+    );
+    if (DislikeThePost !== null) {
+      totalLikes !== null ? setTotalLikes(() => totalLikes - 1) : "";
+      setPostLiked(false);
+    }
+  };
+
   const handleAddToCart = async () => {
+    if (status !== "authenticated") {
+      return toast.error("Please! Login to add item in cart");
+    }
     if (itemQuantity <= 0) {
       toast.error("Please! Select how many item you want to add on cart");
       return null;
@@ -37,6 +65,20 @@ const ProductDetails = (props) => {
       toast.error("An Error Occurred!!");
     }
   };
+  if (status === "loading" || session === undefined) {
+    return (
+      <div className="flex items-center justify-center w-full h-full overflow-hidden">
+        <div className="loader "></div>
+      </div>
+    );
+  }
+  const isPostLiked = async () => {
+    const postLiked = await getPostLiked(props.id, session?.user?.id);
+    setPostLiked(postLiked);
+  };
+  useEffect(() => {
+    isPostLiked();
+  }, []);
 
   return (
     <div className="bg-white  border flex justify-start items-center group flex-col fixed rounded-t-2xl bottom-0 duration-500 transition-all translate-y-[90%]   hover:translate-y-0 md:w-2/3 lg:w-[70%] xl:w-3/5 2xl:w-3/5 w-[90%]">
@@ -47,14 +89,26 @@ const ProductDetails = (props) => {
             {props.name}
           </h1>
           <div className="flex items-center justify-center w-1/4 h-full text-xl">
-            <CiHeart
-              onClick={() => likePost(props.userId, props.id, props.totalLikes)}
-              className="text-2xl hover:cursor-pointer fill-red-500"
-            />
-            {/* <FaHeart className="text-2xl hover:cursor-pointer fill-red-500" /> */}
-            <span className="ml-3 text-xl text-slate-500">
-              {props.totalLikes}
-            </span>
+            {!postLiked ? (
+              <CiHeart
+                onClick={() =>
+                  startTransition(() => {
+                    handleLikePost;
+                  })
+                }
+                className="text-2xl hover:cursor-pointer fill-red-500"
+              />
+            ) : (
+              <FaHeart
+                onClick={() =>
+                  startTransition(() => {
+                    handleDislikePost;
+                  })
+                }
+                className="text-2xl hover:cursor-pointer fill-red-500"
+              />
+            )}
+            <span className="ml-3 text-xl text-slate-500">{totalLikes}</span>
           </div>
         </div>
         <h2 className="w-full my-1 font-semibold lg:my-3 lg:text-xl text-stone-800">

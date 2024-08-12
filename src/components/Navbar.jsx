@@ -141,6 +141,11 @@ const Navbar = (props) => {
                       <div className="w-full py-2 my-1 font-medium text-center transition-colors duration-500 text-md hover:bg-stone-500 hover:text-white">
                         <Link href={"/orders"}>Manage Orders</Link>
                       </div>
+                      {session?.user.role === "admin" && (
+                        <div className="w-full py-2 my-1 font-medium text-center transition-colors duration-500 text-md hover:bg-stone-500 hover:text-white">
+                          <Link href={"/admin"}>Go to Admin</Link>
+                        </div>
+                      )}
                       <div
                         onClick={handleLogOut}
                         className="w-full py-2 my-1 font-medium text-center transition-colors duration-500 cursor-pointer text-md hover:bg-stone-500 hover:text-white"

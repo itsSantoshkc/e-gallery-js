@@ -1,14 +1,16 @@
 "use client";
+import PasswordInput from "@/components/PasswordInput";
 import { Separator } from "@/components/ui/separator";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { redirect, useRouter } from "next/navigation";
-import React, { FormEvent, useRef } from "react";
+import React, { FormEvent, useRef, useState } from "react";
 import { toast } from "sonner";
 
 const LogInForm = (props) => {
   const EmailRef = useRef(null);
   const PasswordRef = useRef(null);
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
@@ -23,17 +25,24 @@ const LogInForm = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     const response = await signIn("credentials", {
       email: EmailRef.current?.value,
       password: PasswordRef.current?.value,
+      redirect: false,
     });
     if (response?.error !== null) {
-      return response?.error === "Error: Email is not verified"
-        ? router.push("/email-verification")
-        : toast.error(response?.error);
+      setLoading(false);
+      return toast.error(response?.error);
+      //   return response?.error === "Error: Email is not verified"
+      //     ? router.push("/email-verification")
+      //     : toast.error(response?.error);
     }
-
+    if (response?.ok) {
+      toast.success("Logged In Sucessfully");
+    }
+    setLoading(false);
     router.push("/");
   };
   return (
@@ -76,16 +85,12 @@ const LogInForm = (props) => {
           >
             Password
           </label>
-          <div className="relative flex items-center w-full h-12 rounded-xl">
-            <input
-              ref={PasswordRef}
-              type="password"
-              name="password"
-              className="w-full h-full px-3 rounded-xl"
-              placeholder="Enter Your Password"
-            />
-            <span className="absolute right-5">%</span>
-          </div>
+
+          <PasswordInput
+            passwordRef={PasswordRef}
+            placeholder="Enter Your Password"
+            name="password"
+          />
           <div className="flex items-center justify-between m-2 mx-1 text-sm font-bold text-stone-600">
             <Link href={"/Sign-up"}>
               <h2 className="transition-colors duration-500 cursor-pointer  hover:text-stone-400">
@@ -96,11 +101,19 @@ const LogInForm = (props) => {
               Forgot Password ?
             </h2>
           </div>
-          <input
+          <button
             type="submit"
             value="Log In"
-            className="p-3 my-3 text-xl font-bold text-white transition-colors duration-500 cursor-pointer rounded-xl bg-stone-500 hover:bg-stone-400 "
-          />
+            disabled={loading ? true : false}
+            className="flex items-center justify-center p-3 my-3 text-xl font-bold text-white transition-colors duration-500 cursor-pointer rounded-xl bg-stone-500 hover:bg-stone-400 "
+          >
+            {!loading && "Log In"}
+            {loading && (
+              <div className="flex items-center px-2 justify-evenly">
+                <div className="w-6 h-6 border-2 border-gray-300 rounded-full animate-spin border-t-blue-600" />
+              </div>
+            )}
+          </button>
         </form>
       </div>
     </div>

@@ -42,13 +42,12 @@ export const verifyUser = async (id) => {
   }
 };
 
-export const insertNewUser = async (email, password, name) => {
+export const insertNewUser = async (email, password) => {
   try {
     const token = generateVerificationToken();
     await db.insert(users).values({
       email: email,
       password: password,
-      name: name,
       emailVerified: false,
       verificationToken: token,
     });
@@ -61,20 +60,23 @@ export const insertNewUser = async (email, password, name) => {
 
 export const newUserDetails = async (
   userId,
-
+  name,
   birthDate,
   gender,
   phone,
   province,
-  address
+  address,
+  image
 ) => {
   try {
     await db
       .update(users)
       .set({
+        name: name,
         birthDate: birthDate,
         gender: gender,
         phone: phone,
+        image: image,
       })
       .where(eq(users.id, userId));
     await db.insert(shippingAddresses).values({

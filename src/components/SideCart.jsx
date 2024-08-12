@@ -108,6 +108,7 @@ const SideCart = (props) => {
                     ProductPrice={item.itemPrice}
                     productImage={item.productImages[0]}
                     itemQuantity={item.itemQuantity}
+                    ownerName={item.ownerName}
                     cartItemDelete={handleCartItemDelete}
                     cartItemQuantity={handleCartItemQuantity}
                   />

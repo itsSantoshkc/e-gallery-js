@@ -49,7 +49,7 @@ const CartItems = (props) => {
             <h3 className="mt-2 font-bold">{props.ProductName}</h3>
             <span className="flex items-center justify-start w-auto ">
               <span className="px-2 py-0.5 text-xs text-center bg-gray-300 border rounded-xl">
-                {props.ProductVariant} | {props.ProductType}
+                By: {props.ownerName}
               </span>
             </span>
 

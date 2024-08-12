@@ -2,6 +2,7 @@
 import React, { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { CardSkeleton } from "@/components/Skeleton";
 import { useSession } from "next-auth/react";
+import { getTotalLikes } from "./product/[id]/action";
 
 const ImageComponent = lazy(() => import("@/components/GalleryImage"));
 
@@ -9,7 +10,6 @@ const Product = () => {
   const [productData, setProductData] = useState([]);
   const mainContainer = useRef(null);
   const { data: session } = useSession();
-  console.log(session?.user.id);
   const getProduct = async () => {
     if (session?.user.id === null) {
       const response = await fetch("/api/product", {
@@ -29,12 +29,6 @@ const Product = () => {
     getProduct();
   }, []);
 
-  console.log(productData);
-
-  const getContainerHeight = () => {
-    const br = mainContainer.current?.getBoundingClientRect();
-    console.log(br?.height);
-  };
   return (
     <div ref={mainContainer} className="flex justify-center w-full">
       <div className="grid w-full grid-cols-1 gap-6 m-6 md:grid-cols-2 lg:w-5/6 2xl:grid-cols-4">
