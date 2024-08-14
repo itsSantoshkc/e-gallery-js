@@ -29,7 +29,6 @@ const page = (props) => {
   const addressRef = useRef(null);
   const profilePictureRef = useRef(null);
   const containerRef = useRef(null);
-
   const router = useRouter();
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,16 +41,16 @@ const page = (props) => {
     const province = state;
     const address = addressRef.current?.value;
 
-    if (
-      name === "" ||
-      userGender === "" ||
-      birthDate === "" ||
-      address === "" ||
-      province === "" ||
-      phone === ""
-    ) {
-      return toast.error("Fields cannot be empty");
-    }
+    // if (
+    //   name === "" ||
+    //   userGender === "" ||
+    //   birthDate === "" ||
+    //   address === "" ||
+    //   province === "" ||
+    //   phone === ""
+    // ) {
+    //   return toast.error("Fields cannot be empty");
+    // }
 
     const formData = new FormData();
     formData.set("userId", userId);
@@ -72,7 +71,6 @@ const page = (props) => {
 
     const responseData = await response.json();
     if (response.status === 200) {
-      console.log(responseData);
       await update({
         name: name,
         image: responseData.image,
@@ -139,7 +137,7 @@ const page = (props) => {
       deleteIcon.classList.toggle("hidden");
     }
   };
-  const handleDelete = (e) => {
+  const handleDelete = () => {
     if (containerRef.current === null) {
       return;
     }
@@ -191,7 +189,7 @@ const page = (props) => {
           method="post"
           ref={tabContainer}
           encType="multipart/form-data"
-          className="flex items-center w-full transition-transform duration-300  -translate-x-0"
+          className="flex items-center w-full transition-transform duration-300 -translate-x-0"
         >
           <div className="flex flex-col items-center justify-center w-full h-full min-w-full ">
             <h1 className="mb-4 text-2xl font-bold">Basic Details</h1>

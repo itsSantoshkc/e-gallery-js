@@ -8,7 +8,7 @@ import { product } from "@/schema/ProductSchema";
 import { eq } from "drizzle-orm";
 
 export const POST = async (req) => {
-  const productId = randomUUID();
+  const productsId = randomUUID();
   try {
     const formData = await req.formData();
     const body = formData.getAll("file[]");
@@ -20,14 +20,15 @@ export const POST = async (req) => {
     const availableQuantity = formData.get("availableQuantity");
     const ownerId = formData.get("ownerId");
 
-    const UPLOAD_DIR = path.resolve(`public/uploads/${productId}`);
+    const UPLOAD_DIR = path.resolve(`public/uploads/${productsId}`);
 
     const newProduct = await insertNewProduct(
-      productId,
+      productsId,
       title,
       description,
       price,
       label,
+      0,
       availableQuantity,
       ownerId
     );
@@ -46,8 +47,8 @@ export const POST = async (req) => {
           }
           fs.writeFileSync(path.resolve(UPLOAD_DIR, fileName), buffer);
           await insertProductImage(
-            productId,
-            `/uploads/${productId}/${fileName}`
+            productsId,
+            `/uploads/${productsId}/${fileName}`
           );
         } else {
           return NextResponse.json({
@@ -57,11 +58,15 @@ export const POST = async (req) => {
       }
     }
 
-    return NextResponse.json({
-      success: true,
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        productId: productsId,
+      },
+      { status: 200 }
+    );
   } catch (error) {
-    await db.delete(product).where(eq(product.id, productId));
+    await db.delete(product).where(eq(product.id, productsId));
     return NextResponse.json({
       success: false,
     });

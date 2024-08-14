@@ -23,7 +23,7 @@ export const reSendVerificationToken = async (id, email) => {
       .set({ verificationToken: token })
       .where(eq(users.id, id));
 
-    // sendEmail({ email: email, type: "VERIFY", verificationCode: token });
+    sendEmail({ email: email, type: "VERIFY", verificationCode: token });
     return token;
   } catch (error) {
     throw new Error(error);

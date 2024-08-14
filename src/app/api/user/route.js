@@ -11,6 +11,7 @@ import fs from "fs";
 export async function POST(request) {
   try {
     const formData = await request.formData();
+    console.log(formData);
 
     const userId = formData.get("userId");
     if (!userId) {

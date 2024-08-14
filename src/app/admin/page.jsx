@@ -44,7 +44,7 @@ export const metadata = {
 export default function DashboardPage() {
   return (
     <>
-      <div className="flex items-center justify-center w-full h-full  lg:px-10">
+      <div className="flex items-center justify-center w-full h-full lg:px-10">
         <div className="relative flex-1 w-full px-10 py-6 space-y-4 ">
           <div className="flex items-center justify-center space-y-2">
             <h1 className="text-4xl font-bold tracking-tight">Dashboard</h1>

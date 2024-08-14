@@ -6,8 +6,10 @@ import NewImage from "./newImage";
 import SelectGenre from "./SelectGenre";
 import { useSession } from "next-auth/react";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const page = (props) => {
+  const router = useRouter();
   const formRef = useRef(null);
   const titleRef = useRef(null);
   const descriptionRef = useRef(null);
@@ -17,12 +19,21 @@ const page = (props) => {
   const { data: session } = useSession();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formRef);
+
     if (formRef.current === null || formRef.current === undefined) {
       return;
     }
     if (session === null || session === undefined) {
       return toast.error("Please! Try again later");
+    }
+
+    if (
+      titleRef.current.value === "" ||
+      descriptionRef.current.value === "" ||
+      availabelQuantityRef.current.value === "" ||
+      priceRef.current.value === ""
+    ) {
+      return toast.error("Filds cannot be empty");
     }
 
     var formData = new FormData();
@@ -43,6 +54,22 @@ const page = (props) => {
       method: "POST",
       body: formData,
     });
+    if (response.status === 200) {
+      const responseData = await response.json();
+
+      const productId = responseData.productId;
+      toast.success("New Product has been added sucessfully");
+      formData.delete("file[]");
+      formData.delete("title");
+      formData.delete("description");
+      formData.delete("price");
+      formData.delete("ownerId");
+      formData.delete("availableQuantity");
+      formData.delete("label");
+
+      return router.push(`http://localhost:3000/product/${productId}`);
+    }
+    return toast.error("Failed to add a product");
   };
 
   return (

@@ -29,7 +29,7 @@ const Navbar = (props) => {
   const [showSearch, setShowSearch] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const pathname = usePathname();
 
   const handleLogOut = async () => {
@@ -37,11 +37,9 @@ const Navbar = (props) => {
     router.push(data.url);
   };
 
-  if (session === undefined) {
+  if (status === "loading") {
     return <div className="w-full h-full overflow-hidden "></div>;
   }
-
-  const splitname = session !== null ? session.user.name.split(" ") : "";
 
   const authenticationPath = [
     "/Login",
@@ -123,10 +121,16 @@ const Navbar = (props) => {
                   <PopoverTrigger>
                     <Avatar>
                       <AvatarImage
-                        src={session?.user?.image}
-                        alt={session?.user?.name}
+                        src={
+                          session.user.image !== null
+                            ? session.user.image
+                            : "./defaultProfilePicture.jpg"
+                        }
+                        alt={session.user.name}
                       />
-                      <AvatarFallback>{`${splitname[0][0]} ${splitname[1][0]}`}</AvatarFallback>
+                      <AvatarFallback>
+                        {status === "authenticated" ? "" : ""}
+                      </AvatarFallback>
                     </Avatar>
                   </PopoverTrigger>
                   <PopoverContent className="flex justify-center mr-2 md:mr-5 w-52 ">

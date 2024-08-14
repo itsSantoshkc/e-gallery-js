@@ -154,6 +154,7 @@ export const insertNewProduct = async (
   description,
   price,
   label,
+  totalLike,
   availableQuantity,
   ownerId
 ) => {
@@ -163,8 +164,10 @@ export const insertNewProduct = async (
       name: title,
       description: description,
       price: price,
+      totalLikes: totalLike,
       availableQuantity: availableQuantity,
       OwnerId: ownerId,
+      createdAt: new Date(),
     });
     return;
   } catch (error) {

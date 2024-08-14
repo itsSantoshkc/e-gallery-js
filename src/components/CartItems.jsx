@@ -9,6 +9,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import Link from "next/link";
 
 const CartItems = (props) => {
   console.log(props);
@@ -45,8 +46,12 @@ const CartItems = (props) => {
               $ {props.ProductPrice * props.itemQuantity}
             </span>
           </div>
-          <div className="flex flex-col justify-center w-3/5 h-full ">
-            <h3 className="mt-2 font-bold">{props.ProductName}</h3>
+          <div className="flex flex-col justify-center w-3/5 h-full x">
+            <Link href={`http://localhost:3000/product/${props.productId}`}>
+              <h3 className="mt-2 font-bold transition-colors duration-300 cursor-pointer hover:text-blue-400">
+                {props.ProductName}
+              </h3>
+            </Link>
             <span className="flex items-center justify-start w-auto ">
               <span className="px-2 py-0.5 text-xs text-center bg-gray-300 border rounded-xl">
                 By: {props.ownerName}
