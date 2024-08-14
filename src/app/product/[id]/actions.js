@@ -4,7 +4,6 @@ import { db } from "@/db/db";
 import { product, product_userLiked } from "@/schema/ProductSchema";
 import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 export async function likePost(userID, productID, totalLikes) {
   try {
@@ -23,7 +22,6 @@ export async function likePost(userID, productID, totalLikes) {
         .update(product)
         .set({ totalLikes: totalLikes + 1 })
         .where(eq(product.id, productID));
-      // @ts-ignore
       await db.insert(product_userLiked).values({
         productId: productID,
         userId: userID,
@@ -53,7 +51,6 @@ export async function dislikePost(userID, productID, totalLikes) {
         .update(product)
         .set({ totalLikes: totalLikes - 1 })
         .where(eq(product.id, productID));
-      // @ts-ignore
       await db
         .delete(product_userLiked)
         .where(
@@ -71,6 +68,7 @@ export async function dislikePost(userID, productID, totalLikes) {
 }
 
 export const getPostLiked = async (productId, userId) => {
+  console.log(userId);
   const responseData = await db
     .select()
     .from(product_userLiked)
@@ -84,5 +82,4 @@ export const getPostLiked = async (productId, userId) => {
     return true;
   }
   return false;
-  // return products[0].totalLikes;
 };

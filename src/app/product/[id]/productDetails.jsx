@@ -1,21 +1,34 @@
 import { AddItemInCart } from "@/helper/addToCart";
-import React, { Suspense, useEffect, useState, useTransition } from "react";
+import React, { useEffect, useState } from "react";
 import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 
 import { toast } from "sonner";
-import { dislikePost, getPostLiked, likePost } from "./action";
+import { dislikePost, getPostLiked, likePost } from "./actions";
 import { useSession } from "next-auth/react";
 
-const ProductDetails = (props) => {
+const ProductDetails = ({
+  id,
+  name,
+  description,
+  price,
+  OwnerId,
+  availableQuantity,
+  userId,
+  paramId,
+  OwnerName,
+  labels,
+  totalLikes,
+}) => {
   const { data: session, status } = useSession();
-  const [isPending, startTransition] = useTransition();
   const [itemQuantity, setItemQuantity] = useState(0);
-  const [totalLikes, setTotalLikes] = useState(props.totalLikes);
+  const [postTotalLikes, setPostTotalLikes] = useState(0);
   const [postLiked, setPostLiked] = useState(false);
+
   const handleIncrementItemQuantity = async () => {
     setItemQuantity(itemQuantity + 1);
   };
+
   const handleDecrementItemQuantity = async () => {
     if (itemQuantity !== 0) {
       return setItemQuantity(itemQuantity - 1);
@@ -25,20 +38,23 @@ const ProductDetails = (props) => {
   };
 
   const handleLikePost = () => {
-    const likeThePost = likePost(props.userId, props.id, props.totalLikes);
+    if (status !== "authenticated") {
+      return toast.error("Please Sign In to like the post");
+    }
+    const likeThePost = likePost(userId, id, totalLikes);
     if (likeThePost !== null) {
-      totalLikes !== null ? setTotalLikes(() => totalLikes + 1) : "";
+      totalLikes !== null ? setPostTotalLikes(() => totalLikes + 1) : "";
       setPostLiked(true);
     }
   };
   const handleDislikePost = () => {
-    const DislikeThePost = dislikePost(
-      props.userId,
-      props.id,
-      props.totalLikes
-    );
+    if (status !== "authenticated") {
+      return;
+    }
+    const DislikeThePost = dislikePost(userId, id, totalLikes);
+
     if (DislikeThePost !== null) {
-      totalLikes !== null ? setTotalLikes(() => totalLikes - 1) : "";
+      totalLikes !== null ? setPostTotalLikes(() => totalLikes - 1) : "";
       setPostLiked(false);
     }
   };
@@ -52,10 +68,10 @@ const ProductDetails = (props) => {
       return null;
     }
     const cartItemData = {
-      userId: props.userId,
+      userId: userId,
       itemQuantity: itemQuantity,
-      itemPrice: props.price,
-      productId: props.paramId,
+      itemPrice: price,
+      productId: paramId,
     };
     try {
       const response = await AddItemInCart(cartItemData);
@@ -65,20 +81,24 @@ const ProductDetails = (props) => {
       toast.error("An Error Occurred!!");
     }
   };
-  if (status === "loading" || session === undefined) {
+  const isPostLiked = async () => {
+    const postLiked = await getPostLiked(id, userId);
+    console.log(postLiked);
+    setPostLiked(postLiked);
+  };
+
+  useEffect(() => {
+    isPostLiked();
+    setPostTotalLikes(() => totalLikes);
+  }, [totalLikes, status]);
+
+  if (session === undefined) {
     return (
       <div className="flex items-center justify-center w-full h-full overflow-hidden">
         <div className="loader "></div>
       </div>
     );
   }
-  const isPostLiked = async () => {
-    const postLiked = await getPostLiked(props.id, session?.user?.id);
-    setPostLiked(postLiked);
-  };
-  useEffect(() => {
-    isPostLiked();
-  }, []);
 
   return (
     <div className="bg-white  border flex justify-start items-center group flex-col fixed rounded-t-2xl bottom-0 duration-500 transition-all translate-y-[90%]   hover:translate-y-0 md:w-2/3 lg:w-[70%] xl:w-3/5 2xl:w-3/5 w-[90%]">
@@ -86,42 +106,35 @@ const ProductDetails = (props) => {
       <div className="flex flex-col items-center justify-center h-full px-4 lg:px-8 xl:px-12">
         <div className="flex items-center justify-between w-full ">
           <h1 className="w-3/4 mt-2 text-3xl font-bold lg:text-4xl lg:mt-4">
-            {props.name}
+            {name}
           </h1>
           <div className="flex items-center justify-center w-1/4 h-full text-xl">
             {!postLiked ? (
               <CiHeart
-                onClick={() =>
-                  startTransition(() => {
-                    handleLikePost;
-                  })
-                }
+                onClick={handleLikePost}
                 className="text-2xl hover:cursor-pointer fill-red-500"
               />
             ) : (
               <FaHeart
-                onClick={() =>
-                  startTransition(() => {
-                    handleDislikePost;
-                  })
-                }
+                onClick={handleDislikePost}
                 className="text-2xl hover:cursor-pointer fill-red-500"
               />
             )}
-            <span className="ml-3 text-xl text-slate-500">{totalLikes}</span>
+            <span className="ml-3 text-xl text-slate-500">
+              {postTotalLikes}
+            </span>
           </div>
         </div>
         <h2 className="w-full my-1 font-semibold lg:my-3 lg:text-xl text-stone-800">
-          By : {props.OwnerName}
+          By : {OwnerName}
         </h2>
-        <p className="my-2 text-justify xl:text-xl xl:my-4 ">
-          {props.description}
-        </p>
+        <p className="my-2 text-justify xl:text-xl xl:my-4 ">{description}</p>
         <div className="w-full flex *:mr-2 *:p *:px-2 lg:my-4 my-2 *:border *:rounded-xl">
-          {props.labels?.map((label, idx) => (
+          {labels?.map((label, idx) => (
             <div key={idx}>{label}</div>
           ))}
         </div>
+
         <div className="flex items-center justify-between w-full my-6">
           <div className="*:mr-4">
             <span

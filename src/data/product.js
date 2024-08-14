@@ -14,7 +14,7 @@ export const getPersonalizeProductsByUserId = async (userId) => {
     .innerJoin(product_label, eq(product_label.productId, product.id))
     .innerJoin(labels, eq(labels.id, product_label.labelId));
   if (userLikedLabels?.length <= 0) {
-    for (let i = 0; i < (await products.length); i++) {
+    for (let i = 0; i < products.length; i++) {
       const { image } = await getProductFirstImage(products[i].id);
       const { name } = await getUserById(products[i].OwnerId);
       products[i] = {
@@ -25,7 +25,6 @@ export const getPersonalizeProductsByUserId = async (userId) => {
     }
     return products;
   }
-
   const edgeRank = new EdgeRank(userLikedLabels, products);
   const personalizedProduct = await edgeRank.getEdgeValue();
   for (let i = 0; i < (await personalizedProduct.length); i++) {

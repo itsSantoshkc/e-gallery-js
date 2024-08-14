@@ -1,7 +1,9 @@
 "use client";
 import { useSession } from "next-auth/react";
-import React, { Suspense, useEffect, useState } from "react";
-import ProductDetails from "./productDetails";
+import React, { lazy, Suspense, useEffect, useState } from "react";
+// import ProductDetails from "./productDetails";
+
+const ProductDetails = lazy(() => import("./productDetails"));
 
 const page = ({ params }) => {
   const [productDetails, setProductDetails] = useState([]);
@@ -9,16 +11,17 @@ const page = ({ params }) => {
   const { data: session } = useSession();
   const userId = session?.user.id === undefined ? null : session?.user.id;
 
+  const product = async () => {
+    const response = await fetch(
+      "http://localhost:3000/api/product/" + params.id,
+      {
+        method: "get",
+      }
+    );
+    setProductDetails(await response.json());
+  };
+
   useEffect(() => {
-    const product = async () => {
-      const response = await fetch(
-        "http://localhost:3000/api/product/" + params.id,
-        {
-          method: "get",
-        }
-      );
-      setProductDetails(await response.json());
-    };
     product();
   }, []);
 

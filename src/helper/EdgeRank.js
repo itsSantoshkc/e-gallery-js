@@ -7,7 +7,7 @@ import { eq } from "drizzle-orm";
 export default class EdgeRank {
   edges;
   userLikedLabels;
-  userLikedLabelsMap;
+  userLikedLabelsMap = new Map();
 
   constructor(userLikedLabels, products) {
     this.userLikedLabels = userLikedLabels ?? null;

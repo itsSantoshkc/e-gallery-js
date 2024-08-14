@@ -2,7 +2,6 @@
 import React, { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { CardSkeleton } from "@/components/Skeleton";
 import { useSession } from "next-auth/react";
-import { getTotalLikes } from "./product/[id]/action";
 
 const ImageComponent = lazy(() => import("@/components/GalleryImage"));
 
@@ -24,7 +23,6 @@ const Product = () => {
     const responsData = await response.json();
     setProductData(responsData);
   };
-
   useEffect(() => {
     getProduct();
   }, []);

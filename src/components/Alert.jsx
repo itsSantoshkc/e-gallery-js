@@ -22,7 +22,7 @@ export function AlertDestructive() {
   if (status === "unauthenticated") {
     return (
       <div className="flex justify-center w-full">
-        <Alert variant="destructive" className="mt-20 w-[90%] space-x-5">
+        <Alert variant="destructive" className="my-20 w-[90%] space-x-5">
           <AlertCircle className="w-4 h-4" />
           <AlertTitle>Error</AlertTitle>
           <AlertDescription>
