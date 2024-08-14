@@ -169,9 +169,27 @@ export const insertNewProduct = async (
       OwnerId: ownerId,
       createdAt: new Date(),
     });
+    console.log("Owner id :", ownerId);
+    const insertLabel = await insertNewLabel(productId, label);
+    console.log("Inserting label", insertLabel);
+    if (insertLabel === null) {
+      return null;
+    }
     return;
   } catch (error) {
     console.log(error);
+    return null;
+  }
+};
+
+export const insertNewLabel = async (productID, lableID) => {
+  try {
+    await db.insert(product_label).values({
+      productId: productID,
+      labelId: lableID,
+    });
+    return;
+  } catch (error) {
     return null;
   }
 };

@@ -33,7 +33,7 @@ const Navbar = (props) => {
   const pathname = usePathname();
 
   const handleLogOut = async () => {
-    const data = await signOut({ redirect: false, callbackUrl: "/Login" });
+    const data = await signOut({ redirect: false, callbackUrl: "/" });
     router.push(data.url);
   };
 

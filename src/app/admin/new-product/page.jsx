@@ -15,8 +15,8 @@ const page = (props) => {
   const descriptionRef = useRef(null);
   const priceRef = useRef(null);
   const availabelQuantityRef = useRef(null);
-  const [genreValue, setGenreValue] = useState("Abstract");
-  const { data: session } = useSession();
+  const [genreValue, setGenreValue] = useState(1);
+  const { data: session, status } = useSession();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -25,6 +25,15 @@ const page = (props) => {
     }
     if (session === null || session === undefined) {
       return toast.error("Please! Try again later");
+    }
+
+    if (status === "unauthenticated") {
+      return toast.error("Please! Log In to inser new product");
+    }
+
+    if (session.user.role !== "admin") {
+      toast.error("Unauthorized");
+      return router.push("/");
     }
 
     if (
@@ -48,7 +57,7 @@ const page = (props) => {
     formData.set("price", priceRef.current?.value);
     formData.set("ownerId", session?.user?.id);
     formData.set("availableQuantity", availabelQuantityRef.current?.value);
-    formData.set("label", genreValue);
+    formData.set("labelId", genreValue);
 
     const response = await fetch("/api/uploadFile", {
       method: "POST",
@@ -65,13 +74,13 @@ const page = (props) => {
       formData.delete("price");
       formData.delete("ownerId");
       formData.delete("availableQuantity");
-      formData.delete("label");
+      formData.delete("labelId");
 
-      return router.push(`http://localhost:3000/product/${productId}`);
+      // return router.push(`http://localhost:3000/product/${productId}`);
     }
     return toast.error("Failed to add a product");
   };
-
+  console.log(genreValue);
   return (
     <div className="min-h-[90vh] my-20 w-full  flex justify-center items-center">
       <form

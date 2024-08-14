@@ -16,12 +16,11 @@ export const POST = async (req) => {
     const title = formData.get("title");
     const description = formData.get("description");
     const price = formData.get("price");
-    const label = formData.get("label");
+    const label = formData.get("labelId");
     const availableQuantity = formData.get("availableQuantity");
     const ownerId = formData.get("ownerId");
 
     const UPLOAD_DIR = path.resolve(`public/uploads/${productsId}`);
-
     const newProduct = await insertNewProduct(
       productsId,
       title,
