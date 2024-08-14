@@ -6,7 +6,7 @@ import SessionWrapper from "@/components/SessionWrapper";
 import { Toaster } from "@/components/ui/sonner";
 import { AlertDestructive } from "@/components/Alert";
 
-export const Metadata = {
+export const metadata = {
   title: "E-Gallery",
   description: "An website that sells artworks",
 };
