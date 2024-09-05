@@ -46,16 +46,14 @@ const Navbar = (props) => {
     "/Sign-up",
     "/email-verification",
     "/user-details",
+    "/checkout/payment/success",
+    "/checkout/payment/failure",
   ];
 
+  console.log(pathname);
   if (authenticationPath.includes(pathname)) {
     return;
   }
-
-  const handleSearchChange = (e) => {
-    e.preventDefault();
-    setSearchValue(e.target.value);
-  };
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -69,10 +67,8 @@ const Navbar = (props) => {
   };
 
   return (
-    <div className="w-full fixed z-[999]    bg-white  h-16">
+    <div className="w-full fixed z-[9]    bg-white  h-16">
       <div className="w-full h-16 border-b">
-        {/* Add this later sticky top-0 and add feature that nava bar
-    changes color when scrolled if hero is dark coloured   */}
         <ul className="flex items-center justify-between h-full mx-5 text-black md:mx-7 md:justify-between ">
           <li className="flex items-center justify-center w-auto h-full text-2xl font-bold cursor-pointer md:m-5 lg:m-10">
             <Link href={"/"}>E-gallery</Link>
@@ -83,9 +79,14 @@ const Navbar = (props) => {
               className="flex items-center justify-center w-full h-full"
             >
               <input
-                onChange={handleSearchChange}
+                onChange={(e) => {
+                  e.preventDefault();
+                  setSearchValue(e.target.value);
+                }}
                 value={searchValue}
-                type="search"
+                type="text"
+                name="search-artworks"
+                id="search-artworks"
                 placeholder="Search Artworks"
                 className="items-center w-full h-full p-2 border border-r-0 border-black rounded-l-full xl:p-5 focus:border-none "
               />
@@ -143,7 +144,7 @@ const Navbar = (props) => {
                         <Link href={"/profile"}>Manage Profile</Link>
                       </div>
                       <div className="w-full py-2 my-1 font-medium text-center transition-colors duration-500 text-md hover:bg-stone-500 hover:text-white">
-                        <Link href={"/orders"}>Manage Orders</Link>
+                        <Link href={"/recent-activity"}>Recent Activity</Link>
                       </div>
                       {session?.user.role === "admin" && (
                         <div className="w-full py-2 my-1 font-medium text-center transition-colors duration-500 text-md hover:bg-stone-500 hover:text-white">
@@ -178,8 +179,13 @@ const Navbar = (props) => {
           className="flex items-center justify-center w-5/6 "
         >
           <input
-            type="search"
-            onChange={handleSearchChange}
+            type="text"
+            onChange={(e) => {
+              e.preventDefault();
+              setSearchValue(e.target.value);
+            }}
+            name="search-artwork"
+            id="search-artwork"
             value={searchValue}
             className={` h-16  z-[999]  w-5/6 p-5 transition-all border  duration-200 ease-in-out bg-white  rounded-l-xl ${
               showSearch

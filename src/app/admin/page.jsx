@@ -24,6 +24,7 @@
 
 // export default page;
 
+"use client";
 import {
   Card,
   CardContent,
@@ -35,152 +36,77 @@ import { Overview } from "./components/overview";
 import { RecentSales } from "./components/recent-sales";
 import { IoAddOutline } from "react-icons/io5";
 import Link from "next/link";
+import DoughnutChart from "./DoughnutChart";
+import LineChart from "./LineChart";
+import BarChart from "./Barchart";
+import { AiOutlineStock } from "react-icons/ai";
+import RecentOrders from "./RecentOrders";
+import { FaRegEdit } from "react-icons/fa";
+import { MdModeEdit } from "react-icons/md";
 
-export const metadata = {
-  title: "Dashboard",
-  description: "Example dashboard app built using the components.",
-};
+// export const metadata = {
+//   title: "Dashboard",
+//   description: "Example dashboard app built using the components.",
+// };
 
 export default function DashboardPage() {
   return (
-    <>
-      <div className="flex items-center justify-center w-full h-full lg:px-10">
-        <div className="relative flex-1 w-full px-10 py-6 space-y-4 ">
-          <div className="flex items-center justify-center space-y-2">
-            <h1 className="text-4xl font-bold tracking-tight">Dashboard</h1>
+    <div className="relative flex items-center justify-center w-full h-full my-10 border border-red-400 ">
+      <div className="grid min-h-screen gap-2 border min-w-screen rounded-xl md:grid-cols-2 xl:grid-cols-4">
+        <div className="flex flex-col items-center justify-center w-full col-span-1 bg-black rounded-xl">
+          <div className="w-full px-4 my-2 text-xl font-semibold text-center text-white">
+            Categories Market Share
           </div>
+          <DoughnutChart className="p-5" />
+        </div>
+        <div className="flex flex-col items-center justify-center col-span-1 text-white bg-black h-72 md:w-full md:h-full rounded-xl">
+          <h1 className="text-5xl font-bold">Total Sales</h1>
+          <h2 className="mt-4 text-xl font-semibold">3000 Items Sold</h2>
+        </div>
+        <div className="flex flex-col items-center justify-center w-full col-span-1 text-white bg-black md:h-full h-72 rounded-xl">
+          <h1 className="text-5xl font-bold">Total Revenue</h1>
+          <h2 className="flex items-center mt-4 text-xl font-semibold">
+            $99990.00
+            <AiOutlineStock className="ml-2 text-3xl text-green-500" />
+          </h2>
+        </div>
 
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-                <CardTitle className="text-sm font-medium">
-                  Total Revenue
-                </CardTitle>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  className="w-4 h-4 text-muted-foreground"
-                >
-                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-                </svg>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">$45,231.89</div>
-                <p className="text-xs text-muted-foreground">
-                  +20.1% from last month
-                </p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-                <CardTitle className="text-sm font-medium">
-                  Subscriptions
-                </CardTitle>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  className="w-4 h-4 text-muted-foreground"
-                >
-                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                  <circle cx="9" cy="7" r="4" />
-                  <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-                </svg>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">+2350</div>
-                <p className="text-xs text-muted-foreground">
-                  +180.1% from last month
-                </p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-                <CardTitle className="text-sm font-medium">Sales</CardTitle>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  className="w-4 h-4 text-muted-foreground"
-                >
-                  <rect width="20" height="14" x="2" y="5" rx="2" />
-                  <path d="M2 10h20" />
-                </svg>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">+12,234</div>
-                <p className="text-xs text-muted-foreground">
-                  +19% from last month
-                </p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-                <CardTitle className="text-sm font-medium">
-                  Active Now
-                </CardTitle>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  className="w-4 h-4 text-muted-foreground"
-                >
-                  <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-                </svg>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">+573</div>
-                <p className="text-xs text-muted-foreground">
-                  +201 since last hour
-                </p>
-              </CardContent>
-            </Card>
+        <div className="flex flex-col items-center justify-center w-full h-full col-span-1 text-white bg-black rounded-xl">
+          <div className="w-full px-4 my-2 text-xl font-semibold text-center text-white h-1/4">
+            Categories sold
           </div>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-            <Card className="col-span-4">
-              <CardHeader>
-                <CardTitle>Overview</CardTitle>
-              </CardHeader>
-              <CardContent className="pl-2">
-                <Overview />
-              </CardContent>
-            </Card>
-            <Card className="col-span-3">
-              <CardHeader>
-                <CardTitle>Recent Sales</CardTitle>
-                <CardDescription>
-                  You made 265 sales this month.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <RecentSales />
-              </CardContent>
-            </Card>
+          <BarChart />
+        </div>
+        <div className="w-full h-full bg-black rounded-xl md:col-span-2">
+          <div className="w-full px-4 pt-4 my-2 text-xl font-semibold text-center text-white">
+            Monthly Sales
           </div>
-          <Link href={"/admin/new-product"}>
-            <div className="absolute p-2 bg-green-400 rounded-full shadow-xl right-10 bottom-10 animate-bounce">
-              <IoAddOutline className="text-6xl text-white rounded-full cursor-pointer " />
-            </div>
-          </Link>
+          <LineChart />
+        </div>
+        <div className="flex flex-col w-full h-full text-white bg-black rounded-xl md:col-span-2">
+          <div className="p-4 text-xl flex justify-between px-7 items-center font-semibold h-[12%]">
+            Recent Orders
+            <Link href={"/admin/recentorders"}>
+              <span className="p-2 border cursor-pointer rounded-xl">
+                View more
+              </span>
+            </Link>
+          </div>
+          <div className="h-[88%] pt-4  ">
+            <RecentOrders />
+          </div>
         </div>
       </div>
-    </>
+      <Link href={"/admin/new-product"}>
+        <div className="absolute p-2 transition-all duration-300 bg-red-400 rounded-full shadow-xl right-16 bottom-28 hover:bottom-[6.75rem]">
+          <MdModeEdit className="p-2 text-6xl text-white rounded-full cursor-pointer " />
+        </div>
+      </Link>
+      <Link href={"/admin/new-product"}>
+        <div className="absolute p-2 transition-all duration-300 bg-green-400 rounded-full shadow-xl right-16 bottom-5 hover:bottom-4">
+          <IoAddOutline className="text-6xl text-white rounded-full cursor-pointer " />
+        </div>
+      </Link>
+    </div>
   );
 }

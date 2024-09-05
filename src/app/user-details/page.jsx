@@ -64,7 +64,7 @@ const page = (props) => {
       formData.set("profilePic", profilePictureRef.current?.files[0]);
     }
 
-    const response = await fetch("http://localhost:3000/api/user", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_URL}api/user`, {
       method: "post",
       body: formData,
     });

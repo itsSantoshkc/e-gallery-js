@@ -26,7 +26,7 @@ const SideCart = (props) => {
 
   const userId = session?.user.id;
   const getCartItems = async () => {
-    const response = await fetch("http://localhost:3000/api/cart", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_URL}api/cart`, {
       method: "post",
       body: JSON.stringify({
         userId: userId,
@@ -47,7 +47,7 @@ const SideCart = (props) => {
   const handleCartItemDelete = async (productId) => {
     setLoading(true);
     const response = await fetch(
-      "http://localhost:3000/api/cart/" + productId,
+      `${process.env.NEXT_PUBLIC_URL}api/cart/${productId}`,
       {
         method: "delete",
       }
@@ -65,7 +65,7 @@ const SideCart = (props) => {
   const handleCartItemQuantity = async (productId, itemQuantity) => {
     // setLoading(true);
     const response = await fetch(
-      "http://localhost:3000/api/cart/" + productId,
+      `${process.env.NEXT_PUBLIC_URL}/api/cart/${productId}`,
       {
         method: "PATCH",
         body: JSON.stringify({

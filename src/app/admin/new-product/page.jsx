@@ -59,10 +59,13 @@ const page = (props) => {
     formData.set("availableQuantity", availabelQuantityRef.current?.value);
     formData.set("labelId", genreValue);
 
-    const response = await fetch("/api/uploadFile", {
-      method: "POST",
-      body: formData,
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_URL}/api/uploadFile`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
     if (response.status === 200) {
       const responseData = await response.json();
 
@@ -80,7 +83,6 @@ const page = (props) => {
     }
     return toast.error("Failed to add a product");
   };
-  console.log(genreValue);
   return (
     <div className="min-h-[90vh] my-20 w-full  flex justify-center items-center">
       <form

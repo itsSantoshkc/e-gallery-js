@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
             <NextTopLoader color="#ef233c" />
             <Navbar />
           </div>
-          <div className="h-[95vh] pt-[5vh] ">
+          <div className="min-h-[95vh] pt-[5vh] ">
             <AlertDestructive />
             {children}
           </div>

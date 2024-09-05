@@ -32,7 +32,7 @@ const page = (props) => {
     }
 
     const response = await fetch(
-      "http://localhost:3000/api/auth/email-verification",
+      `${process.env.NEXT_PUBLIC_URL}api/auth/email-verification`,
       {
         method: "post",
         body: JSON.stringify({

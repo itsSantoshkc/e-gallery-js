@@ -83,7 +83,6 @@ const ProductDetails = ({
   };
   const isPostLiked = async () => {
     const postLiked = await getPostLiked(id, userId);
-    console.log(postLiked);
     setPostLiked(postLiked);
   };
 
@@ -92,7 +91,7 @@ const ProductDetails = ({
     setPostTotalLikes(() => totalLikes);
   }, [totalLikes, status]);
 
-  if (session === undefined) {
+  if (session === undefined || status == "loading") {
     return (
       <div className="flex items-center justify-center w-full h-full overflow-hidden">
         <div className="loader "></div>

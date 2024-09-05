@@ -35,10 +35,13 @@ const page = (props) => {
       password: PasswordRef.current?.value,
     };
 
-    const response = await fetch("http://localhost:3000/api/auth/register", {
-      method: "post",
-      body: JSON.stringify(formData),
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_URL}api/auth/register`,
+      {
+        method: "post",
+        body: JSON.stringify(formData),
+      }
+    );
 
     const responseData = await response.json();
 
@@ -80,7 +83,7 @@ const page = (props) => {
 
   return (
     <div className="flex items-center justify-center w-screen h-full overflow-y-hidden">
-      <div className="flex flex-col w-full py-5 mx-4  sm:w-3/4 sm:px-5 md:w-1/2 lg:w-1/3 xl:w-1/4 rounded-xl bg-stone-200">
+      <div className="flex flex-col w-full py-5 mx-4 sm:w-3/4 sm:px-5 md:w-1/2 lg:w-1/3 xl:w-1/4 rounded-xl bg-stone-200">
         <h1 className="w-full py-3 mt-4 text-3xl font-bold text-center">
           Sign Up
         </h1>
@@ -93,7 +96,7 @@ const page = (props) => {
         {/* <div className="w-full text-lg font-semibold    *:p-3 *:md:p-3">
           <div
             onClick={handleGoogle}
-            className="m-2 transition-colors duration-500 border cursor-pointer  rounded-xl bg-stone-300 hover:bg-stone-100"
+            className="m-2 transition-colors duration-500 border cursor-pointer rounded-xl bg-stone-300 hover:bg-stone-100"
           >
             <span className="px-2 ">Sign In With Google</span>
           </div>
@@ -141,7 +144,7 @@ const page = (props) => {
               placeholder="Confirm your password"
             />
             <div className="flex mx-1 m-2 pt-3 items-center  *:px-2 text-sm font-bold text-stone-600">
-              <h2 className="transition-colors duration-500 cursor-pointer  hover:text-stone-400">
+              <h2 className="transition-colors duration-500 cursor-pointer hover:text-stone-400">
                 Already Have a account?
               </h2>
             </div>

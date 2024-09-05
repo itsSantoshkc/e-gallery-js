@@ -1,9 +1,11 @@
 "use client";
+import { ProductImageSkeleton } from "@/components/Skeleton";
 import { useSession } from "next-auth/react";
 import React, { lazy, Suspense, useEffect, useState } from "react";
-// import ProductDetails from "./productDetails";
 
 const ProductDetails = lazy(() => import("./productDetails"));
+
+const ProductImage = lazy(() => import("./productImage"));
 
 const page = ({ params }) => {
   const [productDetails, setProductDetails] = useState([]);
@@ -13,7 +15,7 @@ const page = ({ params }) => {
 
   const product = async () => {
     const response = await fetch(
-      "http://localhost:3000/api/product/" + params.id,
+      `${process.env.NEXT_PUBLIC_URL}api/product/${params.id}`,
       {
         method: "get",
       }
@@ -26,19 +28,17 @@ const page = ({ params }) => {
   }, []);
 
   return (
-    <Suspense fallback={<h1>Loading</h1>}>
+    <>
       {productDetails !== null && (
         <div className="relative flex items-center justify-center overflow-hidden">
           <div className=" md:w-[80%]  xl:w-3/4 flex  flex-col justify-center items-center">
             <div className="flex flex-col items-center justify-center ">
               {productDetails.productImages !== null &&
                 productDetails.productImages !== undefined &&
-                productDetails.productImages?.map((image) => (
-                  <img
-                    key={image}
-                    className="w-screen max-h-screen"
-                    src={image}
-                  />
+                productDetails.productImages?.map((image, idx) => (
+                  <Suspense key={idx} fallback={<ProductImageSkeleton />}>
+                    <ProductImage image={image} />
+                  </Suspense>
                 ))}
             </div>
             <ProductDetails
@@ -57,7 +57,7 @@ const page = ({ params }) => {
           </div>
         </div>
       )}
-    </Suspense>
+    </>
   );
 };
 

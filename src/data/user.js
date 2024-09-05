@@ -181,7 +181,6 @@ export const getUserById = async (id) => {
 
 export const deleteUserDataById = async (id) => {
   try {
-    console.log(id);
     await db.delete(users).where(eq(users.id, id));
     return;
   } catch (error) {
@@ -199,4 +198,19 @@ export const getUsersAccountTableData = async (id) => {
     return accountData[0];
   }
   return null;
+};
+
+export const updateUserPassword = async (newPassword, userId) => {
+  try {
+    await db
+      .update(users)
+      .set({
+        password: newPassword,
+      })
+      .where(eq(users.id, userId));
+    return;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
 };

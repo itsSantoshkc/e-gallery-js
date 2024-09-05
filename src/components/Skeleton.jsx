@@ -23,12 +23,18 @@ export const CartItemSkeleton = () => {
   );
 };
 
+export const ProductImageSkeleton = () => {
+  return (
+    <div className="w-screen max-h-screen bg-gray-200 animate-pulse"></div>
+  );
+};
+
 export const CheckoutItemSkeleton = () => {
   return (
     <TableRow>
       <TableCell
         colSpan={5}
-        className="bg-gray-300  hover:bg-gray-300 md:text-base animate-pulse"
+        className="bg-gray-300 hover:bg-gray-300 md:text-base animate-pulse"
       >
         <div className="text-center text-[11px] w-full h-full bg-gray-300 hover:bg-gray-300 md:text-base animate-pulse">
           <div className="grid w-full h-full grid-cols-5 p-4 text-center border-b border-gray-200">
@@ -52,5 +58,25 @@ export const CheckoutItemSkeleton = () => {
         </div>
       </TableCell>
     </TableRow>
+  );
+};
+
+export const LikedProductSkeleton = () => {
+  return (
+    <div className="flex h-full p-4 my-4 border rounded-xl animate-pulse">
+      <div className="flex items-center w-full md:w-5/6">
+        <div className="w-40 h-40 overflow-hidden bg-gray-200 min-w-40 min-h-40 rounded-xl md:w-32 md:h-32"></div>
+        <div className="p-4">
+          <div className="w-2/3 h-5 mt-2 mb-2 bg-gray-200 rounded"></div>
+          <div className="w-full h-4 mb-2 bg-gray-200 rounded"></div>
+          <div className="w-1/2 h-4 bg-gray-200 rounded"></div>
+        </div>
+      </div>
+      <div className="hidden w-1/6 min-h-full md:flex ">
+        <div className="flex items-center justify-center w-full h-full ">
+          <div className="w-32 h-10 bg-gray-200 rounded"></div>
+        </div>
+      </div>
+    </div>
   );
 };

@@ -14,9 +14,12 @@ const page = () => {
 
   const getProduct = async () => {
     setIsLoading(true);
-    const response = await fetch(`/search/arts/api?s=${search}`, {
-      method: "get",
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_URL}/search/arts/api?s=${search}`,
+      {
+        method: "get",
+      }
+    );
     const responsData = await response.json();
     if (response.status !== 200) {
       setProductData([]);
@@ -33,7 +36,7 @@ const page = () => {
 
   if (!productData) {
     return (
-      <div className="flex items-center justify-center w-full h-full">
+      <div className="flex items-center justify-center min-w-full h-[95vh]">
         <h1>
           Cannot find results for <span className="underline">{search}</span>
         </h1>

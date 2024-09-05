@@ -47,14 +47,22 @@ export const product = mysqlTable("product", {
     .references(() => users.id, { onDelete: "cascade" }),
 });
 
-export const product_label = mysqlTable("product_label", {
-  productId: varchar("productId", {
-    length: 255,
+export const product_label = mysqlTable(
+  "product_label",
+  {
+    productId: varchar("productId", {
+      length: 255,
+    })
+      .notNull()
+      .references(() => product.id, { onDelete: "cascade" }),
+    labelId: int("labelId", {}),
+  },
+  (productLabel) => ({
+    compoundKey: primaryKey({
+      columns: [productLabel.productId, productLabel.labelId],
+    }),
   })
-    .notNull()
-    .references(() => product.id, { onDelete: "cascade" }),
-  labelId: int("labelId", {}),
-});
+);
 
 export const product_userLiked = mysqlTable(
   "product_userLiked",

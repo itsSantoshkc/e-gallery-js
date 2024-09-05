@@ -17,10 +17,13 @@ const GalleryImage = (props) => {
       itemQuantity: 1,
       itemPrice: props.price,
     };
-    const respose = await fetch("http://localhost:3000/api/cart/" + props.id, {
-      method: "post",
-      body: JSON.stringify(cartItemData),
-    });
+    const respose = await fetch(
+      `${process.env.NEXT_PUBLIC_URL}api/cart/${props.id}`,
+      {
+        method: "post",
+        body: JSON.stringify(cartItemData),
+      }
+    );
     const responseData = await respose.json();
     toast.success("Item has been added to cart");
     return responseData;

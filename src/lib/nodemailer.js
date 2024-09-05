@@ -27,7 +27,7 @@ export const sendEmail = async (emailInfo) => {
         emailInfo.type === "VERIFY"
           ? "Verification Code"
           : "Forgetten Password",
-      html: `<h1 style="background-color: black;" color:"white" width="600" cellspacing="0" cellpadding="0" bgcolor="#ffffff" >Verification Code : ${emailInfo.verificationCode}</h1>`,
+      html: `<h1 style="background-color: black;" color:"white" width="600"  >Verification Code : ${emailInfo.verificationCode}</h1>`,
     };
 
     const mailresponse = await transport.sendMail(mailOptions);

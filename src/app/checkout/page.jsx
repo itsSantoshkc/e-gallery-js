@@ -17,6 +17,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useSession } from "next-auth/react";
 import { CheckoutItemSkeleton } from "@/components/Skeleton";
 import { toast } from "sonner";
+import Link from "next/link";
+import Payment from "./Payment";
 
 const CheckoutItems = lazy(() => import("@/app/checkout/checkoutItems"));
 
@@ -28,7 +30,7 @@ const page = (props) => {
   const userId = session?.user.id;
 
   const getCartItems = async () => {
-    const response = await fetch("http://localhost:3000/api/cart", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_URL}api/cart`, {
       method: "post",
       body: JSON.stringify({
         userId: userId,
@@ -57,7 +59,7 @@ const page = (props) => {
   const handleCartItemDelete = async (productId) => {
     setLoading(true);
     const response = await fetch(
-      "http://localhost:3000/api/cart/" + productId,
+      `${process.env.NEXT_PUBLIC_URL}api/cart/${productId}`,
       {
         method: "delete",
       }
@@ -74,7 +76,7 @@ const page = (props) => {
 
   const handleCartItemQuantity = async (productId, itemQuantity) => {
     const response = await fetch(
-      "http://localhost:3000/api/cart/" + productId,
+      `${process.env.NEXT_PUBLIC_URL}api/cart/${productId}`,
       {
         method: "PATCH",
         body: JSON.stringify({
@@ -101,13 +103,11 @@ const page = (props) => {
   return (
     <div>
       <div className="flex flex-col items-center justify-center w-full my-10">
-        <h1 className="my-5 text-3xl font-semibold text-center">
-          Checkout Page
-        </h1>
-        <div className="flex items-center justify-center w-full px-2 md:w-5/6 md:px-5 lg:px-7">
-          <Table className="w-full text-xs sm:text-sm md:text-lg">
+        <h1 className="my-5 text-3xl font-bold text-center">Checkout Page</h1>
+        <div className="flex items-center justify-center w-full px-2 pt-5 md:w-5/6 md:px-5 lg:px-7">
+          <Table className="w-full text-xs sm:text-sm md:text-lg ">
             <TableHeader>
-              <TableRow className="hover:bg-stone-600  bg-stone-600 *:hover:bg-stone-500 *:cursor-pointer *:text-white *:font-bold">
+              <TableRow className="hover:bg-stone-600   bg-stone-600 *:hover:bg-stone-500 *:cursor-pointer *:text-white *:font-bold">
                 <TableHead colSpan={2} className="text-center md:text-left">
                   Product
                 </TableHead>
@@ -192,9 +192,7 @@ const page = (props) => {
                     $ {total}
                   </TableCell>
                   <TableCell colSpan={2} className="text-right ">
-                    <Button className="w-full px-2 text-xs md:text-lg md:w-3/4 text-stone-600 bg-stone-300 hover:bg-stone-200">
-                      Proceed To Payment
-                    </Button>
+                    <Payment />
                   </TableCell>
                 </TableRow>
               )}

@@ -1,5 +1,11 @@
 "use client";
-import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  FormEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { FaEdit } from "react-icons/fa";
 import {
   Tooltip,
@@ -30,8 +36,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { signOut, useSession } from "next-auth/react";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+
 import DeleteAccount from "./DeleteAccount";
+import PasswordInput from "@/components/PasswordInput";
 
 const page = (props) => {
   const { data: session } = useSession();
@@ -45,9 +52,9 @@ const page = (props) => {
   const [birthDate, setBirthDate] = useState("");
   const [state, setState] = useState("");
   const [address, setAddress] = useState("");
-  const [oldPassword, setOldPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [prevEmail, setprevEmail] = useState("");
+  const oldPasswordRef = useRef(null);
+  const newPasswordRef = useRef(null);
+  const [prevEmail, setPrevEmail] = useState("");
   const [newEmail, setNewEmail] = useState("");
 
   const handleSubmit = async (e) => {
@@ -80,7 +87,7 @@ const page = (props) => {
       province: state,
     };
     console.log(userDetails);
-    const response = await fetch("http://localhost:3000/api/user", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_URL}api/user`, {
       method: "PATCH",
       body: JSON.stringify(userDetails),
     });
@@ -97,7 +104,7 @@ const page = (props) => {
     if (userId === undefined || userId === null) {
       return;
     }
-    const response = await fetch("http://localhost:3000/profile/api", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_URL}profile/api`, {
       method: "post",
       body: JSON.stringify({ id: userId }),
     });
@@ -105,7 +112,7 @@ const page = (props) => {
     const { name, email, gender, image, phone, birthDate, address, province } =
       await response.json();
     setName(name);
-    setprevEmail(email);
+    setPrevEmail(email);
     setGender(gender);
     setPhone(phone);
     setBirthDate(birthDate.slice(0, 10));
@@ -113,6 +120,28 @@ const page = (props) => {
 
     address ? setAddress(address) : setAddress("");
     province ? setState(province) : setState("");
+  };
+
+  const handlePasswordChange = async () => {
+    if (oldPasswordRef.current.value === newPasswordRef.current.value) {
+      return toast.error("New password and Old password cannot be same");
+    }
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_URL}profile/api/password`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({
+          currentPassword: oldPasswordRef.current.value,
+          newPassword: newPasswordRef.current.value,
+          userId: userId,
+        }),
+      }
+    );
+    if (response.status === 200) {
+      return toast.success("Password Changed Sucessfully");
+    }
+    const { message } = await response.json();
+    return toast.error(message);
   };
 
   useEffect(() => {
@@ -279,7 +308,6 @@ const page = (props) => {
                     <h1 className="text-base sm:text-lg ">Name</h1>
                     <div className="flex items-center h-full text-sm sm:text-base ">
                       <h2 className="mx-1">{name}</h2>
-                      <MdOutlineKeyboardArrowRight className="text-3xl" />
                     </div>
                   </div>
 
@@ -287,7 +315,6 @@ const page = (props) => {
                     <h1 className="text-base sm:text-lg">Gender </h1>
                     <div className="flex items-center h-full text-sm sm:text-base ">
                       <h2 className="mx-1">{gender}</h2>
-                      <MdOutlineKeyboardArrowRight className="text-3xl" />
                     </div>
                   </div>
 
@@ -295,7 +322,6 @@ const page = (props) => {
                     <h1 className="text-base sm:text-lg">Birth Date </h1>
                     <div className="flex items-center h-full text-sm sm:text-base ">
                       <h2 className="mx-1">{birthDate}</h2>
-                      <MdOutlineKeyboardArrowRight className="text-3xl" />
                     </div>
                   </div>
 
@@ -303,7 +329,6 @@ const page = (props) => {
                     <h1 className="text-base sm:text-lg">Phone</h1>
                     <div className="flex items-center h-full text-sm sm:text-base ">
                       <h2 className="mx-1">+977 {phone}</h2>
-                      <MdOutlineKeyboardArrowRight className="text-3xl" />
                     </div>
                   </div>
 
@@ -328,7 +353,7 @@ const page = (props) => {
                       <div className="grid gap-2 py-2">
                         <div className="grid items-center grid-cols-4 ">
                           <label
-                            htmlFor="curretn-email"
+                            htmlFor="current-email"
                             className="col-span-4 px-2 font-semibold text-bg"
                           >
                             Current Email Address
@@ -338,7 +363,7 @@ const page = (props) => {
                             placeholder="Enter your current email address"
                             id="current-email"
                             value={prevEmail}
-                            onChange={(e) => setprevEmail(e.target.value)}
+                            onChange={(e) => setPrevEmail(e.target.value)}
                             className="h-12 col-span-4 px-4 border rounded-xl"
                           />
                         </div>
@@ -369,7 +394,6 @@ const page = (props) => {
                       </DialogFooter>
                     </DialogContent>
                   </Dialog>
-
                   <Dialog>
                     <DialogTrigger asChild>
                       <div className="flex items-center justify-between h-16 px-4 mx-4 font-semibold transition-colors duration-500 cursor-pointer bg-stone-300 hover:bg-stone-100 rounded-xl">
@@ -387,43 +411,37 @@ const page = (props) => {
                           you're done.
                         </DialogDescription>
                       </DialogHeader>
-                      <div className="grid gap-2 py-2">
-                        <div className="grid items-center grid-cols-4 ">
+                      <form onSubmit={(e) => e.preventDefault()}>
+                        <div className="gap-2 py-2 ">
                           <label
                             htmlFor="old-password"
-                            className="col-span-4 px-2 font-semibold text-bg"
+                            className="px-2 font-semibold text-bg"
                           >
                             Current password
                           </label>
-                          <input
-                            placeholder="Enter your old password"
-                            id="old-password"
-                            type="password"
-                            onChange={(e) => setOldPassword(e.target.value)}
-                            value={oldPassword}
-                            className="h-12 col-span-4 px-4 border rounded-xl"
+
+                          <PasswordInput
+                            passwordRef={oldPasswordRef}
+                            placeholder="Enter Your Current Password"
+                            name="old-password"
                           />
-                        </div>
-                        <div className="grid items-center grid-cols-4 ">
                           <label
                             htmlFor="new-password"
-                            className="col-span-4 px-2 font-semibold text-bg"
+                            className="px-2 font-semibold text-bg"
                           >
                             New Password
                           </label>
-                          <input
-                            type="password"
-                            id="new-password"
-                            placeholder="Enter your new password "
-                            onChange={(e) => setNewPassword(e.target.value)}
-                            value={newPassword}
-                            className="h-12 col-span-4 px-4 border rounded-xl "
+                          <PasswordInput
+                            passwordRef={newPasswordRef}
+                            placeholder="Enter Your Current Password"
+                            name="new-password"
                           />
                         </div>
-                      </div>
+                      </form>
                       <DialogFooter>
                         <button
-                          className="px-2 py-4 font-semibold text-white transition-colors duration-300 bg-stone-500 rounded-xl sm:py-0 hover:bg-stone-400"
+                          onClick={handlePasswordChange}
+                          className="px-2 py-6 font-semibold text-white transition-colors duration-300 bg-stone-500 rounded-xl sm:py-0 hover:bg-stone-400"
                           type="submit"
                         >
                           Save changes
@@ -443,14 +461,12 @@ const page = (props) => {
                     <h1 className="text-base sm:text-lg">State</h1>
                     <div className="flex items-center h-full text-sm sm:text-base ">
                       <h2 className="mx-1">{state}</h2>
-                      <MdOutlineKeyboardArrowRight className="text-3xl" />
                     </div>
                   </div>
                   <div className="flex items-center justify-between h-16 px-4 mx-4 font-semibold transition-colors duration-500 cursor-pointer bg-stone-300 md:col-span-1 hover:bg-stone-100 rounded-xl">
                     <h1 className="text-base sm:text-lg">Address</h1>
                     <div className="flex items-center h-full text-sm sm:text-base">
                       <h2 className="mx-1">{address}</h2>
-                      <MdOutlineKeyboardArrowRight className="text-3xl" />
                     </div>
                   </div>
                 </>

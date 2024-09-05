@@ -1,17 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BiSort } from "react-icons/bi";
 
-// import Product from "./product";
 import { useSession } from "next-auth/react";
 import Product from "./product";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import SlidingTab from "@/components/SlidingTab";
+import { getLabels } from "./action";
 
 export default function Home() {
-  const [position, setPosition] = useState("A-Z");
-  const { data: session } = useSession();
+  const [position, setPosition] = useState("");
+  const [filterValue, setFilterValue] = useState(null);
+  const { data: session, status } = useSession();
 
-  if (session === undefined) {
+  if (session === undefined || status === "loading") {
     return (
       <div className="flex items-center justify-center w-full h-full overflow-hidden">
         <div className="loader "></div>
@@ -27,7 +38,7 @@ export default function Home() {
         </h1>
       </div>
       <div className="flex items-center justify-center">
-        {/* <div className="flex items-center justify-center  h-16 w-[90%] md:w-[95%] mx-6 my-2  lg:w-5/6">
+        <div className="flex items-center justify-center  h-16 w-[90%] md:w-[95%] mx-6 my-2  lg:w-5/6">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <div className="flex items-center justify-around p-2 text-3xl border cursor-pointer border-stone-500 md:mx-4 rounded-xl">
@@ -56,15 +67,14 @@ export default function Home() {
                   Sort By Pirce
                 </DropdownMenuRadioItem>
               </DropdownMenuRadioGroup>
-            </DropdownMenuContent> */}
-        {/* </DropdownMenu> */}
-
-        {/* <div className="z-0 w-full h-full ml-2 overflow-hidden md:w-full md:ml-1 md:text-xl">
-            <SlidingTab />
-          </div> */}
-        {/* </div> */}
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <div className="z-0 w-full h-full ml-2 overflow-hidden md:w-full md:ml-1 md:text-xl">
+            <SlidingTab status={status} setFilterValue={setFilterValue} />
+          </div>
+        </div>
       </div>
-      <Product />
+      <Product sort={position} filter={filterValue} />
     </main>
   );
 }

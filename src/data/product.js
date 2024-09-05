@@ -1,18 +1,19 @@
-import { product } from "./../schema/ProductSchema";
+import { product, product_userLiked } from "./../schema/ProductSchema";
 import { db } from "@/db/db";
 import { labels, product_image, product_label } from "@/schema/ProductSchema";
-import { eq, like, sql } from "drizzle-orm";
+import { asc, eq, like, sql } from "drizzle-orm";
 import { getUserById, getUserLikedProductsLabel } from "./user";
 import EdgeRank from "@/helper/EdgeRank";
 
-export const getPersonalizeProductsByUserId = async (userId) => {
+export const getPersonalizeProductsByUserId = async (
+  userId,
+  filterBy,
+  sortBy
+) => {
   const userLikedLabels = await getUserLikedProductsLabel(userId);
-  const products = await db
-    .select({ ...product, label: labels.label })
-    .from(product)
-    .limit(100)
-    .innerJoin(product_label, eq(product_label.productId, product.id))
-    .innerJoin(labels, eq(labels.id, product_label.labelId));
+
+  const products = await getProductDataWithLabels(filterBy, sortBy);
+
   if (userLikedLabels?.length <= 0) {
     for (let i = 0; i < products.length; i++) {
       const { image } = await getProductFirstImage(products[i].id);
@@ -42,25 +43,37 @@ export const getPersonalizeProductsByUserId = async (userId) => {
   return null;
 };
 
+const getProductDataWithLabels = async (filterBy, sortBy) => {
+  console.log(filterBy, sortBy);
+  if (filterBy === "null") {
+    const products = await db
+      .select({ ...product, label: labels.label })
+      .from(product)
+      .limit(100)
+      .innerJoin(product_label, eq(product_label.productId, product.id))
+      .innerJoin(labels, eq(labels.id, product_label.labelId));
+    return products;
+  } else if (filterBy !== null) {
+    const products = await db
+      .select({ ...product, label: labels.label })
+      .from(product)
+      .limit(50)
+      .innerJoin(product_label, eq(product_label.productId, product.id))
+      .innerJoin(labels, eq(labels.id, product_label.labelId))
+      .where(eq(labels.id, filterBy));
+
+    return products;
+  }
+};
+
 export const getProductById = async (id) => {
   let productData = await db
     .select()
     .from(product)
     .where(eq(product.id, id))
     .limit(1);
-  // : {
-  //   id;
-  //   name | null;
-  //   price: number;
-  //   description | null;
-  //   availableQuantity: number | null;
-  //   OwnerId;
-  //   ownerName? | null;
-  //   productImages?: (string | null)[];
-  //   labels?: (string | null)[] | null;
-  // }[]
+
   const productImages = await getProductImages(id);
-  // image:ownerAvatar for getting owner avatar
   const { name: ownerName } = await getUserById(productData[0].OwnerId);
   const labels = await getProductLabels(id);
 
@@ -200,6 +213,25 @@ export const insertProductImage = async (productId, imageId) => {
       image: imageId,
     });
     return;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
+export const getProductsLikedByUser = async (userId) => {
+  try {
+    const products = await db
+      .select(product)
+      .from(product_userLiked)
+      .where(eq(product_userLiked.userId, userId))
+      .orderBy(asc(product_userLiked.likedAt))
+      .rightJoin(product, eq(product.id, product_userLiked.productId));
+    for (var i = 0; i < products.length; i++) {
+      const { image } = await getProductFirstImage(products[i].id);
+      products[i] = { ...products[i], image };
+    }
+    return products;
   } catch (error) {
     console.log(error);
     return null;

@@ -68,7 +68,6 @@ export async function dislikePost(userID, productID, totalLikes) {
 }
 
 export const getPostLiked = async (productId, userId) => {
-  console.log(userId);
   const responseData = await db
     .select()
     .from(product_userLiked)
