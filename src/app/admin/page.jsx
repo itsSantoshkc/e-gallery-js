@@ -97,7 +97,7 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
-      <Link href={"/admin/new-product"}>
+      <Link href={"/admin/manage-products"}>
         <div className="absolute p-2 transition-all duration-300 bg-red-400 rounded-full shadow-xl right-16 bottom-28 hover:bottom-[6.75rem]">
           <MdModeEdit className="p-2 text-6xl text-white rounded-full cursor-pointer " />
         </div>

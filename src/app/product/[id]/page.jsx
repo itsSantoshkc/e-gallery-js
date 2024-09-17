@@ -32,7 +32,7 @@ const page = ({ params }) => {
       {productDetails !== null && (
         <div className="relative flex items-center justify-center overflow-hidden">
           <div className=" md:w-[80%]  xl:w-3/4 flex  flex-col justify-center items-center">
-            <div className="flex flex-col items-center justify-center ">
+            <div className="flex flex-col items-center justify-center gap-5 px-5 md:gap-0 md:px-0 ">
               {productDetails.productImages !== null &&
                 productDetails.productImages !== undefined &&
                 productDetails.productImages?.map((image, idx) => (

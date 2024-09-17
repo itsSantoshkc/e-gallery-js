@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -7,11 +8,30 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import React from "react";
+import React, { useCallback } from "react";
+import { loadStripe } from "@stripe/stripe-js";
+import {
+  EmbeddedCheckoutProvider,
+  EmbeddedCheckout,
+} from "@stripe/react-stripe-js";
 
-const Payment = () => {
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+);
+
+const Payment = ({ cartItems }) => {
+  const fetchClientSecret = useCallback(async () => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/stripe`, {
+      method: "POST",
+      body: JSON.stringify(cartItems),
+    });
+    const data = await res.json();
+    return data.clientSecret;
+  }, []);
+
+  const options = { fetchClientSecret };
   return (
-    <Dialog>
+    <Dialog className="w-[50vw]">
       <DialogTrigger className="w-full p-2 text-xs rounded-xl md:text-lg md:w-3/4 text-stone-600 bg-stone-300 hover:bg-stone-200">
         Pay
       </DialogTrigger>
@@ -20,7 +40,7 @@ const Payment = () => {
           <DialogTitle>Payment</DialogTitle>
           <DialogDescription>Enter payment details</DialogDescription>
         </DialogHeader>
-        <div className="flex items-center justify-center">
+        {/* <div className="flex items-center justify-center">
           <form action="" className="grid grid-cols-3 px-3">
             <div className="flex flex-col col-span-3">
               <label className="font-semibold text-stone-600" htmlFor="cardno">
@@ -69,6 +89,11 @@ const Payment = () => {
               </button>
             </div>
           </form>
+        </div> */}
+        <div>
+          <EmbeddedCheckoutProvider stripe={stripePromise} options={options}>
+            <EmbeddedCheckout className="w-full" />
+          </EmbeddedCheckoutProvider>
         </div>
       </DialogContent>
     </Dialog>

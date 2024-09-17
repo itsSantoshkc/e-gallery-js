@@ -15,6 +15,20 @@
       "when": 1724508060358,
       "tag": "0001_mean_cloak",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1725893496967,
+      "tag": "0002_dusty_colleen_wing",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1725894235776,
+      "tag": "0003_abandoned_exiles",
+      "breakpoints": true
     }
   ]
 }

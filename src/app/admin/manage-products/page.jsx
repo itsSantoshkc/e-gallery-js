@@ -1,8 +1,8 @@
-import { LikedProductSkeleton } from "@/components/Skeleton";
 import React, { Suspense } from "react";
-import Order from "./order";
-import { IoIosArrowBack } from "react-icons/io";
+import Product from "./Product";
 import Link from "next/link";
+import { IoIosArrowBack } from "react-icons/io";
+import { LikedProductSkeleton } from "@/components/Skeleton";
 
 const page = () => {
   return (
@@ -21,10 +21,10 @@ const page = () => {
           </Link>
         </div>
         {/* {likedProducts.length >= 0 &&
-      likedProducts !== undefined &&
-      likedProducts.map((product) => ( */}
+  likedProducts !== undefined &&
+  likedProducts.map((product) => ( */}
         <Suspense fallback={<LikedProductSkeleton />}>
-          <Order
+          <Product
             title={"yo"}
             id={"123"}
             description={
@@ -35,7 +35,6 @@ const page = () => {
             }
           />
         </Suspense>
-        {/* ))} */}
       </div>
     </>
   );

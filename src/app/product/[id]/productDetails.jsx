@@ -69,21 +69,31 @@ const ProductDetails = ({
     }
     const cartItemData = {
       userId: userId,
-      itemQuantity: itemQuantity,
+      itemQuantity: parseInt(itemQuantity),
       itemPrice: price,
       productId: paramId,
     };
     try {
       const response = await AddItemInCart(cartItemData);
       toast.success("Item has been added successfully");
+      setItemQuantity(() => 0);
       return response;
     } catch (error) {
+      console.log(error);
       toast.error("An Error Occurred!!");
     }
   };
   const isPostLiked = async () => {
     const postLiked = await getPostLiked(id, userId);
     setPostLiked(postLiked);
+  };
+
+  const handleItemQuantityInput = (e) => {
+    if (parseInt(itemQuantity) > 100) {
+      setItemQuantity(() => 99);
+      return toast.error("Item in cart cannot be more than 100 at a time");
+    }
+    setItemQuantity(() => e.target.value);
   };
 
   useEffect(() => {
@@ -124,11 +134,14 @@ const ProductDetails = ({
             </span>
           </div>
         </div>
-        <h2 className="w-full my-1 font-semibold lg:my-3 lg:text-xl text-stone-800">
+        <h2 className="w-full my-1 font-semibold text-slate-400 lg:my-3 lg:text-lg">
           By : {OwnerName}
         </h2>
+        <h1 className="w-full text-xl font-semibold text-green-600">
+          $<span className="text-3xl font-bold">{price}</span>
+        </h1>
         <p className="my-2 text-justify xl:text-xl xl:my-4 ">{description}</p>
-        <div className="w-full flex *:mr-2 *:p *:px-2 lg:my-4 my-2 *:border *:rounded-xl">
+        <div className="w-full flex *:mr-2 *:p *:px-2 lg:my-4 my-2  *:bg-red-500 font-semibold *:text-white *:rounded-xl">
           {labels?.map((label, idx) => (
             <div key={idx}>{label}</div>
           ))}
@@ -142,7 +155,13 @@ const ProductDetails = ({
             >
               -
             </span>
-            <span className="p-1 px-2 text-2xl border-b ">{itemQuantity}</span>
+
+            <input
+              className="w-10 p-1 px-2 text-2xl border-b "
+              value={itemQuantity}
+              maxLength={2}
+              onChange={handleItemQuantityInput}
+            />
             <span
               onClick={handleIncrementItemQuantity}
               className="p-1 px-4 text-2xl text-white border cursor-pointer rounded-xl bg-stone-500 hover:border-stone-400 border-stone-500 hover:bg-stone-400 "

@@ -3,7 +3,7 @@ import React, { FormEvent, useRef, useState } from "react";
 import { FaCamera } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import NewImage from "./newImage";
-import SelectGenre from "./SelectGenre";
+import SelectGenre from "../components/SelectGenre";
 import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";

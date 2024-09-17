@@ -6,19 +6,37 @@ import {
   primaryKey,
   varchar,
   date,
+  datetime,
 } from "drizzle-orm/mysql-core";
+import { users } from "./userSchema";
 
 export const order = mysqlTable("order", {
-  id: varchar("id", { length: 255 })
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
-  name: varchar("name", { length: 255 }),
-  email: varchar("email", { length: 255 }).notNull(),
-  password: varchar("password", { length: 255 }),
-  gender: varchar("gender", { length: 10 }),
-  phone: varchar("phone", { length: 15 }),
-  emailVerified: boolean("emailVerified"),
-  image: varchar("image", { length: 255 }),
-  birthDate: date("birtdate"),
-  verificationToken: int("verificationToken", { unsigned: true }),
+  id: varchar("id", { length: 255 }).primaryKey(),
+  orderedBy: varchar("orderedBy", {
+    length: 255,
+  })
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  orderedAt: datetime("orderedAt"),
+  orderedTotalAmount: varchar("orderedTotalAmount", { length: 255 }),
 });
+
+export const order_product = mysqlTable(
+  "order_product",
+  {
+    order_id: varchar("order_id", {
+      length: 255,
+    })
+      .notNull()
+      .references(() => order.id, { onDelete: "cascade" }),
+    product_id: varchar("product_id", {
+      length: 255,
+    }),
+    ordered_quantity: int("ordered_quantity"),
+  },
+  (orderProduct) => ({
+    compoundKey: primaryKey({
+      columns: [orderProduct.order_id, orderProduct.product_id],
+    }),
+  })
+);

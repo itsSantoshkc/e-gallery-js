@@ -192,7 +192,7 @@ const page = (props) => {
                     $ {total}
                   </TableCell>
                   <TableCell colSpan={2} className="text-right ">
-                    <Payment />
+                    <Payment cartItems={cartItems} />
                   </TableCell>
                 </TableRow>
               )}
