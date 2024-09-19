@@ -3,6 +3,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import Order from "./Order";
+import Product from "./Product";
 
 const UserProduct = (props) => {
   const [productData, setProductData] = useState([]);
@@ -41,13 +42,14 @@ const UserProduct = (props) => {
                 productData !== null &&
                 productData.map((product, idx) => (
                   <li key={idx} className="px-4 ">
-                    <Order
+                    <Product
                       title={product.name}
                       id={product.id}
                       description={product.description}
                       image={product.image}
                       price={product.price}
                       userId={userId}
+                      orderDate={product.createdAt}
                     />
                   </li>
                 ))}

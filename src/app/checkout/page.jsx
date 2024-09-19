@@ -191,7 +191,10 @@ const page = (props) => {
                   >
                     Rs. {total}
                   </TableCell>
-                  <TableCell colSpan={2} className="text-right ">
+                  <TableCell colSpan={1}>
+                    <button>Cash on delivery</button>
+                  </TableCell>
+                  <TableCell colSpan={1} className="text-right ">
                     <EsewaPayment userId={userId} />
                   </TableCell>
                 </TableRow>

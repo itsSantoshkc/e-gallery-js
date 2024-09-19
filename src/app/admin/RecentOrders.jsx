@@ -46,7 +46,7 @@ const RecentOrders = (props) => {
                       image={product.image}
                       price={product.unitPrice}
                       quantity={product.orderedQuantity}
-                      orderDate={product.createdAt}
+                      orderDate={product.orderedAt}
                     />
                   </li>
                 ))}
