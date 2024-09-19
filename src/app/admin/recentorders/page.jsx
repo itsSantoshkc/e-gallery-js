@@ -1,10 +1,44 @@
+"use client";
 import { LikedProductSkeleton } from "@/components/Skeleton";
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import Order from "./order";
 import { IoIosArrowBack } from "react-icons/io";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 const page = () => {
+  const [productData, setProductData] = useState([]);
+  const { data: session, status } = useSession();
+
+  const userId = session?.user?.id;
+
+  const getProducts = async () => {
+    if (userId) {
+      const response = await fetch(`http://localhost:3000/api/admin/product`, {
+        method: "post",
+        body: JSON.stringify({
+          user_Id: userId,
+        }),
+      });
+      if (response.status === 200) {
+        const responseData = await response.json();
+        setProductData(responseData.data);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getProducts();
+  }, [userId]);
+
+  if (session === undefined || status === "loading") {
+    return (
+      <div className="flex items-center justify-center w-full h-full overflow-hidden">
+        <div className="loader"></div>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="p-5 py-10 text-2xl font-bold text-center md:text-3xl lg:text-4xl">
@@ -20,22 +54,22 @@ const page = () => {
             <h1 className="cursor-pointer">Back To Admin</h1>
           </Link>
         </div>
-        {/* {likedProducts.length >= 0 &&
-      likedProducts !== undefined &&
-      likedProducts.map((product) => ( */}
-        <Suspense fallback={<LikedProductSkeleton />}>
-          <Order
-            title={"yo"}
-            id={"123"}
-            description={
-              "loremsd sadsi dnsaodnsaodn asofnasopdf hasofnodaspfoafjnapofnapofnapofnaoj dnfoo ojfopajfo piajfoa"
-            }
-            image={
-              "https://images.unsplash.com/photo-1724742570188-2a2d193db764?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            }
-          />
-        </Suspense>
-        {/* ))} */}
+        {productData.length >= 0 &&
+          productData !== undefined &&
+          productData !== null &&
+          productData.map((product, idx) => (
+            <Suspense fallback={<LikedProductSkeleton />} key={idx}>
+              <Order
+                title={product.name}
+                id={product.product_Id}
+                description={product.description}
+                image={product.image}
+                price={product.unitPrice}
+                quantity={product.orderedQuantity}
+                orderDate={product.orderAt}
+              />
+            </Suspense>
+          ))}
       </div>
     </>
   );

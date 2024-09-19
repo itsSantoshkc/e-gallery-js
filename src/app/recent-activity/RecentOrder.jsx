@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -9,7 +10,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import OrderTable from "./OrderTable";
-const RecentOrder = () => {
+import { useEffect, useState } from "react";
+const RecentOrder = ({ userId }) => {
+  const [orderData, setOrderData] = useState([]);
   const invoices = [
     {
       invoice: "INV001",
@@ -72,6 +75,22 @@ const RecentOrder = () => {
       paymentMethod: "Bank Transfer",
     },
   ];
+  const getUserRecentOrders = async () => {
+    if (userId) {
+      const response = await fetch(
+        `http://localhost:3000/api/order?uid=${userId}`
+      );
+      if (response.status === 200) {
+        const responseData = await response.json();
+        setOrderData(responseData.orders);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getUserRecentOrders();
+  }, []);
+
   return (
     <>
       <div className="p-5 py-10 text-2xl font-bold text-center md:text-3xl lg:text-4xl">
@@ -84,27 +103,26 @@ const RecentOrder = () => {
               <TableHead className="text-center md:text-left">
                 Order No
               </TableHead>
-              <TableHead className="text-center ">Product Name</TableHead>
               <TableHead className="text-center ">Order Quantity</TableHead>
               <TableHead className="text-center ">Ordered At</TableHead>
-              <TableHead className="text-center md:text-right ">
-                Paid Amount
-              </TableHead>
+              <TableHead className="text-center ">Paid Amount</TableHead>
+              <TableHead className="text-center md:text-right "></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {invoices !== null &&
-              invoices?.map((invoice) => (
+            {orderData.length > 0 &&
+              orderData !== null &&
+              orderData?.map((order) => (
                 <OrderTable
-                  id={invoice.invoice}
-                  key={invoice.invoice}
-                  paymentMethod={invoice.paymentMethod}
-                  paymentStatus={invoice.paymentStatus}
-                  totalAmount={invoice.totalAmount}
+                  id={order.id}
+                  key={order.id}
+                  orderedAt={order.orderedAt}
+                  paymentStatus={"paid"}
+                  totalAmount={order.orderedTotalAmount}
                 />
               ))}
           </TableBody>
-          {invoices.length >= 10 ? (
+          {/* {orderData.length >= 10 ? (
             <TableFooter className="bg-stone-600 ">
               <TableRow className="rounded-b-full hover:bg-stone-600">
                 <TableCell colSpan={4}>
@@ -123,7 +141,7 @@ const RecentOrder = () => {
             </TableFooter>
           ) : (
             ""
-          )}
+          )} */}
         </Table>
       </div>
     </>

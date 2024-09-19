@@ -46,7 +46,7 @@ const CheckoutItems = (props) => {
             colSpan={1}
             className="text-sm font-semibold md:text-base lg:text-xl"
           >
-            $ {props.totalAmount}
+            Rs. {props.totalAmount}
           </TableCell>
           <TableCell colSpan={1} className="text-center ">
             <div className="flex items-center justify-center ">

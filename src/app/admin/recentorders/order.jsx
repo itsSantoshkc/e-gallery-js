@@ -1,6 +1,7 @@
 import React from "react";
 
 const Order = (props) => {
+  const date = new Date(props.orderDate).toDateString();
   return (
     <div className="flex h-full p-4 my-4 border rounded-xl">
       <div className="flex items-center w-full">
@@ -18,6 +19,19 @@ const Order = (props) => {
           <p className="mt-2 text-sm text-justify text-gray-500 md:text-base">
             {props.description}
           </p>
+          <div className="flex items-center justify-between">
+            <h1 className="mt-2 text-sm font-semibold text-justify md:text-base">
+              Ordered on: {date}
+            </h1>
+            <div className="flex flex-col">
+              <h1 className="mt-2 text-sm font-semibold text-justify md:text-base">
+                Total Price: {props.quantity * props.price}
+              </h1>
+              <h1 className="mt-2 text-sm font-semibold text-justify md:text-base">
+                Quantity : {props.quantity}
+              </h1>
+            </div>
+          </div>
         </div>
       </div>
     </div>

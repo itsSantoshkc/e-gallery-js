@@ -18,6 +18,8 @@ export const order = mysqlTable("order", {
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   orderedAt: datetime("orderedAt"),
+  transaction_id: varchar("transactionId", { length: 255 }),
+  deliverStatus: varchar("deliverStatus", { length: 255 }),
   orderedTotalAmount: varchar("orderedTotalAmount", { length: 255 }),
 });
 

@@ -29,7 +29,6 @@ export const getItemsInCart = async (userId) => {
         const updateCartItem = { ...item, ...productDetails };
         cartItemsArray.push(updateCartItem);
       }
-      console.log(cartItemsArray);
       return cartItemsArray;
     }
     return null;

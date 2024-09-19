@@ -4,15 +4,15 @@ import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import Order from "./Order";
 
-const RecentOrders = (props) => {
-  const [recentOrders, setRecentOrders] = useState([]);
+const UserProduct = (props) => {
+  const [productData, setProductData] = useState([]);
   const { data: session, status } = useSession();
 
   const userId = session?.user?.id;
 
-  const getUserRecentOrders = async () => {
+  const getProducts = async () => {
     if (userId) {
-      const response = await fetch(`http://localhost:3000/api/admin/order`, {
+      const response = await fetch(`http://localhost:3000/api/admin/product`, {
         method: "post",
         body: JSON.stringify({
           user_Id: userId,
@@ -20,33 +20,34 @@ const RecentOrders = (props) => {
       });
       if (response.status === 200) {
         const responseData = await response.json();
-        setRecentOrders(responseData.data);
+        setProductData(responseData.data);
       }
     }
   };
 
   useEffect(() => {
-    getUserRecentOrders();
+    getProducts();
   }, [userId]);
+
+  console.log(productData);
   return (
     <div className="flex  justify-center  max-w-full max-h-[88%]">
       <div className="max-w-full max-h-full">
         <div className="w-full h-full ">
           <ScrollArea className="h-[445px] space-y-0">
             <ul className="flex flex-col items-center bg-white  justify-center   *:text-xl">
-              {recentOrders.length >= 0 &&
-                recentOrders !== undefined &&
-                recentOrders !== null &&
-                recentOrders.map((product, idx) => (
+              {productData.length >= 0 &&
+                productData !== undefined &&
+                productData !== null &&
+                productData.map((product, idx) => (
                   <li key={idx} className="px-4 ">
                     <Order
                       title={product.name}
-                      id={product.product_Id}
+                      id={product.id}
                       description={product.description}
                       image={product.image}
-                      price={product.unitPrice}
-                      quantity={product.orderedQuantity}
-                      orderDate={product.createdAt}
+                      price={product.price}
+                      userId={userId}
                     />
                   </li>
                 ))}
@@ -58,4 +59,4 @@ const RecentOrders = (props) => {
   );
 };
 
-export default RecentOrders;
+export default UserProduct;

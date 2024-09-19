@@ -1,31 +1,8 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
-import { toast } from "sonner";
 
-const Like = (props) => {
-  const { data: session } = useSession();
-
-  const AddItemInCart = async () => {
-    const cartItemData = {
-      userId: session.user.id,
-      itemQuantity: 1,
-      itemPrice: props.price,
-    };
-    const respose = await fetch(
-      `${process.env.NEXT_PUBLIC_URL}api/cart/${props.id}`,
-      {
-        method: "post",
-        body: JSON.stringify(cartItemData),
-      }
-    );
-    const responseData = await respose.json();
-    toast.success("Item has been added to cart");
-    return responseData;
-  };
-
+const Order = (props) => {
   return (
     <div className="flex h-full p-4 my-4 border rounded-xl">
       <div className="flex items-center w-full lg:w-5/6">
@@ -50,12 +27,13 @@ const Like = (props) => {
         </div>
       </div>
       <div className="hidden w-1/6 min-h-full lg:flex ">
-        <div className="flex items-center justify-center w-full h-full ">
-          <Button onClick={() => AddItemInCart()}>Add To Cart</Button>
+        <div className="flex flex-col justify-center w-full h-full text-lg font-semibold ">
+          <h1>Total in Rs {props.price * props.quantity}</h1>
+          <h1>Quantity : {props.quantity}</h1>
         </div>
       </div>
     </div>
   );
 };
 
-export default Like;
+export default Order;

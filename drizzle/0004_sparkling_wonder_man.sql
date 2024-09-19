@@ -1,0 +1,1 @@
+ALTER TABLE `order` ADD `transactionId` varchar(255);

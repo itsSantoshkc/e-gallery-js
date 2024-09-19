@@ -18,7 +18,7 @@ import { useSession } from "next-auth/react";
 import { CheckoutItemSkeleton } from "@/components/Skeleton";
 import { toast } from "sonner";
 import Link from "next/link";
-import Payment from "./Payment";
+import EsewaPayment from "./EsewaPayment";
 
 const CheckoutItems = lazy(() => import("@/app/checkout/checkoutItems"));
 
@@ -189,10 +189,10 @@ const page = (props) => {
                     colSpan={1}
                     className="p-2 font-bold text-center text-white"
                   >
-                    $ {total}
+                    Rs. {total}
                   </TableCell>
                   <TableCell colSpan={2} className="text-right ">
-                    <Payment cartItems={cartItems} />
+                    <EsewaPayment userId={userId} />
                   </TableCell>
                 </TableRow>
               )}

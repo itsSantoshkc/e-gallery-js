@@ -1,7 +1,7 @@
 import { product, product_userLiked } from "./../schema/ProductSchema";
 import { db } from "@/db/db";
 import { labels, product_image, product_label } from "@/schema/ProductSchema";
-import { asc, eq, like, sql } from "drizzle-orm";
+import { and, asc, eq, like, sql } from "drizzle-orm";
 import { getUserById, getUserLikedProductsLabel } from "./user";
 import EdgeRank from "@/helper/EdgeRank";
 
@@ -118,7 +118,7 @@ const getProductImages = async (productId) => {
   return productImageArray;
 };
 
-const getProductFirstImage = async (productId) => {
+export const getProductFirstImage = async (productId) => {
   const productImage = await db
     .select({ image: product_image.image })
     .from(product_image)
@@ -235,5 +235,46 @@ export const getProductsLikedByUser = async (userId) => {
   } catch (error) {
     console.log(error);
     return null;
+  }
+};
+
+export const getOwnersProduct = async (userId) => {
+  try {
+    const products = await db
+      .select()
+      .from(product)
+      .where(eq(product.OwnerId, userId));
+    if (products.length <= 0 || products === null || products === undefined) {
+      return null;
+    }
+    for (let i = 0; i < products.length; i++) {
+      const { image } = await getProductFirstImage(products[i].id);
+      const { name } = await getUserById(products[i].OwnerId);
+      products[i] = {
+        ...products[i],
+        image,
+        ownerName: name,
+      };
+    }
+    return products;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
+export const deleteProduct = async (userId, productId) => {
+  try {
+    console.log(userId, productId);
+    const deleteData = await db
+      .delete(product)
+      .where(and(eq(product.id, productId), eq(product.OwnerId, userId)));
+    if (deleteData[1] === undefined) {
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
   }
 };

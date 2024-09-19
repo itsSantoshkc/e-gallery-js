@@ -4,7 +4,7 @@ import React, { lazy, Suspense, useEffect, useState } from "react";
 
 const LikedProduct = lazy(() => import("./Like"));
 
-const RecentLikes = (props) => {
+const RecentLikes = ({ userId }) => {
   const [likedProducts, setLikedProducts] = useState([]);
 
   const getUserLikedProduct = async () => {
@@ -13,7 +13,7 @@ const RecentLikes = (props) => {
       {
         method: "POST",
         body: JSON.stringify({
-          userId: "67f9cecc-c18e-4fff-b775-d431f1bfbf38",
+          userId: userId,
         }),
       }
     );

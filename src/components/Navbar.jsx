@@ -50,7 +50,6 @@ const Navbar = (props) => {
     "/checkout/payment/failure",
   ];
 
-  console.log(pathname);
   if (authenticationPath.includes(pathname)) {
     return;
   }
