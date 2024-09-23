@@ -6,7 +6,11 @@ import { cart } from "@/schema/CartSchema";
 import { eq } from "drizzle-orm";
 import { product } from "@/schema/ProductSchema";
 import { getProductFirstImage } from "./product";
-export const insertNewOrder = async (userId, transaction_id) => {
+export const insertNewOrder = async (
+  userId,
+  transaction_id,
+  deliveryStatus
+) => {
   try {
     const orderId = randomUUID();
     const cartItems = await getItemsInCart(userId);

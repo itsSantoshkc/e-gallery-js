@@ -24,7 +24,6 @@ const RecentOrders = (props) => {
       }
     }
   };
-
   useEffect(() => {
     getUserRecentOrders();
   }, [userId]);
@@ -32,7 +31,7 @@ const RecentOrders = (props) => {
     <div className="flex  justify-center  max-w-full max-h-[88%]">
       <div className="max-w-full max-h-full">
         <div className="w-full h-full ">
-          <ScrollArea className="h-[445px] space-y-0">
+          <ScrollArea className="h-[390px] space-y-0">
             <ul className="flex flex-col items-center bg-white  justify-center   *:text-xl">
               {recentOrders.length >= 0 &&
                 recentOrders !== undefined &&
@@ -46,7 +45,7 @@ const RecentOrders = (props) => {
                       image={product.image}
                       price={product.unitPrice}
                       quantity={product.orderedQuantity}
-                      orderDate={product.orderedAt}
+                      orderDate={product.orderAt}
                     />
                   </li>
                 ))}

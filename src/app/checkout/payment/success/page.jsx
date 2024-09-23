@@ -14,17 +14,14 @@ const page = () => {
   const data = searchParams.get("data");
   const decodedPaymentInfo = atob(data);
   const paymentInfo = JSON.parse(decodedPaymentInfo);
-  if (session === undefined || status === "loading") {
-    return <div className="w-full h-full overflow-hidden "></div>;
-  }
+  const userId = session?.user?.id;
 
-  const userId = session.user.id;
   const handleCompleteOrder = async () => {
     if (paymentInfo) {
       const response = await fetch(`http://localhost:3000/api/order`, {
         method: "POST",
         body: JSON.stringify({
-          userId: "",
+          userId: userId,
           transaction_id: paymentInfo.transaction_uuid,
         }),
       });
@@ -37,6 +34,9 @@ const page = () => {
   useEffect(() => {
     handleCompleteOrder();
   }, [status]);
+  if (session === undefined || status === "loading") {
+    return <div className="w-full h-full overflow-hidden "></div>;
+  }
 
   return (
     <div className="flex items-center justify-center w-full h-[95vh]">

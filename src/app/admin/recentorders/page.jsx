@@ -23,6 +23,7 @@ const page = () => {
       if (response.status === 200) {
         const responseData = await response.json();
         setProductData(responseData.data);
+        console.log(responseData);
       }
     }
   };

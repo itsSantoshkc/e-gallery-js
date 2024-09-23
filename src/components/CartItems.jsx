@@ -43,7 +43,7 @@ const CartItems = (props) => {
               />
             </div>
             <span className="py-1 font-bold">
-              $ {props.ProductPrice * props.itemQuantity}
+              Rs. {props.ProductPrice * props.itemQuantity}
             </span>
           </div>
           <div className="flex flex-col justify-center w-3/5 h-full x">

@@ -59,7 +59,7 @@ export default function DashboardPage() {
             {recentOrders.length} Items Sold
           </h2>
         </div>
-        <div className="flex flex-col items-center justify-center w-full col-span-2 text-white bg-black md:h-full h-72 rounded-xl">
+        <div className="flex min-h-[30vh] flex-col items-center justify-center w-full col-span-2 text-white bg-black md:h-full h-72 rounded-xl">
           <h1 className="text-5xl font-bold">Total Revenue</h1>
           <h2 className="flex items-center mt-4 text-xl font-semibold">
             Rs. {total}
@@ -76,7 +76,7 @@ export default function DashboardPage() {
               </span>
             </Link>
           </div>
-          <div className="h-[88%] pt-4 bg-white text-black  ">
+          <div className="max-h-[45vh] pt-4 bg-white text-black  ">
             <UserProduct />
           </div>
         </div>
@@ -89,7 +89,7 @@ export default function DashboardPage() {
               </span>
             </Link>
           </div>
-          <div className="h-[88%] pt-4 bg-white text-black  ">
+          <div className="max-h-[45vh] pt-4 bg-white text-black  ">
             <RecentOrders />
           </div>
         </div>

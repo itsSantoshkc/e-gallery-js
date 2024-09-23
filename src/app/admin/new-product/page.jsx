@@ -55,7 +55,7 @@ const page = (props) => {
     formData.set("title", titleRef.current?.value);
     formData.set("description", descriptionRef.current?.value);
     formData.set("price", priceRef.current?.value);
-    formData.set("ownerId", session?.user?.id);
+    formData.set("ownerId", session.user.id);
     formData.set("availableQuantity", availabelQuantityRef.current?.value);
     formData.set("labelId", genreValue);
 
@@ -79,7 +79,7 @@ const page = (props) => {
       formData.delete("availableQuantity");
       formData.delete("labelId");
 
-      // return router.push(`http://localhost:3000/product/${productId}`);
+      return router.push(`http://localhost:3000/product/${productId}`);
     }
     return toast.error("Failed to add a product");
   };

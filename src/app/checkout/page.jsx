@@ -19,6 +19,7 @@ import { CheckoutItemSkeleton } from "@/components/Skeleton";
 import { toast } from "sonner";
 import Link from "next/link";
 import EsewaPayment from "./EsewaPayment";
+import Payment from "./StripePayment";
 
 const CheckoutItems = lazy(() => import("@/app/checkout/checkoutItems"));
 
@@ -191,11 +192,9 @@ const page = (props) => {
                   >
                     Rs. {total}
                   </TableCell>
-                  <TableCell colSpan={1}>
-                    <button>Cash on delivery</button>
-                  </TableCell>
-                  <TableCell colSpan={1} className="text-right ">
-                    <EsewaPayment userId={userId} />
+                  <TableCell colSpan={2} className="text-right ">
+                    {/* <EsewaPayment userId={userId} /> */}
+                    <Payment userId={userId} />
                   </TableCell>
                 </TableRow>
               )}
