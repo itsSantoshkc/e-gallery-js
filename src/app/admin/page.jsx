@@ -29,8 +29,9 @@ export default function DashboardPage() {
 
   const getUserRecentOrders = async () => {
     if (userId) {
+      console.log(userId);
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_URL}api/user/admin/order`,
+        `${process.env.NEXT_PUBLIC_URL}api/admin/order`,
         {
           method: "post",
           body: JSON.stringify({
