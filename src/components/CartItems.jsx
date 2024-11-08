@@ -25,6 +25,11 @@ const CartItems = (props) => {
     await props.cartItemQuantity(props.productId, -1);
     setLoading(false);
   };
+  const handleCartDelete = async () => {
+    setLoading(true);
+    await props.cartItemDelete(props.productId);
+    setLoading(false);
+  };
 
   return (
     <>
@@ -43,7 +48,7 @@ const CartItems = (props) => {
               />
             </div>
             <span className="py-1 font-bold">
-              $ {props.ProductPrice * props.itemQuantity}
+              Rs. {props.ProductPrice * props.itemQuantity}
             </span>
           </div>
           <div className="flex flex-col justify-center w-3/5 h-full x">
@@ -99,7 +104,7 @@ const CartItems = (props) => {
                   <TooltipTrigger asChild>
                     <button>
                       <MdDelete
-                        onClick={() => props.cartItemDelete(props.productId)}
+                        onClick={handleCartDelete}
                         className="text-2xl text-red-600 cursor-pointer"
                       />
                     </button>

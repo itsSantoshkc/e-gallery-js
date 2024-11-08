@@ -12,8 +12,10 @@ function getLast7Days() {
     const date = new Date();
     date.setDate(today.getDate() - i); // Subtracting 'i' days from today
     const day = date.getDate();
-    const month = date.getMonth() + 1; // Months are zero-based in JavaScript
-    dates.push(`${day}/${month}`);
+    const month = date.getMonth(); // Months are zero-based in JavaScript
+    const newDate = new Date().setMonth(month, day);
+    const splitedDate = new Date(newDate).toString().split(" ");
+    dates.push(`${splitedDate[1]} ${splitedDate[2]}`);
   }
 
   return dates;

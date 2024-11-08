@@ -3,13 +3,19 @@ import { randomUUID } from "crypto";
 import { getItemsInCart } from "./cart";
 import { db } from "@/db/db";
 import { cart } from "@/schema/CartSchema";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { product } from "@/schema/ProductSchema";
 import { getProductFirstImage } from "./product";
-export const insertNewOrder = async (userId) => {
+export const insertNewOrder = async (
+  userId,
+  transaction_id,
+  deliveryStatus
+) => {
   try {
     const orderId = randomUUID();
     const cartItems = await getItemsInCart(userId);
+
+    console.log(userId);
     let totalAmount = 0;
 
     cartItems.map((item) => {
@@ -51,7 +57,8 @@ export const getUsersRecentOrders = async (userId) => {
     const recentOrders = await db
       .select()
       .from(order)
-      .where(eq(order.orderedBy, userId));
+      .where(eq(order.orderedBy, userId))
+      .orderBy(desc(order.orderedAt));
     if (recentOrders.length <= 0) {
       return null;
     }
@@ -76,6 +83,7 @@ export const getProductsFromRecentOrder = async (orderId) => {
       .from(order_product)
       .where(eq(order_product.order_id, orderId))
       .innerJoin(product, eq(product.id, order_product.product_id));
+
     if (products.length <= 0) {
       return null;
     }
@@ -107,7 +115,8 @@ export const getAdminRecentOrders = async (userId) => {
       .from(order)
       .rightJoin(order_product, eq(order_product.order_id, order.id))
       .innerJoin(product, eq(product.id, order_product.product_id))
-      .where(eq(product.OwnerId, userId));
+      .where(eq(product.OwnerId, userId))
+      .orderBy(desc(order.orderedAt));
     if (recentOrders.length <= 0) {
       return null;
     }

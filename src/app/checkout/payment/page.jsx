@@ -8,39 +8,31 @@ import { IoIosArrowBack } from "react-icons/io";
 import { toast } from "sonner";
 
 const index = () => {
-  const [status, setStatus] = useState(null);
-  const { data: session } = useSession();
-  const userId = session.user.id;
+  const [stripestatus, setStripeStatus] = useState(null);
+  const { data: session, status } = useSession();
+
+  if (session !== undefined) {
+    var userId = session.user.id;
+  }
 
   const searchParams = useSearchParams();
   useEffect(() => {
     const sessionId = searchParams.get("session_id");
-
-    fetch(`${process.env.NEXT_PUBLIC_URL}/api/stripe?session_id=${sessionId}`, {
-      method: "GET",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setStatus(data.status);
-      });
-  }, []);
-
-  if (status === "complete") {
-    const handleOrderComplete = async () => {
-      if (userId !== undefined) {
-        const response = await fetch(`http://localhost:3000/api/order`, {
-          method: "post",
-          body: JSON.stringify({
-            user_Id: userId,
-          }),
-        });
-        if (response.status === 200) {
-          toast.success("Order hase been successfully uploaded");
+    if (session !== undefined) {
+      fetch(
+        `${process.env.NEXT_PUBLIC_URL}/api/stripe?session_id=${sessionId}`,
+        {
+          method: "GET",
         }
-      }
-    };
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setStripeStatus(data.status);
+        });
+    }
+  }, [status]);
 
-    handleOrderComplete();
+  if (stripestatus === "complete") {
     return (
       <div className="flex items-center justify-center w-full h-[95vh]">
         <div className="bg-gray-200 lg:w-3/5 rounded-2xl lg:h-3/4">

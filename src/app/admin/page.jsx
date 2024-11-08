@@ -29,12 +29,15 @@ export default function DashboardPage() {
 
   const getUserRecentOrders = async () => {
     if (userId) {
-      const response = await fetch(`http://localhost:3000/api/admin/order`, {
-        method: "post",
-        body: JSON.stringify({
-          user_Id: userId,
-        }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_URL}api/user/admin/order`,
+        {
+          method: "post",
+          body: JSON.stringify({
+            user_Id: userId,
+          }),
+        }
+      );
       if (response.status === 200) {
         const responseData = await response.json();
         setRecentOrders(responseData.data);
@@ -51,23 +54,26 @@ export default function DashboardPage() {
     getUserRecentOrders();
   }, [userId]);
   return (
-    <div className="relative flex items-center justify-center h-[90vh]  my-10 border  ">
-      <div className="grid min-h-[75vh] gap-2 border max-w-[75vw] min-w-[75vw] rounded-xl md:grid-cols-2 xl:grid-cols-4">
-        <div className="flex flex-col items-center justify-center col-span-2 text-white bg-black h-72 md:w-full md:h-full rounded-xl">
+    <div className="relative flex items-center justify-center h-[90vh] my-10   ">
+      <div className="grid min-h-[75vh] gap-2  max-w-[75vw] min-w-[75vw]  rounded-xl md:grid-cols-2 xl:grid-cols-4">
+        <div className="flex flex-col items-center justify-center col-span-4 text-white bg-black md:col-span-1 h-72 md:w-full md:h-full rounded-xl">
           <h1 className="text-5xl font-bold">Total Sales</h1>
           <h2 className="mt-4 text-xl font-semibold">
             {recentOrders.length} Items Sold
           </h2>
         </div>
-        <div className="flex flex-col items-center justify-center w-full col-span-2 text-white bg-black md:h-full h-72 rounded-xl">
+        <div className="flex min-h-[30vh] flex-col items-center justify-center w-full  col-span-4 md:col-span-1 text-white bg-black md:h-full h-72 rounded-xl">
           <h1 className="text-5xl font-bold">Total Revenue</h1>
-          <h2 className="flex items-center mt-4 text-xl font-semibold">
+          <h2 className="flex items-center mt-4 text-xl font-semibold text-green-500">
             Rs. {total}
             <AiOutlineStock className="ml-2 text-3xl text-green-500" />
           </h2>
         </div>
 
-        <div className="flex flex-col w-full h-full border border-slate-600 rounded-xl md:col-span-2">
+        <div className="flex flex-col w-full *:p-4 h-full col-span-4 border border-slate-600 rounded-xl md:col-span-2">
+          <LineChart orderData={recentOrders} />
+        </div>
+        <div className="flex flex-col w-full h-full col-span-4 border border-slate-600 rounded-xl md:col-span-2">
           <div className="p-4 text-xl flex justify-between px-7 items-center font-semibold h-[12%]">
             Your Poducts
             <Link href={"/admin/manage-products"}>
@@ -76,11 +82,11 @@ export default function DashboardPage() {
               </span>
             </Link>
           </div>
-          <div className="h-[88%] pt-4 bg-white text-black  ">
+          <div className="max-h-[45vh] pt-4 bg-white text-black  ">
             <UserProduct />
           </div>
         </div>
-        <div className="flex flex-col w-full h-full border border-slate-600 rounded-xl md:col-span-2">
+        <div className="flex flex-col w-full h-full col-span-4 border border-slate-600 rounded-xl md:col-span-2">
           <div className="p-4 text-xl flex justify-between px-7 items-center font-semibold h-[12%]">
             Recent Orders
             <Link href={"/admin/recentorders"}>
@@ -89,7 +95,7 @@ export default function DashboardPage() {
               </span>
             </Link>
           </div>
-          <div className="h-[88%] pt-4 bg-white text-black  ">
+          <div className="max-h-[45vh] pt-4 bg-white text-black  ">
             <RecentOrders />
           </div>
         </div>

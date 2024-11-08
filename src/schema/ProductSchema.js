@@ -16,24 +16,6 @@ export const labels = mysqlTable("labels", {
   label: varchar("label", { length: 255 }),
 });
 
-// export const userRecetlyVisitedLabel = mysqlTable(
-//   "userRecetlyVisitedLabel",
-//   {
-//     userId: varchar("userId", { length: 255 })
-//       .notNull()
-//       .references(() => users.id, { onDelete: "cascade" }),
-//     labelId: int("labelId")
-//       .notNull()
-//       .references(() => labels.id, { onDelete: "cascade" }),
-//     visitedAt: datetime("visitedAt", { mode: "date" }),
-//   },
-//   (recentlyVisit) => ({
-//     compoundKey: primaryKey({
-//       columns: [recentlyVisit.labelId, recentlyVisit.userId],
-//     }),
-//   })
-// );
-
 export const product = mysqlTable("product", {
   id: varchar("id", { length: 255 }).primaryKey(),
   name: varchar("name", { length: 255 }),

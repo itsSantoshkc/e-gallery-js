@@ -35,6 +35,7 @@ const Navbar = (props) => {
   const handleLogOut = async () => {
     const data = await signOut({ redirect: false, callbackUrl: "/" });
     router.push(data.url);
+    window.location.href = process.env.NEXT_PUBLIC_URL;
   };
 
   if (status === "loading") {

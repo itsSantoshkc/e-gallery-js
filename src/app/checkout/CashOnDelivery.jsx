@@ -4,9 +4,9 @@ import { createHmac, randomUUID } from "crypto";
 import { v4 as uuidv4 } from "uuid";
 import React from "react";
 
-const EsewaPayment = ({ userId }) => {
+const CashOnDelivery = ({ userId }) => {
   const handleEsewa = async () => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_URL}api/esewa`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_URL}api/order`, {
       method: "POST",
       body: JSON.stringify({ user_id: userId }),
     });
@@ -17,7 +17,7 @@ const EsewaPayment = ({ userId }) => {
   };
   return (
     <button
-      onClick={handleEsewa}
+      onClick={handleCOD}
       className="p-2 font-semibold text-white transition-colors duration-300 bg-green-500 cursor-pointer hover:bg-green-700 rounded-xl"
     >
       Pay with E- sewa
@@ -25,4 +25,4 @@ const EsewaPayment = ({ userId }) => {
   );
 };
 
-export default EsewaPayment;
+export default CashOnDelivery;

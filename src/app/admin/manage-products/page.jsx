@@ -14,12 +14,15 @@ const page = () => {
 
   const getProducts = async () => {
     if (userId) {
-      const response = await fetch(`http://localhost:3000/api/admin/product`, {
-        method: "post",
-        body: JSON.stringify({
-          user_Id: userId,
-        }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_URL}api/admin/product`,
+        {
+          method: "post",
+          body: JSON.stringify({
+            user_Id: userId,
+          }),
+        }
+      );
       if (response.status === 200) {
         const responseData = await response.json();
         setProductData(responseData.data);

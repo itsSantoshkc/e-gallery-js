@@ -45,7 +45,6 @@ const SideCart = (props) => {
   }, []);
 
   const handleCartItemDelete = async (productId) => {
-    setLoading(true);
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_URL}api/cart/${productId}`,
       {
@@ -55,10 +54,8 @@ const SideCart = (props) => {
     const { message } = await response.json();
     if (response.status === 200) {
       await getCartItems();
-      setLoading(false);
       return toast.success(message);
     }
-    setLoading(false);
     return toast.error(message);
   };
 

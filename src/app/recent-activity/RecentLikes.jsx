@@ -41,6 +41,7 @@ const RecentLikes = ({ userId }) => {
                 id={product.id}
                 description={product.description}
                 image={product.image}
+                price={product.price}
               />
             </Suspense>
           ))}

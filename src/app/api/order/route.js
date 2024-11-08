@@ -2,9 +2,9 @@ import { getUsersRecentOrders, insertNewOrder } from "@/data/order";
 
 export async function POST(request) {
   try {
-    const { userId } = await request.json();
-    console.log(userId);
-    const newOrder = await insertNewOrder(userId);
+    const { userId, transaction_id } = await request.json();
+    const transactionId = transaction_id || "";
+    const newOrder = await insertNewOrder(userId, transactionId);
     if (newOrder !== null) {
       return Response.json("Order has been place successfully", {
         status: 200,

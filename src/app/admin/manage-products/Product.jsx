@@ -24,10 +24,13 @@ import { toast } from "sonner";
 
 const Product = (props) => {
   const handleDelete = async () => {
-    const response = await fetch("http://localhost:3000/api/admin/product", {
-      method: "delete",
-      body: JSON.stringify({ userId: props.userId, productId: props.id }),
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_URL}api/admin/product`,
+      {
+        method: "delete",
+        body: JSON.stringify({ userId: props.userId, productId: props.id }),
+      }
+    );
     if (response.status === 200) {
       return toast.success("Product has been deleted");
     }

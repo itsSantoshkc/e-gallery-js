@@ -33,7 +33,9 @@ const CheckoutItems = (props) => {
           <TableCell colSpan={2} className="font-medium md:text-center ">
             <div className="flex items-center w-full">
               <img className="w-24 h-28 rounded-xl" src={props.image} />
-              <Link href={`http://localhost:3000/product/${props.productId}`}>
+              <Link
+                href={`${process.env.NEXT_PUBLIC_URL}product/${props.productId}`}
+              >
                 <h1 className="ml-3 text-base transition-colors duration-300 cursor-pointer lg:text-xl hover:text-blue-400">
                   {" "}
                   - {props.name}

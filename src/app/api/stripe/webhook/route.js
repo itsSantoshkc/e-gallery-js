@@ -1,3 +1,5 @@
+import { insertNewOrder } from "@/data/order";
+import { headers } from "next/headers";
 import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -7,9 +9,15 @@ export const POST = async (request) => {
     const endpointSecret = process.env.STRIPE_SECRET_WEBHOOK_KEY;
     const sig = headers().get("stripe-signature");
     const event = stripe.webhooks.constructEvent(body, sig, endpointSecret);
+    const session = event.data.object;
 
-    if (event.type === "payment_intent.succeeded") {
-      insertNewOrder("67f9cecc-c18e-4fff-b775-d431f1bfbf38");
+    console.log("userId : ", event.data.object.metadata.userId);
+    if (event.type === "checkout.session.completed") {
+      if (session.metadata.userId !== undefined) {
+        console.log("Inserting data");
+        insertNewOrder(session.metadata.userId, "");
+      }
+      console.log("Payment done");
     }
 
     return Response.json(

@@ -138,7 +138,7 @@ const ProductDetails = ({
           By : {OwnerName}
         </h2>
         <h1 className="w-full text-xl font-semibold text-green-600">
-          $<span className="text-3xl font-bold">{price}</span>
+          Rs. <span className="text-3xl font-bold">{price}</span>
         </h1>
         <p className="my-2 text-justify xl:text-xl xl:my-4 ">{description}</p>
         <div className="w-full flex *:mr-2 *:p *:px-2 lg:my-4 my-2  *:bg-red-500 font-semibold *:text-white *:rounded-xl">

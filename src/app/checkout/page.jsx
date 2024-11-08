@@ -192,10 +192,8 @@ const page = (props) => {
                   >
                     Rs. {total}
                   </TableCell>
-                  {/* <TableCell colSpan={2} className="text-right ">
-                    <EsewaPayment userId={userId} />
-                  </TableCell> */}
                   <TableCell colSpan={2} className="text-right ">
+                    {/* <EsewaPayment userId={userId} /> */}
                     <Payment userId={userId} />
                   </TableCell>
                 </TableRow>

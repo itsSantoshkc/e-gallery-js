@@ -103,9 +103,9 @@ const RecentOrder = ({ userId }) => {
               <TableHead className="text-center md:text-left">
                 Order No
               </TableHead>
-              <TableHead className="text-center ">Order Quantity</TableHead>
+              <TableHead className="text-center ">Payment Method</TableHead>
               <TableHead className="text-center ">Ordered At</TableHead>
-              <TableHead className="text-center ">Paid Amount</TableHead>
+              <TableHead className="text-center ">Paid </TableHead>
               <TableHead className="text-center md:text-right "></TableHead>
             </TableRow>
           </TableHeader>

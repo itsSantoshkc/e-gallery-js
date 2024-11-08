@@ -38,6 +38,9 @@ export const POST = async (request) => {
       line_items: priceArray,
       mode: "payment",
       return_url: `http://localhost:3000/checkout/payment?session_id={CHECKOUT_SESSION_ID}`,
+      metadata: {
+        userId: user_id,
+      },
     });
     return Response.json({
       clientSecret: session.client_secret,
