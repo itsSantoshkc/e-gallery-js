@@ -18,7 +18,7 @@ export const POST = async (request) => {
     cartItems.map((item) => {
       totalAmount += item.itemQuantity * item.itemPrice;
     });
-    const transactionId = await uuidv4();
+    const transactionId = uuidv4();
     const hash = createHmac("sha256", "8gBm/:&EnhH.1/q")
       .update(
         `total_amount=500,transaction_uuid=${transactionId},product_code=EPAYTEST`

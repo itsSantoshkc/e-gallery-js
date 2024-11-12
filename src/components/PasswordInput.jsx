@@ -1,5 +1,5 @@
 import React, { MutableRefObject, useState } from "react";
-import { IoMdEye } from "react-icons/io";
+import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 
 const PasswordInput = (props) => {
   const [showPassword, setshowPassword] = useState(false);
@@ -13,10 +13,17 @@ const PasswordInput = (props) => {
         className="w-full h-full px-3 rounded-xl"
         placeholder={props.placeholder}
       />
-      <IoMdEye
-        className="absolute text-xl cursor-pointer right-5"
-        onClick={() => setshowPassword(!showPassword)}
-      />
+      {!showPassword ? (
+        <IoMdEye
+          className="absolute text-xl cursor-pointer right-5"
+          onClick={() => setshowPassword(!showPassword)}
+        />
+      ) : (
+        <IoMdEyeOff
+          className="absolute text-xl cursor-pointer right-5"
+          onClick={() => setshowPassword(!showPassword)}
+        />
+      )}
     </div>
   );
 };

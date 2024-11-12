@@ -97,7 +97,7 @@ export const getUserByEmail = async (email) => {
     .from(users)
     .where(eq(users.email, email))
     .limit(1);
-  if (user) {
+  if (user && user.length > 0) {
     return user[0];
   }
   return null;

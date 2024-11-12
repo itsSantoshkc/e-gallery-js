@@ -46,7 +46,7 @@ const LogInForm = (props) => {
     router.push("/");
   };
   return (
-    <div className="flex flex-col w-full py-5 mx-4  sm:w-3/4 sm:px-5 md:w-1/2 lg:w-1/3 xl:w-1/4 rounded-xl bg-stone-200">
+    <div className="flex flex-col w-full py-5 mx-4 sm:w-3/4 sm:px-5 md:w-1/2 lg:w-1/3 xl:w-1/4 rounded-xl bg-stone-200">
       <h1 className="w-full py-3 mt-4 text-3xl font-bold text-center">
         Log In
       </h1>
@@ -59,7 +59,7 @@ const LogInForm = (props) => {
       {/* <div className="w-full text-lg font-semibold    *:p-3 *:md:p-3">
         <div
           onClick={handleGoogle}
-          className="m-2 transition-colors duration-500 cursor-pointer  rounded-xl bg-stone-300 hover:bg-stone-100"
+          className="m-2 transition-colors duration-500 cursor-pointer rounded-xl bg-stone-300 hover:bg-stone-100"
         >
           <span className="px-2">Log In With Google</span>
         </div>
@@ -77,7 +77,7 @@ const LogInForm = (props) => {
             type="email"
             name="email"
             className="h-12 px-3 rounded-xl"
-            placeholder="Enter Your Password"
+            placeholder="Enter Your Email"
           />
           <label
             htmlFor="password"
@@ -93,13 +93,15 @@ const LogInForm = (props) => {
           />
           <div className="flex items-center justify-between m-2 mx-1 text-sm font-bold text-stone-600">
             <Link href={"/Sign-up"}>
-              <h2 className="transition-colors duration-500 cursor-pointer  hover:text-stone-400">
+              <h2 className="transition-colors duration-500 cursor-pointer hover:text-stone-400">
                 Create a new account
               </h2>
             </Link>
-            <h2 className="underline transition-colors duration-500 cursor-pointer  hover:text-stone-400">
-              Forgot Password ?
-            </h2>
+            <Link href={"/forget-password"}>
+              <h2 className="underline transition-colors duration-500 cursor-pointer hover:text-stone-400">
+                Forgot Password ?
+              </h2>
+            </Link>
           </div>
           <button
             type="submit"
