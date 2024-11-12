@@ -1,11 +1,7 @@
-//@ts-ignore
+import ForgetPassword from "@/emails/ForgetPassword";
+import Otp from "@/emails/Otp";
+import { render } from "@react-email/components";
 import nodemailer from "nodemailer";
-
-// type emailInfo = {
-//   email: string;
-//   type: "VERIFY" | "FORGET PASSWORD";
-//   verificationCode: number;
-// };
 
 export const sendEmail = async (emailInfo) => {
   try {
@@ -19,18 +15,43 @@ export const sendEmail = async (emailInfo) => {
       },
     });
 
-    const mailOptions = {
-      from: "egallery@gmail.com",
-      to: emailInfo.email,
-      subject:
-        emailInfo.type === "VERIFY"
-          ? "Verification Code"
-          : "Forgetten Password",
-      html: `<h1 style="width="600"  >Verification Code : ${emailInfo.verificationCode}</h1>`,
-    };
+    if (emailInfo.type === "VERIFY") {
+      const email = emailInfo.email;
+      const splitEmail = email.split("@");
+      const formattedEmail =
+        splitEmail[0].slice(0, splitEmail[0].length / 2) +
+        "*******" +
+        splitEmail[1];
 
-    const mailresponse = await transport.sendMail(mailOptions);
-    return mailresponse;
+      const emailHtml = await render(
+        <Otp
+          receiver={formattedEmail}
+          verificationToken={emailInfo.verificationCode}
+        />
+      );
+
+      const mailOptions = {
+        from: "egallery@gmail.com",
+        to: emailInfo.email,
+        subject: "Verify Log In",
+        html: emailHtml,
+      };
+      const mailresponse = await transport.sendMail(mailOptions);
+      return mailresponse;
+    }
+    if (emailInfo.type === "FORGET PASSWORD") {
+      const emailHtml = await render(
+        <ForgetPassword url="https://example.com" />
+      );
+      const mailOptions = {
+        from: "egallery@gmail.com",
+        to: emailInfo.email,
+        subject: "Forget Password",
+        html: `<h1 style="width="600"  >Verification Code : ${emailInfo.verificationCode}</h1>`,
+      };
+      const mailresponse = await transport.sendMail(mailOptions);
+      return mailresponse;
+    }
   } catch (error) {
     throw new Error(error);
   }

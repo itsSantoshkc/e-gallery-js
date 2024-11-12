@@ -49,7 +49,7 @@ const Page = (props) => {
     return router.push("/user-details");
   };
   return (
-    <div className="flex items-center justify-center w-screen h-full overflow-y-hidden">
+    <div className="flex items-center justify-center w-screen h-[90vh] overflow-y-hidden">
       <div className="flex flex-col items-center w-full py-5 mx-4 h-4/6 md:h-1/2 sm:w-3/4 sm:px-5 md:w-1/2 lg:w-1/2 xl:w-1/3 2xl:w-1/4 rounded-xl bg-stone-200">
         <h1 className="w-full py-3 mt-4 text-3xl font-bold text-center">
           Security Login
@@ -63,7 +63,7 @@ const Page = (props) => {
         <div className="flex items-center justify-center w-full mt-3">
           <Separator className="bg-stone-400 w-[90%]  " />
         </div>
-        <div className="flex flex-col h-full mx-2 mt-5 ">
+        <div className="flex flex-col h-full mx-2 mt-5 mb-2 ">
           <div className="flex items-center justify-center h-full ">
             <InputOTP maxLength={6} ref={OtpRef}>
               <InputOTPGroup className="*:border *:md:text-3xl *:text-2xl *:p-6 *:md:p-7  *:border-stone-400">
@@ -81,7 +81,7 @@ const Page = (props) => {
           </div>
           <Button
             onClick={handleSubmit}
-            className="p-3 text-xl font-bold text-white transition-colors duration-500 cursor-pointer py-7 rounded-xl bg-stone-500 hover:bg-stone-400 "
+            className="p-3 mt-5 text-xl font-bold text-white transition-colors duration-500 cursor-pointer py-7 rounded-xl bg-stone-500 hover:bg-stone-400 "
           >
             Proceed
           </Button>

@@ -51,7 +51,7 @@ export const insertNewUser = async (email, password) => {
       emailVerified: false,
       verificationToken: token,
     });
-    // sendEmail({ email: email, type: "VERIFY", verificationCode: token });
+    sendEmail({ email: email, type: "VERIFY", verificationCode: token });
     return token;
   } catch (error) {
     throw new Error(error);

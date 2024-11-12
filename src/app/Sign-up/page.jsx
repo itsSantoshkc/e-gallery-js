@@ -6,6 +6,7 @@ import React, { FormEvent, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import PasswordInput from "@/components/PasswordInput";
+import Link from "next/link";
 
 const Page = (props) => {
   const router = useRouter();
@@ -144,9 +145,11 @@ const Page = (props) => {
               placeholder="Confirm your password"
             />
             <div className="flex mx-1 m-2 pt-3 items-center  *:px-2 text-sm font-bold text-stone-600">
-              <h2 className="transition-colors duration-500 cursor-pointer hover:text-stone-400">
-                Already Have a account?
-              </h2>
+              <Link href={"/Login"}>
+                <h2 className="transition-colors duration-500 cursor-pointer hover:text-stone-400">
+                  Already Have a account?
+                </h2>
+              </Link>
             </div>
             <button
               type="submit"
