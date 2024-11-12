@@ -40,7 +40,7 @@ import { toast } from "sonner";
 import DeleteAccount from "./DeleteAccount";
 import PasswordInput from "@/components/PasswordInput";
 
-const page = (props) => {
+const Page = (props) => {
   const { data: session } = useSession();
   const userId = session?.user.id;
 
@@ -86,7 +86,6 @@ const page = (props) => {
       address: address,
       province: state,
     };
-    console.log(userDetails);
     const response = await fetch(`${process.env.NEXT_PUBLIC_URL}api/user`, {
       method: "PATCH",
       body: JSON.stringify(userDetails),
@@ -108,7 +107,6 @@ const page = (props) => {
       method: "post",
       body: JSON.stringify({ id: userId }),
     });
-    // console.log(await response.json());
     const { name, email, gender, image, phone, birthDate, address, province } =
       await response.json();
     setName(name);
@@ -347,7 +345,7 @@ const page = (props) => {
                         <DialogTitle>Change Email</DialogTitle>
                         <DialogDescription className="text-stone-700">
                           Make changes to your Email here. Click save when
-                          you're done.
+                          you&aposre done.
                         </DialogDescription>
                       </DialogHeader>
                       <div className="grid gap-2 py-2">
@@ -408,7 +406,7 @@ const page = (props) => {
                         <DialogTitle>Change Password</DialogTitle>
                         <DialogDescription className="text-stone-700">
                           Make changes to your password here. Click save when
-                          you're done.
+                          you&aposre done.
                         </DialogDescription>
                       </DialogHeader>
                       <form onSubmit={(e) => e.preventDefault()}>
@@ -491,4 +489,4 @@ const page = (props) => {
   );
 };
 
-export default page;
+export default Page;

@@ -23,7 +23,7 @@ import Payment from "./StripePayment";
 
 const CheckoutItems = lazy(() => import("@/app/checkout/checkoutItems"));
 
-const page = (props) => {
+const Page = (props) => {
   const { data: session } = useSession();
   const [cartItems, setcartItems] = useState([]);
 
@@ -214,4 +214,4 @@ const page = (props) => {
   );
 };
 
-export default page;
+export default Page;

@@ -33,15 +33,15 @@ const RecentOrders = (props) => {
 
   return (
     <div className="flex  justify-center  max-w-full max-h-[88%]">
-      <div className="max-w-full max-h-full">
+      <div className="max-w-full max-h-full min-w-full">
         <div className="w-full h-full ">
-          <ScrollArea className="h-[360px] space-y-0">
-            <ul className="flex flex-col items-center bg-white  justify-center   *:text-xl">
+          <ScrollArea className="h-[360px] space-y-0 min-w-full ">
+            <ul className="flex flex-col items-center bg-white w-full  justify-center   *:text-xl">
               {recentOrders.length >= 0 &&
                 recentOrders !== undefined &&
                 recentOrders !== null &&
                 recentOrders.map((product, idx) => (
-                  <li key={idx} className="px-4 ">
+                  <li key={idx} className="w-full px-4 ">
                     <Order
                       title={product.name}
                       id={product.product_Id}

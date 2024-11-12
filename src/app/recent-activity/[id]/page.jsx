@@ -6,7 +6,7 @@ import { IoIosArrowBack } from "react-icons/io";
 
 const OrderProduct = lazy(() => import("./Orders"));
 
-const page = ({ params }) => {
+const Page = ({ params }) => {
   const [orderData, setOrderData] = useState([]);
 
   const getOrderData = async () => {
@@ -35,7 +35,7 @@ const page = ({ params }) => {
             className="flex items-center w-auto transition-colors duration-300 hover:text-indigo-600"
           >
             <IoIosArrowBack className="cursor-pointer" />
-            <h1 className="cursor-pointer">Back To Admin</h1>
+            <h1 className="cursor-pointer">Back To Your Recent Orders</h1>
           </Link>
         </div>
         {orderData.length >= 0 &&
@@ -60,4 +60,4 @@ const page = ({ params }) => {
   );
 };
 
-export default page;
+export default Page;

@@ -1,4 +1,6 @@
 import { deleteProduct, getOwnersProduct } from "@/data/product";
+import fs from "fs";
+import path from "path";
 
 export async function POST(request) {
   try {
@@ -22,9 +24,13 @@ export async function POST(request) {
 export async function DELETE(request) {
   try {
     const { userId, productId } = await request.json();
-    const deletedProduct = await deleteProduct(userId, productId);
-
-    if (deletedProduct) {
+    const FILE_PATH = path.resolve(`public/uploads/${productId}`);
+    const deletedProd = await deleteProduct(userId, productId);
+    if (deletedProd) {
+      fs.rm(FILE_PATH, { recursive: true, force: true }, (err) => {
+        if (err) throw err;
+        console.log("Saved!");
+      });
       return Response.json(
         { message: "Product has been deleted sucessfully" },
         { status: 200 }

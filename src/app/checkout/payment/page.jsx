@@ -7,7 +7,7 @@ import { FaCircleCheck, FaCircleXmark } from "react-icons/fa6";
 import { IoIosArrowBack } from "react-icons/io";
 import { toast } from "sonner";
 
-const index = () => {
+const Index = () => {
   const [stripestatus, setStripeStatus] = useState(null);
   const { data: session, status } = useSession();
 
@@ -112,4 +112,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;

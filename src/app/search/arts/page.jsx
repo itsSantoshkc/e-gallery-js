@@ -5,7 +5,7 @@ import React, { lazy, Suspense, useEffect, useRef, useState } from "react";
 
 const ImageComponent = lazy(() => import("@/components/GalleryImage"));
 
-const page = () => {
+const Page = () => {
   const [productData, setProductData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const mainContainer = useRef(null);
@@ -88,4 +88,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

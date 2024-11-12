@@ -17,7 +17,7 @@ import { CgProfile } from "react-icons/cg";
 
 import { MdDelete } from "react-icons/md";
 
-const page = (props) => {
+const Page = (props) => {
   const { data: session, update } = useSession();
   const [gender, setGender] = useState("");
   const [state, setState] = useState("");
@@ -436,4 +436,4 @@ const page = (props) => {
   );
 };
 
-export default page;
+export default Page;

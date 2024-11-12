@@ -11,7 +11,7 @@ const OrderTable = (props) => {
       key={props.id}
     >
       <TableCell className="font-medium md:text-left ">
-        {props.id.slice(0, 5) + ". . ."}
+        {props.id.slice(0, 10) + ". . ."}
       </TableCell>
       <TableCell>{props.paymentStatus}</TableCell>
       <TableCell>{date.toString()}</TableCell>

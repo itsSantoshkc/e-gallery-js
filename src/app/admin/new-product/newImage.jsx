@@ -12,7 +12,7 @@ const NewImage = () => {
 
     const file = e.target.files;
     if (!file) {
-      return console.log("No file found");
+      return toast.info("File not found");
     }
     if (!acceptableFileTypes.includes(file[0].type)) {
       return toast.info("Please Submit image only");
@@ -63,7 +63,6 @@ const NewImage = () => {
     if (deleteIcon === null || deleteIcon === undefined) {
       return;
     }
-    console.log(containerRef.current?.firstElementChild?.children);
     //@ts-ignore
     imageElement.src = "";
     //@ts-ignore
@@ -90,7 +89,12 @@ const NewImage = () => {
           className="hidden object-cover w-full h-full min-w-full min-h-full rounded-xl"
           src=""
         />
-        <input onChange={handleFileChange} type="file" hidden />
+        <input
+          onChange={handleFileChange}
+          accept="image/*"
+          type="file"
+          hidden
+        />
         <FaCamera />
       </label>
       <MdDelete

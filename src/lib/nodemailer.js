@@ -16,7 +16,6 @@ export const sendEmail = async (emailInfo) => {
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASSWORD,
-        //TODO: add these credentials to .env file
       },
     });
 
@@ -27,7 +26,7 @@ export const sendEmail = async (emailInfo) => {
         emailInfo.type === "VERIFY"
           ? "Verification Code"
           : "Forgetten Password",
-      html: `<h1 style="background-color: black;" color:"white" width="600"  >Verification Code : ${emailInfo.verificationCode}</h1>`,
+      html: `<h1 style="width="600"  >Verification Code : ${emailInfo.verificationCode}</h1>`,
     };
 
     const mailresponse = await transport.sendMail(mailOptions);

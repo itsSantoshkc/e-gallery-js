@@ -15,7 +15,7 @@ const Product = ({ sort, filter }) => {
         method: "get",
       });
       const responsData = await response.json();
-      setProductData(responsData);
+      return setProductData(responsData);
     }
     const response = await fetch(
       `/api/product/?uid=${session?.user.id}&filter=${filter}&sort=${sort}`,

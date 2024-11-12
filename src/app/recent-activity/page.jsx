@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import RecentLikes from "./RecentLikes";
 import { useSession } from "next-auth/react";
 
-const page = (props) => {
+const Page = (props) => {
   const { data: session, status } = useSession();
 
   if (session === undefined || status === "loading") {
@@ -47,4 +47,4 @@ const page = (props) => {
   );
 };
 
-export default page;
+export default Page;

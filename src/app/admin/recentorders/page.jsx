@@ -6,7 +6,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 
-const page = () => {
+const Page = () => {
   const [productData, setProductData] = useState([]);
   const { data: session, status } = useSession();
 
@@ -26,7 +26,6 @@ const page = () => {
       if (response.status === 200) {
         const responseData = await response.json();
         setProductData(responseData.data);
-        console.log(responseData);
       }
     }
   };
@@ -79,4 +78,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

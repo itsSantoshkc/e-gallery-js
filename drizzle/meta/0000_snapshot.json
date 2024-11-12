@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "c0947b25-a143-4ea8-bc5a-c5ef4b5db69c",
+  "id": "5b596169-b634-4005-9603-36dd962af98e",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "cart": {
@@ -85,77 +85,115 @@
           "notNull": true,
           "autoincrement": false
         },
-        "name": {
-          "name": "name",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "email": {
-          "name": "email",
+        "orderedBy": {
+          "name": "orderedBy",
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "password": {
-          "name": "password",
+        "orderedAt": {
+          "name": "orderedAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "transactionId": {
+          "name": "transactionId",
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
-        "gender": {
-          "name": "gender",
-          "type": "varchar(10)",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "phone": {
-          "name": "phone",
-          "type": "varchar(15)",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "emailVerified": {
-          "name": "emailVerified",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "image": {
-          "name": "image",
+        "deliverStatus": {
+          "name": "deliverStatus",
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
-        "birtdate": {
-          "name": "birtdate",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "verificationToken": {
-          "name": "verificationToken",
-          "type": "int unsigned",
+        "orderedTotalAmount": {
+          "name": "orderedTotalAmount",
+          "type": "varchar(255)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "order_orderedBy_user_id_fk": {
+          "name": "order_orderedBy_user_id_fk",
+          "tableFrom": "order",
+          "tableTo": "user",
+          "columnsFrom": [
+            "orderedBy"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {
         "order_id": {
           "name": "order_id",
           "columns": [
             "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "order_product": {
+      "name": "order_product",
+      "columns": {
+        "order_id": {
+          "name": "order_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "product_id": {
+          "name": "product_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "ordered_quantity": {
+          "name": "ordered_quantity",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "order_product_order_id_order_id_fk": {
+          "name": "order_product_order_id_order_id_fk",
+          "tableFrom": "order_product",
+          "tableTo": "order",
+          "columnsFrom": [
+            "order_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "order_product_order_id_product_id_pk": {
+          "name": "order_product_order_id_product_id_pk",
+          "columns": [
+            "order_id",
+            "product_id"
           ]
         }
       },
@@ -336,7 +374,7 @@
           "name": "labelId",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         }
       },
@@ -356,7 +394,15 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {},
+      "compositePrimaryKeys": {
+        "product_label_productId_labelId_pk": {
+          "name": "product_label_productId_labelId_pk",
+          "columns": [
+            "productId",
+            "labelId"
+          ]
+        }
+      },
       "uniqueConstraints": {}
     },
     "product_userLiked": {

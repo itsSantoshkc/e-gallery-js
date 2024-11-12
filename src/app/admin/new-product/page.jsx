@@ -8,7 +8,7 @@ import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-const page = (props) => {
+const Page = (props) => {
   const router = useRouter();
   const formRef = useRef(null);
   const titleRef = useRef(null);
@@ -28,12 +28,7 @@ const page = (props) => {
     }
 
     if (status === "unauthenticated") {
-      return toast.error("Please! Log In to inser new product");
-    }
-
-    if (session.user.role !== "admin") {
-      toast.error("Unauthorized");
-      return router.push("/");
+      return toast.error("Please! Log In to insert new product");
     }
 
     if (
@@ -42,7 +37,7 @@ const page = (props) => {
       availabelQuantityRef.current.value === "" ||
       priceRef.current.value === ""
     ) {
-      return toast.error("Filds cannot be empty");
+      return toast.error("Fields cannot be empty");
     }
 
     var formData = new FormData();
@@ -79,7 +74,7 @@ const page = (props) => {
       formData.delete("availableQuantity");
       formData.delete("labelId");
 
-      return router.push(`http://localhost:3000/product/${productId}`);
+      return router.push(`${process.env.NEXT_PUBLIC_URL}product/${productId}`);
     }
     return toast.error("Failed to add a product");
   };
@@ -155,12 +150,12 @@ const page = (props) => {
               className="w-full px-4 py-2 text-lg font-semibold"
               htmlFor="availabelQuantity"
             >
-              Availabel Quantity
+              Available Quantity
             </label>
             <input
               ref={availabelQuantityRef}
               type="text"
-              placeholder="Price"
+              placeholder="Available Quantity"
               name="availabelQuantityRef"
               id="availabelQuantityRef"
               className="w-full p-2 px-4 font-semibold text-white rounded-lg md:p-3 xl:text-lg xl:p-4 focus:text-black bg-stone-400 focus:bg-stone-300 focus:placeholder:text-black placeholder:text-white placeholder:font-semibold"
@@ -190,4 +185,4 @@ const page = (props) => {
   );
 };
 
-export default page;
+export default Page;

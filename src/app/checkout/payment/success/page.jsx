@@ -7,7 +7,7 @@ import { FaCircleCheck } from "react-icons/fa6";
 import { IoIosArrowBack } from "react-icons/io";
 import { toast } from "sonner";
 
-const page = () => {
+const Page = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -68,4 +68,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

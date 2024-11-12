@@ -78,7 +78,7 @@ const RecentOrder = ({ userId }) => {
   const getUserRecentOrders = async () => {
     if (userId) {
       const response = await fetch(
-        `http://localhost:3000/api/order?uid=${userId}`
+        `${process.env.NEXT_PUBLIC_URL}api/order?uid=${userId}`
       );
       if (response.status === 200) {
         const responseData = await response.json();
@@ -117,7 +117,7 @@ const RecentOrder = ({ userId }) => {
                   id={order.id}
                   key={order.id}
                   orderedAt={order.orderedAt}
-                  paymentStatus={"paid"}
+                  paymentStatus={"Paid"}
                   totalAmount={order.orderedTotalAmount}
                 />
               ))}

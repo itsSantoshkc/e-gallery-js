@@ -5,8 +5,9 @@ import Link from "next/link";
 import { IoIosArrowBack } from "react-icons/io";
 import { LikedProductSkeleton } from "@/components/Skeleton";
 import { useSession } from "next-auth/react";
+import { toast } from "sonner";
 
-const page = () => {
+const Page = () => {
   const [productData, setProductData] = useState([]);
   const { data: session, status } = useSession();
 
@@ -30,9 +31,26 @@ const page = () => {
     }
   };
 
+  const handleDelete = async (productId) => {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_URL}api/admin/product`,
+      {
+        method: "delete",
+        body: JSON.stringify({ userId: userId, productId: productId }),
+      }
+    );
+    if (response.status === 200) {
+      getProducts();
+      return toast.success("Product has been deleted");
+    }
+  };
+
   useEffect(() => {
-    getProducts();
+    if (status === "authenticated") {
+      getProducts();
+    }
   }, [userId]);
+
   return (
     <>
       <div className="p-5 py-10 text-2xl font-bold text-center md:text-3xl lg:text-4xl">
@@ -60,6 +78,7 @@ const page = () => {
                 image={product.image}
                 price={product.price}
                 userId={userId}
+                handleDelete={handleDelete}
               />
             </Suspense>
           ))}
@@ -68,4 +87,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

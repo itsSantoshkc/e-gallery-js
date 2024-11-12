@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import PasswordInput from "@/components/PasswordInput";
 
-const page = (props) => {
+const Page = (props) => {
   const router = useRouter();
   const EmailRef = useRef(null);
   const PasswordRef = useRef(null);
@@ -168,4 +168,4 @@ const page = (props) => {
   );
 };
 
-export default page;
+export default Page;

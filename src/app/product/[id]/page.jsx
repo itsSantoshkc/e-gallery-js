@@ -7,7 +7,7 @@ const ProductDetails = lazy(() => import("./productDetails"));
 
 const ProductImage = lazy(() => import("./productImage"));
 
-const page = ({ params }) => {
+const Page = ({ params }) => {
   const [productDetails, setProductDetails] = useState([]);
 
   const { data: session } = useSession();
@@ -61,4 +61,4 @@ const page = ({ params }) => {
   );
 };
 
-export default page;
+export default Page;

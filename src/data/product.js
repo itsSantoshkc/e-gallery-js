@@ -265,16 +265,52 @@ export const getOwnersProduct = async (userId) => {
 
 export const deleteProduct = async (userId, productId) => {
   try {
-    console.log(userId, productId);
     const deleteData = await db
       .delete(product)
       .where(and(eq(product.id, productId), eq(product.OwnerId, userId)));
+
     if (deleteData[1] === undefined) {
-      return false;
+      return true;
     }
-    return true;
+    return false;
   } catch (error) {
     console.log(error);
     return false;
+  }
+};
+
+export const deleteImage = async (productID, imagePath) => {
+  try {
+    const deleteImageFile = await db
+      .delete(product_image)
+      .where(
+        and(
+          eq(product_image.productId, productID),
+          eq(product_image.image, imagePath)
+        )
+      );
+    if (deleteImageFile[0].affectedRows === 0) {
+      return null;
+    }
+    console.log(deleteImageFile);
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
+export const updateProduct = async (productId, name, description, price) => {
+  try {
+    const newProduct = await db
+      .update(product)
+      .set({ name: name, description: description, price: price })
+      .where(eq(product.id, productId));
+    if (newProduct[0].affectedRows === 0) {
+      return null;
+    }
+    return;
+  } catch (error) {
+    console.log(error);
+    return null;
   }
 };

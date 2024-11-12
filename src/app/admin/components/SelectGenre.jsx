@@ -4,11 +4,11 @@ import { getLabels } from "../new-product/actions";
 import { useSession } from "next-auth/react";
 
 const SelectGenre = (props) => {
-  const { status } = useSession();
   const [genresOption, setGenresOption] = useState([]);
   const handleChange = (e) => {
     e.preventDefault();
     const selectedValue = e.target.value;
+    console.log(selectedValue);
     props.setGenreValue(() => selectedValue);
   };
 
@@ -19,7 +19,7 @@ const SelectGenre = (props) => {
 
   useEffect(() => {
     getLabelData();
-  }, [status]);
+  }, []);
 
   return (
     <select

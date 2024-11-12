@@ -1,21 +1,10 @@
 "use client";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Overview } from "./components/overview";
-import { RecentSales } from "./components/recent-sales";
 import { IoAddOutline } from "react-icons/io5";
 import Link from "next/link";
 import DoughnutChart from "./DoughnutChart";
 import LineChart from "./LineChart";
-import BarChart from "./Barchart";
 import { AiOutlineStock } from "react-icons/ai";
 import RecentOrders from "./RecentOrders";
-import { FaRegEdit } from "react-icons/fa";
 import { MdModeEdit } from "react-icons/md";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
@@ -29,7 +18,6 @@ export default function DashboardPage() {
 
   const getUserRecentOrders = async () => {
     if (userId) {
-      console.log(userId);
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_URL}api/admin/order`,
         {
@@ -45,28 +33,38 @@ export default function DashboardPage() {
       }
     }
   };
-  let total = 0;
+  let totalRevenue = 0;
+  let totalSales = 0;
 
   for (let i = 0; i < recentOrders.length; i++) {
-    total += recentOrders[i].orderedQuantity * recentOrders[i].unitPrice;
+    totalRevenue += recentOrders[i].orderedQuantity * recentOrders[i].unitPrice;
+    totalSales += recentOrders[i].orderedQuantity;
   }
 
   useEffect(() => {
     getUserRecentOrders();
   }, [userId]);
+
+  if (session === undefined || status === "loading") {
+    return (
+      <div className="flex items-center justify-center w-full h-full overflow-hidden">
+        <div className="loader "></div>
+      </div>
+    );
+  }
   return (
     <div className="relative flex items-center justify-center h-[90vh] my-10   ">
       <div className="grid min-h-[75vh] gap-2  max-w-[75vw] min-w-[75vw]  rounded-xl md:grid-cols-2 xl:grid-cols-4">
         <div className="flex flex-col items-center justify-center col-span-4 text-white bg-black md:col-span-1 h-72 md:w-full md:h-full rounded-xl">
           <h1 className="text-5xl font-bold">Total Sales</h1>
           <h2 className="mt-4 text-xl font-semibold">
-            {recentOrders.length} Items Sold
+            {totalSales} Items Sold
           </h2>
         </div>
         <div className="flex min-h-[30vh] flex-col items-center justify-center w-full  col-span-4 md:col-span-1 text-white bg-black md:h-full h-72 rounded-xl">
           <h1 className="text-5xl font-bold">Total Revenue</h1>
           <h2 className="flex items-center mt-4 text-xl font-semibold text-green-500">
-            Rs. {total}
+            Rs. {totalRevenue}
             <AiOutlineStock className="ml-2 text-3xl text-green-500" />
           </h2>
         </div>

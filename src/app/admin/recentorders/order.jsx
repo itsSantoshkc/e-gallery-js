@@ -1,7 +1,6 @@
 import React from "react";
 
 const Order = (props) => {
-  console.log(props);
   const date = new Date(props.orderDate).toDateString();
   return (
     <div className="flex h-full p-4 my-4 border rounded-xl">

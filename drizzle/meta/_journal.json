@@ -5,43 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1723370118487,
-      "tag": "0000_worthless_mikhail_rasputin",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1724508060358,
-      "tag": "0001_mean_cloak",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1725893496967,
-      "tag": "0002_dusty_colleen_wing",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1725894235776,
-      "tag": "0003_abandoned_exiles",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "5",
-      "when": 1726748576461,
-      "tag": "0004_sparkling_wonder_man",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "5",
-      "when": 1726748750853,
-      "tag": "0005_spooky_norman_osborn",
+      "when": 1731312356845,
+      "tag": "0000_reflective_agent_brand",
       "breakpoints": true
     }
   ]

@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import React, { useRef } from "react";
 import { toast } from "sonner";
 
-const page = (props) => {
+const Page = (props) => {
   const router = useRouter();
   const OtpRef = useRef(null);
   const { data: session } = useSession();
@@ -91,4 +91,4 @@ const page = (props) => {
   );
 };
 
-export default page;
+export default Page;

@@ -3,7 +3,7 @@ import React from "react";
 import { FaCircleXmark } from "react-icons/fa6";
 import { IoIosArrowBack } from "react-icons/io";
 
-const page = () => {
+const Page = () => {
   return (
     <div className="flex items-center justify-center w-full h-[95vh]">
       <div className="bg-gray-200 lg:w-3/5 rounded-2xl lg:h-3/4">
@@ -36,4 +36,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
