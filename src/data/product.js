@@ -5,6 +5,8 @@ import { and, asc, eq, like, sql } from "drizzle-orm";
 import { getUserById, getUserLikedProductsLabel } from "./user";
 import EdgeRank from "@/helper/EdgeRank";
 
+//TODO : Optimize the db calls by minimizing no of db calls in one function
+
 export const getPersonalizeProductsByUserId = async (
   userId,
   filterBy,
@@ -81,6 +83,30 @@ export const getProductById = async (id) => {
     ...productData[0],
     ownerName,
     labels,
+    productImages,
+  };
+  if (productData.length > 0) {
+    return productData[0];
+  }
+  return null;
+};
+export const getProductByIdWithoutLabel = async (id) => {
+  let productData = await db
+    .select()
+    .from(product)
+    .where(eq(product.id, id))
+    .limit(1);
+  const labelData = await db
+    .select({ label: product_label.labelId })
+    .from(product_label)
+    .where(eq(product_label.productId, id));
+  const label = labelData[0].label;
+  const productImages = await getProductImages(id);
+  const { name: ownerName } = await getUserById(productData[0].OwnerId);
+  productData[0] = {
+    ...productData[0],
+    label,
+    ownerName,
     productImages,
   };
   if (productData.length > 0) {
@@ -201,6 +227,22 @@ export const insertNewLabel = async (productID, lableID) => {
     });
     return;
   } catch (error) {
+    return null;
+  }
+};
+export const updateLabel = async (productID, labelID) => {
+  try {
+    await db
+      .update(product_label)
+      .set({
+        productId: productID,
+        labelId: parseInt(labelID),
+      })
+      .where(eq(product_label.productId, productID));
+    console.log("Label Updated");
+    return;
+  } catch (error) {
+    console.log(error);
     return null;
   }
 };

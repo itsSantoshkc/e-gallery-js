@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 const EditProductDetails = (props) => {
   const [title, settitle] = useState(props.title);
-  const [genreValue, setGenreValue] = useState(3);
+  const [genreValue, setGenreValue] = useState(props.label);
   const [price, setPrice] = useState(props.price);
   const [description, setDescription] = useState(props.description);
 
@@ -20,7 +20,6 @@ const EditProductDetails = (props) => {
   const handlePrice = (e) => {
     setPrice(parseFloat(e.target.value));
   };
-
   const updateProductInfo = async () => {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_URL}api/admin/product/${props.id}`,
@@ -31,6 +30,7 @@ const EditProductDetails = (props) => {
           name: title,
           description: description,
           price: price,
+          label: genreValue,
         }),
       }
     );
@@ -73,7 +73,11 @@ const EditProductDetails = (props) => {
         </div>
         <label className="w-full px-2 mt-2 text-xl font-semibold">Label</label>
         <div className="w-full flex *:mr-2 *:p *:px-2 lg:my-4 my-2 *:border *:rounded-xl">
-          <SelectGenre genreValue={genreValue} setGenreValue={setGenreValue} />
+          <SelectGenre
+            className="text-black bg-white border-black focus:text-black focus:bg-white focus:placeholder:text-black placeholder:text-black"
+            genreValue={genreValue}
+            setGenreValue={setGenreValue}
+          />
         </div>
         <div className="my-2 mb-5" onClick={updateProductInfo}>
           <Button>Save Changes</Button>

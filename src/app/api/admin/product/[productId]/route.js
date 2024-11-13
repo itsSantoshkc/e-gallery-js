@@ -1,31 +1,39 @@
 import {
   deleteImage,
   getProductById,
+  getProductByIdWithoutLabel,
   insertProductImage,
+  updateLabel,
   updateProduct,
 } from "@/data/product";
+import { db } from "@/db/db";
 import { randomUUID } from "crypto";
 import fs from "fs";
 import path from "path";
 
 export async function GET(request, { params }) {
   const { productId } = await params;
-  const product = await getProductById(productId);
+  // const product = await getProductById(productId);
+  const product = await getProductByIdWithoutLabel(productId);
   return Response.json(product);
 }
 
 export async function PUT(request, { params }) {
   try {
     const { productId } = await params;
-    const { name, description, price } = await request.json();
+    const { name, description, price, label } = await request.json();
     const product = await updateProduct(productId, name, description, price);
-    if (product === null) {
+    const updateLabelInDb = await updateLabel(productId, label);
+    if (product === null || updateLabelInDb === null) {
       return Response.json(
         { message: "Unable to update data" },
         { status: 400 }
       );
     }
-    return Response.json(product, { status: 200 });
+    return Response.json(
+      { message: "Details updated successfully" },
+      { status: 200 }
+    );
   } catch (error) {
     console.log(error);
     return Response.json({ message: "Internal Server error" }, { status: 500 });

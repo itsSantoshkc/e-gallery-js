@@ -12,6 +12,14 @@ export default withAuth(
       if (request.nextauth.token.role !== "admin")
         return NextResponse.redirect(new URL(process.env.NEXT_PUBLIC_URL));
     }
+    if (
+      request.nextUrl.pathname.startsWith("/profile") ||
+      request.nextUrl.pathname.startsWith("/checkout") ||
+      request.nextUrl.pathname.startsWith("/recent-activity")
+    ) {
+      if (request.nextauth.token)
+        return NextResponse.redirect(new URL(process.env.NEXT_PUBLIC_URL));
+    }
   },
   {
     callbacks: {
@@ -21,5 +29,10 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ["/admin/:path*", "/profile", "/recent-activity"],
+  matcher: [
+    "/admin/:path*",
+    "/profile",
+    "/recent-activity",
+    "/checkout/:path*",
+  ],
 };

@@ -112,7 +112,7 @@ const page = ({ params }) => {
       labelRef.current.classList.toggle("border");
     }
   };
-  console.log(productInfo && productInfo.productImages);
+  // console.log(productInfo && productInfo.productImages);
   useEffect(() => {
     getProduct();
   }, []);
@@ -191,6 +191,7 @@ const page = ({ params }) => {
             title={productInfo.name}
             description={productInfo.description}
             price={productInfo.price}
+            label={productInfo.label}
           />
         )}
       </div>
