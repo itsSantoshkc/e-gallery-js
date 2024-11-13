@@ -1,13 +1,26 @@
 "use client";
 import React, { useRef, useState } from "react";
+import { toast } from "sonner";
 
 const page = () => {
   const EmailRef = useRef(null);
   const [loading, setLoading] = useState(false);
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     setLoading(true);
     e.preventDefault();
-    setLoading(false);
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_URL}api/user/password-reset?email=${EmailRef.current.value}`,
+      {
+        method: "get",
+      }
+    );
+    if (response.status === 200) {
+      toast.info(`Check you email to reset password`);
+      return setLoading(false);
+    }
+    toast.error(`Unable to reset password. Please! Try again later`);
+    return setLoading(false);
   };
   return (
     <div className="flex items-center justify-center w-screen h-[90vh] overflow-y-hidden">

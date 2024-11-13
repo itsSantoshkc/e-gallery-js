@@ -129,7 +129,7 @@ const Page = (props) => {
             </label>
 
             <PasswordInput
-              passwordRef={PasswordRef}
+              ref={PasswordRef}
               name="password"
               placeholder="Enter your password"
             />
@@ -140,7 +140,7 @@ const Page = (props) => {
               Confirm Your Password
             </label>
             <PasswordInput
-              passwordRef={ConfirmPasswordRef}
+              ref={ConfirmPasswordRef}
               name="ConfirmYourPassword"
               placeholder="Confirm your password"
             />

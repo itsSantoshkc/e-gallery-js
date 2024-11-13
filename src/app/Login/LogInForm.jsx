@@ -26,7 +26,6 @@ const LogInForm = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
     const response = await signIn("credentials", {
       email: EmailRef.current?.value,
       password: PasswordRef.current?.value,
@@ -87,7 +86,7 @@ const LogInForm = (props) => {
           </label>
 
           <PasswordInput
-            passwordRef={PasswordRef}
+            ref={PasswordRef}
             placeholder="Enter Your Password"
             name="password"
           />

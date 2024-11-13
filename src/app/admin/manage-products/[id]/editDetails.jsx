@@ -34,7 +34,10 @@ const EditProductDetails = (props) => {
         }),
       }
     );
-    console.log(await response.json());
+    if (response.status === 200) {
+      return toast.success("Product information has been updated successfully");
+    }
+    return toast.error("Failed to update product information");
   };
 
   return (

@@ -1,12 +1,12 @@
-import React, { MutableRefObject, useState } from "react";
+import React, { forwardRef, MutableRefObject, useState } from "react";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 
-const PasswordInput = (props) => {
+const PasswordInput = forwardRef((props, ref) => {
   const [showPassword, setshowPassword] = useState(false);
   return (
     <div className="relative flex items-center w-full h-12 rounded-xl">
       <input
-        ref={props.passwordRef}
+        ref={ref}
         type={showPassword ? "text" : "password"}
         name={props.name}
         id={props.name}
@@ -26,6 +26,6 @@ const PasswordInput = (props) => {
       )}
     </div>
   );
-};
+});
 
 export default PasswordInput;

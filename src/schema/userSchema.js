@@ -14,7 +14,7 @@ export const users = mysqlTable("user", {
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
   name: varchar("name", { length: 255 }),
-  email: varchar("email", { length: 255 }).notNull(),
+  email: varchar("email", { length: 255 }).notNull().unique(),
   password: varchar("password", { length: 255 }),
   gender: varchar("gender", { length: 10 }),
   phone: varchar("phone", { length: 15 }),
@@ -102,4 +102,13 @@ export const shippingAddresses = mysqlTable("shippingAddresses", {
     .references(() => users.id, { onDelete: "cascade" }),
   province: varchar("province", { length: 255 }),
   Address: varchar("address", { length: 255 }),
+});
+export const passwordReset = mysqlTable("passwordReset", {
+  hash: varchar("id", { length: 255 }).primaryKey(),
+  email: varchar("email", {
+    length: 255,
+  })
+    .notNull()
+    .references(() => users.email, { onDelete: "cascade" }),
+  expiryDate: datetime("expiryDate"),
 });

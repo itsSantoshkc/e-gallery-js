@@ -34,24 +34,7 @@ export default class EdgeRank {
       return { ...product, SimilarPost };
     }
     return { ...product, SimilarPost };
-    // if (this.userLikedLabels) {
-    //   const userLikedLabelMap = new Map();
-    //   this.userLikedLabels.map((label: string) => {
-    //     if (!userLikedLabelMap.get(label)) {
-    //       userLikedLabelMap.set(label, 1);
-    //     }
-    //   });
-    // }
-    // return 0;
   };
-
-  // getUserLikePostLabels = async (userId: string | null) => {
-  //   try {
-  //     this.userLikedLables;
-  //   } catch (error: any) {
-  //     this.userLikedLables = [""];
-  //   }
-  // };
 
   calculateAffinityScore = (product) => {
     let affinityScore = 0;

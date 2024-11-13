@@ -18,7 +18,6 @@ export async function PUT(request, { params }) {
   try {
     const { productId } = await params;
     const { name, description, price } = await request.json();
-    console.log("Hello");
     const product = await updateProduct(productId, name, description, price);
     if (product === null) {
       return Response.json(
@@ -26,7 +25,7 @@ export async function PUT(request, { params }) {
         { status: 400 }
       );
     }
-    return Response.json(product);
+    return Response.json(product, { status: 200 });
   } catch (error) {
     console.log(error);
     return Response.json({ message: "Internal Server error" }, { status: 500 });

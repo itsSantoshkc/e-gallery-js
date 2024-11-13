@@ -182,9 +182,7 @@ export const insertNewProduct = async (
       OwnerId: ownerId,
       createdAt: new Date(),
     });
-    console.log("Owner id :", ownerId);
     const insertLabel = await insertNewLabel(productId, label);
-    console.log("Inserting label", insertLabel);
     if (insertLabel === null) {
       return null;
     }
@@ -292,7 +290,6 @@ export const deleteImage = async (productID, imagePath) => {
     if (deleteImageFile[0].affectedRows === 0) {
       return null;
     }
-    console.log(deleteImageFile);
   } catch (error) {
     console.log(error);
     return null;

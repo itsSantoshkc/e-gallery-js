@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "5b596169-b634-4005-9603-36dd962af98e",
+  "id": "be9d40b5-07b7-4ffb-ae62-cbb486c764da",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "cart": {
@@ -673,6 +673,57 @@
         }
       }
     },
+    "passwordRest": {
+      "name": "passwordRest",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "exipryDate": {
+          "name": "exipryDate",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "passwordRest_email_user_email_fk": {
+          "name": "passwordRest_email_user_email_fk",
+          "tableFrom": "passwordRest",
+          "tableTo": "user",
+          "columnsFrom": [
+            "email"
+          ],
+          "columnsTo": [
+            "email"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "passwordRest_id": {
+          "name": "passwordRest_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
     "session": {
       "name": "session",
       "columns": {
@@ -866,7 +917,14 @@
           ]
         }
       },
-      "uniqueConstraints": {}
+      "uniqueConstraints": {
+        "user_email_unique": {
+          "name": "user_email_unique",
+          "columns": [
+            "email"
+          ]
+        }
+      }
     },
     "verificationToken": {
       "name": "verificationToken",

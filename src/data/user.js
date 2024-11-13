@@ -1,5 +1,10 @@
 import { eq } from "drizzle-orm";
-import { accounts, shippingAddresses, users } from "./../schema/userSchema";
+import {
+  accounts,
+  passwordReset,
+  shippingAddresses,
+  users,
+} from "./../schema/userSchema";
 import { db } from "@/db/db";
 import { sendEmail } from "@/lib/nodemailer";
 import EdgeRank from "@/helper/EdgeRank";
@@ -208,6 +213,23 @@ export const updateUserPassword = async (newPassword, userId) => {
         password: newPassword,
       })
       .where(eq(users.id, userId));
+    return;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
+export const insertForgetPassword = async (userEmail, hash) => {
+  try {
+    const expireAfter = 10 * 60 * 1000; //Expiry time 10 minutes
+    const expDate = Date.now() + 600000;
+    const forgetPassword = await db.insert(passwordReset).values({
+      email: userEmail,
+      hash: hash,
+      expiryDate: new Date(expDate),
+    });
+    sendEmail({ email: userEmail, type: "FORGET PASSWORD", hash: hash });
     return;
   } catch (error) {
     console.log(error);

@@ -11,15 +11,13 @@ import {
   Text,
   Tailwind,
 } from "@react-email/components";
-const ForgetPassword = () => {
+const ForgetPassword = ({ email, hash }) => {
+  const forgetPasswordURL = `${process.env.NEXT_PUBLIC_URL}forget-password/reset-password?Id=${hash}`;
   const main = {
     fontFamily:
       '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif',
   };
 
-  const email = "batmankc7@gmail.com";
-
-  const forgetPasswordURL = "https://www.google.com";
   return (
     <Html>
       <Head />
@@ -43,6 +41,9 @@ const ForgetPassword = () => {
               >
                 Forget Password
               </Button>
+              <Text className="text-center text-[12px] italic">
+                Link will expire in 10 minutes
+              </Text>
 
               <Text className="text-center text-[14px]">
                 If you were not expecting this invitation, you can ignore this

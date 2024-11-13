@@ -49,6 +49,8 @@ const Navbar = (props) => {
     "/user-details",
     "/checkout/payment/success",
     "/checkout/payment/failure",
+    "/forget-password",
+    "/forget-password/reset-password",
   ];
 
   if (authenticationPath.includes(pathname)) {

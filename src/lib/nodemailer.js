@@ -40,14 +40,22 @@ export const sendEmail = async (emailInfo) => {
       return mailresponse;
     }
     if (emailInfo.type === "FORGET PASSWORD") {
+      const email = emailInfo.email;
+      const splitEmail = email.split("@");
+      const formattedEmail =
+        splitEmail[0].slice(0, splitEmail[0].length / 2) +
+        "*******" +
+        splitEmail[1];
+
       const emailHtml = await render(
-        <ForgetPassword url="https://example.com" />
+        <ForgetPassword email={formattedEmail} hash={emailInfo.hash} />
       );
+
       const mailOptions = {
         from: "egallery@gmail.com",
-        to: emailInfo.email,
+        to: email,
         subject: "Forget Password",
-        html: `<h1 style="width="600"  >Verification Code : ${emailInfo.verificationCode}</h1>`,
+        html: emailHtml,
       };
       const mailresponse = await transport.sendMail(mailOptions);
       return mailresponse;

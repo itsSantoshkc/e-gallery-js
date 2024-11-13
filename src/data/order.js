@@ -15,7 +15,6 @@ export const insertNewOrder = async (
     const orderId = randomUUID();
     const cartItems = await getItemsInCart(userId);
 
-    console.log(userId);
     let totalAmount = 0;
 
     cartItems.map((item) => {
@@ -71,7 +70,6 @@ export const getUsersRecentOrders = async (userId) => {
 
 export const getProductsFromRecentOrder = async (orderId) => {
   try {
-    console.log(orderId);
     const products = await db
       .select({
         product_Id: product.id,
