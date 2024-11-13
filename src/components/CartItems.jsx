@@ -12,7 +12,6 @@ import {
 import Link from "next/link";
 
 const CartItems = (props) => {
-  console.log(props);
   const [loading, setLoading] = useState(false);
 
   const handleIncrementItemQuantity = async () => {

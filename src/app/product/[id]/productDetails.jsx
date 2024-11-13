@@ -6,6 +6,7 @@ import { FaHeart } from "react-icons/fa";
 import { toast } from "sonner";
 import { dislikePost, getPostLiked, likePost } from "./actions";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 const ProductDetails = ({
   id,
@@ -119,9 +120,9 @@ const ProductDetails = ({
           </h1>
           <div className="flex items-center justify-center w-1/4 h-full text-xl">
             {!postLiked ? (
-              <CiHeart
+              <FaHeart
                 onClick={handleLikePost}
-                className="text-2xl hover:cursor-pointer fill-red-500"
+                className="text-2xl transition-all duration-300 stroke-[15px] hover:stroke-none hover:cursor-pointer hover:fill-red-500 stroke-black fill-white "
               />
             ) : (
               <FaHeart
@@ -134,8 +135,8 @@ const ProductDetails = ({
             </span>
           </div>
         </div>
-        <h2 className="w-full my-1 font-semibold text-slate-400 lg:my-3 lg:text-lg">
-          By : {OwnerName}
+        <h2 className="w-full my-1 font-semibold transition-all duration-300 text-slate-400 hover:text-indigo-600 hover:underline lg:my-3 lg:text-lg">
+          <Link href={`/product/user/${OwnerId}`}>By : {OwnerName}</Link>
         </h2>
         <h1 className="w-full text-xl font-semibold text-green-600">
           Rs. <span className="text-3xl font-bold">{price}</span>

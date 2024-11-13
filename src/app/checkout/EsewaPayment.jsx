@@ -1,10 +1,9 @@
 "use client";
-import { Button } from "@react-email/components";
-import { createHmac, randomUUID } from "crypto";
-import { v4 as uuidv4 } from "uuid";
-import React from "react";
+
+import React, { useRef } from "react";
 
 const EsewaPayment = ({ userId }) => {
+  const DialogTriggerRef = useRef(null);
   const handleEsewa = async () => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_URL}api/esewa`, {
       method: "POST",
@@ -15,13 +14,16 @@ const EsewaPayment = ({ userId }) => {
       window.location.href = responseData.url;
     }
   };
+
   return (
-    <button
-      onClick={handleEsewa}
-      className="p-2 font-semibold text-white transition-colors duration-300 bg-green-500 cursor-pointer hover:bg-green-700 rounded-xl"
-    >
-      Pay with E- sewa
-    </button>
+    <>
+      <button
+        onClick={handleEsewa}
+        className="w-full p-2 font-semibold text-white transition-colors duration-300 bg-[#60bb46] cursor-pointer text-nowrap hover:bg-[#539D3B] rounded-xl"
+      >
+        Pay with E-Sewa
+      </button>
+    </>
   );
 };
 

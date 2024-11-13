@@ -19,7 +19,7 @@ const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 );
 
-const Payment = ({ userId }) => {
+const StripePayment = ({ userId }) => {
   const fetchClientSecret = useCallback(async () => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/stripe`, {
       method: "POST",
@@ -31,11 +31,11 @@ const Payment = ({ userId }) => {
 
   const options = { fetchClientSecret };
   return (
-    <Dialog className="w-[50vw]">
-      <DialogTrigger className="w-full p-2 text-xs rounded-xl md:text-lg md:w-3/4 text-stone-600 bg-stone-300 hover:bg-stone-200">
-        Pay
+    <Dialog>
+      <DialogTrigger className="p-2 font-semibold transition-colors duration-300 rounded-xl text-stone-600 hover:text-white bg-stone-300 hover:bg-stone-400">
+        Pay with card
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="min-w-[70vw]">
         <DialogHeader>
           <DialogTitle>Payment</DialogTitle>
           <DialogDescription>Enter payment details</DialogDescription>
@@ -100,4 +100,4 @@ const Payment = ({ userId }) => {
   );
 };
 
-export default Payment;
+export default StripePayment;

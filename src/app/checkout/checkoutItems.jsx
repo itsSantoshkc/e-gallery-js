@@ -73,7 +73,7 @@ const CheckoutItems = (props) => {
           </TableCell>
           <TableCell
             colSpan={1}
-            className="text-2xl text-red-500 md:text-right"
+            className="text-2xl text-center text-red-500 md:text-right"
           >
             <MdDelete
               onClick={() => props.cartItemDelete(props.productId)}

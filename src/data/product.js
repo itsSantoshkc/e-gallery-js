@@ -46,7 +46,6 @@ export const getPersonalizeProductsByUserId = async (
 };
 
 const getProductDataWithLabels = async (filterBy, sortBy) => {
-  console.log(filterBy, sortBy);
   if (filterBy === "null") {
     const products = await db
       .select({ ...product, label: labels.label })
@@ -66,6 +65,23 @@ const getProductDataWithLabels = async (filterBy, sortBy) => {
 
     return products;
   }
+};
+
+export const getProductByOwnerId = async (ownerId) => {
+  let products = await db
+    .select()
+    .from(product)
+    .limit(100)
+    .where(eq(product.OwnerId, ownerId));
+  for (let i = 0; i < products.length; i++) {
+    const { image } = await getProductFirstImage(products[i].id);
+    const { name } = await getUserById(products[i].OwnerId);
+    products[i] = { ...products[i], image, ownerName: name };
+  }
+  if (products.length > 0) {
+    return products;
+  }
+  return null;
 };
 
 export const getProductById = async (id) => {

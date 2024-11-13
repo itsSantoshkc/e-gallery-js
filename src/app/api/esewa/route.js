@@ -19,9 +19,9 @@ export const POST = async (request) => {
       totalAmount += item.itemQuantity * item.itemPrice;
     });
     const transactionId = uuidv4();
-    const hash = createHmac("sha256", "8gBm/:&EnhH.1/q")
+    const hash = createHmac("sha256", process.env.ESEWA_SECRET)
       .update(
-        `total_amount=500,transaction_uuid=${transactionId},product_code=EPAYTEST`
+        `total_amount=${totalAmount},transaction_uuid=${transactionId},product_code=EPAYTEST`
       )
       .digest("base64");
 
@@ -45,8 +45,8 @@ export const POST = async (request) => {
       "total_amount,transaction_uuid,product_code"
     );
     formData.set("tax_amount", "0");
-    formData.set("total_amount", 500);
-    formData.set("amount", 500);
+    formData.set("total_amount", totalAmount);
+    formData.set("amount", totalAmount);
 
     const initiatePayment = await fetch(
       "https://rc-epay.esewa.com.np/api/epay/main/v2/form",

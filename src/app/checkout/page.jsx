@@ -10,16 +10,19 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+
 import { Button } from "@/components/ui/button";
-import { MdDelete, MdRemoveShoppingCart } from "react-icons/md";
-import { HiMiniMinusCircle, HiMiniPlusCircle } from "react-icons/hi2";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { MdRemoveShoppingCart } from "react-icons/md";
 import { useSession } from "next-auth/react";
 import { CheckoutItemSkeleton } from "@/components/Skeleton";
 import { toast } from "sonner";
-import Link from "next/link";
 import EsewaPayment from "./EsewaPayment";
-import Payment from "./StripePayment";
+import StripePayment from "./StripePayment";
 
 const CheckoutItems = lazy(() => import("@/app/checkout/checkoutItems"));
 
@@ -192,9 +195,43 @@ const Page = (props) => {
                   >
                     Rs. {total}
                   </TableCell>
-                  <TableCell colSpan={2} className="text-right ">
-                    {/* <EsewaPayment userId={userId} /> */}
+                  {/* <TableCell colSpan={1} className="text-right">
+                    <EsewaPayment userId={userId} />
+                  </TableCell> */}
+                  {/* <TableCell colSpan={2} className="text-right ">
                     <Payment userId={userId} />
+                  </TableCell> */}
+                  <TableCell colSpan={2} className="text-right ">
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button className="w-3/4 p-2 font-semibold transition-colors duration-300 md:text-lg rounded-xl text-stone-600 hover:text-white bg-stone-300 hover:bg-stone-400">
+                          Payment
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-80">
+                        <div className="grid gap-4">
+                          <div className="space-y-2">
+                            <h4 className="font-medium leading-none">
+                              Payment
+                            </h4>
+                            <p className="text-sm text-muted-foreground">
+                              Please select your preferred payment method.
+                            </p>
+                          </div>
+                          <div className="grid gap-2">
+                            <div className="grid items-center w-full grid-cols-1 gap-4 ">
+                              <EsewaPayment userId={userId} />
+                            </div>
+                            <h2 className="font-semibold text-center text-stone-600">
+                              or
+                            </h2>
+                            <div className="grid items-center grid-cols-1 gap-4">
+                              <StripePayment userId={userId} />
+                            </div>
+                          </div>
+                        </div>
+                      </PopoverContent>
+                    </Popover>
                   </TableCell>
                 </TableRow>
               )}

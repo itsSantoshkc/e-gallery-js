@@ -17,7 +17,7 @@ const CashOnDelivery = ({ userId }) => {
   };
   return (
     <button
-      onClick={handleCOD}
+      onClick={handleEsewa}
       className="p-2 font-semibold text-white transition-colors duration-300 bg-green-500 cursor-pointer hover:bg-green-700 rounded-xl"
     >
       Pay with E- sewa
