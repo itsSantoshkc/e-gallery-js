@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 const Order = (props) => {
@@ -13,9 +14,11 @@ const Order = (props) => {
           />
         </div>
         <div className="p-4">
-          <h1 className="text-xl font-bold transition-colors duration-300 cursor-pointer hover:text-indigo-400 md:text-2xl text-gray-950">
-            {props.title}
-          </h1>
+          <Link href={`/product/${props.id}`}>
+            <h1 className="text-xl font-bold transition-colors duration-300 cursor-pointer hover:text-indigo-400 md:text-2xl text-gray-950">
+              {props.title}
+            </h1>
+          </Link>
           <p className="mt-2 text-sm text-justify text-gray-500 md:text-base">
             {props.description}
           </p>

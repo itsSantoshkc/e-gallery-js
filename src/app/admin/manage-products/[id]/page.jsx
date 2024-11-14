@@ -24,7 +24,7 @@ const page = ({ params }) => {
   const getProduct = async () => {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_URL}api/admin/product/${params.id}`,
-      { method: "GET" }
+      { method: "GET", cache: "no-store" }
     );
     if (response.status === 200) {
       const responseData = await response.json();
@@ -69,23 +69,20 @@ const page = ({ params }) => {
     formData.delete("event");
     formData.delete("image");
     imageRef.current.files = null;
+    e.target.files = null;
 
     if (response.status === 200) {
       DialogRef.current.lastElementChild.click();
       toast.success("Image uploaded successfully");
-      return getProduct();
+      await getProduct();
+      return location.reload();
     }
     toast.error("Please! Try again later");
-    // console.log(response);
   };
-
-  // const getInfo = () => {
-  //   console.log(imageRef.current.value);
-  // };
 
   const handleFileChange = (e) => {
     const acceptableFileTypes = ["image/png", "image/jpeg", "image/jpg"];
-
+    console.log(imageRef.current.files);
     const file = e.target.files;
     if (!file) {
       return toast.info("File not found");
@@ -112,7 +109,6 @@ const page = ({ params }) => {
       labelRef.current.classList.toggle("border");
     }
   };
-  // console.log(productInfo && productInfo.productImages);
   useEffect(() => {
     getProduct();
   }, []);
@@ -137,7 +133,11 @@ const page = ({ params }) => {
           {productInfo && productInfo.productImages.length < 6 && (
             <Dialog>
               <DialogTrigger asChild>
-                <Button className="w-1/2 py-10 text-2xl">Add new image </Button>
+                <div className="flex items-center justify-center w-full py-20 ">
+                  <Button className="w-1/2 py-10 text-2xl">
+                    Add new image{" "}
+                  </Button>
+                </div>
               </DialogTrigger>
               <DialogContent className="min-w-[50vw] h-[75vh]" ref={DialogRef}>
                 <DialogHeader className="min-h-[95%]">
@@ -168,7 +168,6 @@ const page = ({ params }) => {
                       />
                       <FaCamera className="text-6xl" />
                     </label>
-                    {/* <button onClick={uploadNewImage}>Get Info</button> */}
                   </form>
                 </DialogHeader>
 
