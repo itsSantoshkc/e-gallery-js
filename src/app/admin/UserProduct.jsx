@@ -34,16 +34,16 @@ const UserProduct = (props) => {
   }, [userId]);
 
   return (
-    <div className="flex  justify-center  max-w-full max-h-[88%]">
+    <div className="flex  justify-center  max-w-full w-full max-h-[88%]">
       <div className="max-w-full max-h-full">
         <div className="w-full h-full ">
           <ScrollArea className="h-[360px] space-y-0">
-            <ul className="flex flex-col items-center bg-white  justify-center   *:text-xl">
+            <ul className="flex flex-col items-center bg-white  justify-center w-full   *:text-xl">
               {productData.length >= 0 &&
                 productData !== undefined &&
                 productData !== null &&
                 productData.map((product, idx) => (
-                  <li key={idx} className="min-w-full px-4">
+                  <li key={idx} className="w-full min-w-full px-4">
                     <Product
                       title={product.name}
                       id={product.id}

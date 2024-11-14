@@ -119,7 +119,7 @@ const Page = (props) => {
               type="email"
               name="email"
               className="h-12 px-3 rounded-xl"
-              placeholder="Enter Your Password"
+              placeholder="Enter Your email"
             />
             <label
               htmlFor="password"

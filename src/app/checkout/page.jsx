@@ -219,12 +219,18 @@ const Page = (props) => {
                             </p>
                           </div>
                           <div className="grid gap-2">
-                            <div className="grid items-center w-full grid-cols-1 gap-4 ">
-                              <EsewaPayment userId={userId} />
-                            </div>
-                            <h2 className="font-semibold text-center text-stone-600">
-                              or
-                            </h2>
+                            {process.env.NEXT_PUBLIC_HIDE_ESEWA === "false" ? (
+                              <>
+                                <div className="grid items-center w-full grid-cols-1 gap-4 ">
+                                  <EsewaPayment userId={userId} />
+                                </div>
+                                <h2 className="font-semibold text-center text-stone-600">
+                                  or
+                                </h2>{" "}
+                              </>
+                            ) : (
+                              <></>
+                            )}
                             <div className="grid items-center grid-cols-1 gap-4">
                               <StripePayment userId={userId} />
                             </div>

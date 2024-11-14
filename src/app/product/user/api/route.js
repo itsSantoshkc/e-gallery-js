@@ -6,6 +6,7 @@ export async function GET(request) {
     const ownerId = searchParams.get("ownerId");
 
     const products = await getProductByOwnerId(ownerId);
+    console.log(products);
     if (products === null) {
       return Response.json(
         { message: "Unable to get products" },

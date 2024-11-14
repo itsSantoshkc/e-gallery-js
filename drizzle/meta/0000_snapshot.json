@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "be9d40b5-07b7-4ffb-ae62-cbb486c764da",
+  "id": "0839d642-1c5a-4b98-a140-7f55d7e64c9a",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "cart": {
@@ -673,8 +673,8 @@
         }
       }
     },
-    "passwordRest": {
-      "name": "passwordRest",
+    "passwordReset": {
+      "name": "passwordReset",
       "columns": {
         "id": {
           "name": "id",
@@ -690,8 +690,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "exipryDate": {
-          "name": "exipryDate",
+        "expiryDate": {
+          "name": "expiryDate",
           "type": "datetime",
           "primaryKey": false,
           "notNull": false,
@@ -700,9 +700,9 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "passwordRest_email_user_email_fk": {
-          "name": "passwordRest_email_user_email_fk",
-          "tableFrom": "passwordRest",
+        "passwordReset_email_user_email_fk": {
+          "name": "passwordReset_email_user_email_fk",
+          "tableFrom": "passwordReset",
           "tableTo": "user",
           "columnsFrom": [
             "email"
@@ -715,8 +715,8 @@
         }
       },
       "compositePrimaryKeys": {
-        "passwordRest_id": {
-          "name": "passwordRest_id",
+        "passwordReset_id": {
+          "name": "passwordReset_id",
           "columns": [
             "id"
           ]

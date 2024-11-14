@@ -9,6 +9,7 @@ const Page = ({ params, ...props }) => {
   const [isLoading, setIsLoading] = useState(false);
   const mainContainer = useRef(null);
   const productOwnerId = params.id;
+  console.log(productOwnerId);
 
   const getProduct = async () => {
     setIsLoading(true);
@@ -25,6 +26,7 @@ const Page = ({ params, ...props }) => {
     }
 
     setProductData(responsData);
+    console.log(responsData);
     setIsLoading(false);
   };
   useEffect(() => {
@@ -45,12 +47,15 @@ const Page = ({ params, ...props }) => {
       {!isLoading && (
         <div className="flex flex-col items-center justify-center w-full">
           {productData !== null &&
+          productData.length > 0 &&
           productData !== undefined &&
           productData[0].ownerName ? (
             <div className="flex justify-start w-full pl-4 mt-10 md:mt-0 lg:pl-0 lg:w-5/6">
               <h1 className="h-full my-3 text-xl font-semibold md:text-2xl md:my-10 lg:my-20 lg:text-3xl">
                 Products of{" "}
-                <span className="underline">{productData[0].ownerName}</span>
+                <span className="underline">
+                  {productData[0].ownerName ?? ""}
+                </span>
               </h1>
             </div>
           ) : (

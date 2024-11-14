@@ -68,7 +68,7 @@ export default function DashboardPage() {
     );
   }
   return (
-    <div className="relative flex items-center justify-center h-[90vh] my-10   ">
+    <div className="relative flex items-center justify-center h-[90vh] mt-[10vh] my-10   ">
       <div className="grid min-h-[75vh] gap-2  max-w-[75vw] min-w-[75vw]  rounded-xl md:grid-cols-2 xl:grid-cols-4">
         <div className="flex flex-col items-center justify-center col-span-4 text-white bg-black md:col-span-1 h-72 md:w-full md:h-full rounded-xl">
           <h1 className="text-4xl font-bold">All Time Sales</h1>
