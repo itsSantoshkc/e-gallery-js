@@ -1,7 +1,7 @@
 "use client";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useSession } from "next-auth/react";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Order from "./Order";
 import Product from "./Product";
 
@@ -11,7 +11,7 @@ const UserProduct = (props) => {
 
   const userId = session?.user?.id;
 
-  const getProducts = async () => {
+  const getProducts = useCallback(async () => {
     if (userId) {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_URL}api/admin/product`,
@@ -20,18 +20,18 @@ const UserProduct = (props) => {
           body: JSON.stringify({
             user_Id: userId,
           }),
-        }
+        },
       );
       if (response.status === 200) {
         const responseData = await response.json();
         setProductData(responseData.data);
       }
     }
-  };
+  }, [userId]);
 
   useEffect(() => {
     getProducts();
-  }, [userId]);
+  }, [getProducts]);
 
   return (
     <div className="flex  justify-center  max-w-full w-full max-h-[88%]">

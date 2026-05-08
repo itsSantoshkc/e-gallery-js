@@ -9,7 +9,8 @@ const Product = ({ sort, filter }) => {
   const [productData, setProductData] = useState([]);
   const mainContainer = useRef(null);
   const { data: session } = useSession();
-  const getProduct = async () => {
+
+  const getProduct = useCallback(async () => {
     if (session?.user.id === null) {
       const response = await fetch("/api/product", {
         method: "get",
@@ -25,11 +26,11 @@ const Product = ({ sort, filter }) => {
     );
     const responsData = await response.json();
     setProductData(responsData);
-  };
+  }, [filter, sort, session?.user.id]);
 
   useEffect(() => {
     getProduct();
-  }, [filter, getProduct]);
+  }, [getProduct]);
 
   if (sort === "price") {
     if (productData.length > 0) {

@@ -10,11 +10,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import OrderTable from "./OrderTable";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 const RecentOrder = ({ userId }) => {
   const [orderData, setOrderData] = useState([]);
 
-  const getUserRecentOrders = async () => {
+  const getUserRecentOrders = useCallback(async () => {
     if (userId) {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_URL}api/order?uid=${userId}`,
@@ -24,11 +24,11 @@ const RecentOrder = ({ userId }) => {
         setOrderData(responseData.orders);
       }
     }
-  };
+  }, [userId]);
 
   useEffect(() => {
     getUserRecentOrders();
-  }, [userId, getUserRecentOrders]);
+  }, [getUserRecentOrders]);
 
   return (
     <>

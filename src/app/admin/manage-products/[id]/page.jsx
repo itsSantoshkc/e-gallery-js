@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import EditProductDetails from "./editDetails";
 import EditImage from "./EditImage";
 import { Button } from "@/components/ui/button";
@@ -21,7 +21,7 @@ const Page = ({ params }) => {
   const labelRef = useRef(null);
   const formRef = useRef(null);
   const DialogRef = useRef(null);
-  const getProduct = async () => {
+  const getProduct = useCallback(async () => {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_URL}api/admin/product/${params.id}`,
       { method: "GET", cache: "no-store" },
@@ -30,7 +30,7 @@ const Page = ({ params }) => {
       const responseData = await response.json();
       setProductInfo(responseData);
     }
-  };
+  }, [params.id]);
 
   const deleteImage = async (imageSrc) => {
     if (productInfo && productInfo.productImages.length <= 1) {
@@ -82,7 +82,6 @@ const Page = ({ params }) => {
 
   const handleFileChange = (e) => {
     const acceptableFileTypes = ["image/png", "image/jpeg", "image/jpg"];
-    console.log(imageRef.current.files);
     const file = e.target.files;
     if (!file) {
       return toast.info("File not found");
@@ -111,7 +110,7 @@ const Page = ({ params }) => {
   };
   useEffect(() => {
     getProduct();
-  }, []);
+  }, [getProduct]);
 
   return (
     <div className="min-h-[95vh] w-full mt-16 flex flex-col justify-center items-center">
@@ -158,6 +157,7 @@ const Page = ({ params }) => {
                       <img
                         className="hidden object-cover w-full h-full min-w-full min-h-full rounded-xl"
                         src=""
+                        alt="image"
                       />
                       <input
                         ref={imageRef}

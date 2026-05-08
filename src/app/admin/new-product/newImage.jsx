@@ -88,6 +88,7 @@ const NewImage = () => {
         <img
           className="hidden object-cover w-full h-full min-w-full min-h-full rounded-xl"
           src=""
+          alt="image"
         />
         <input
           onChange={handleFileChange}

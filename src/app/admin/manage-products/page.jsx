@@ -1,5 +1,5 @@
 "use client";
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useCallback, useEffect, useState } from "react";
 import Product from "./Product";
 import Link from "next/link";
 import { IoIosArrowBack } from "react-icons/io";
@@ -13,7 +13,7 @@ const Page = () => {
 
   const userId = session?.user?.id;
 
-  const getProducts = async () => {
+  const getProducts = useCallback(async () => {
     if (userId) {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_URL}api/admin/product`,
@@ -29,7 +29,7 @@ const Page = () => {
         setProductData(responseData.data);
       }
     }
-  };
+  }, [userId]);
 
   const handleDelete = async (productId) => {
     const response = await fetch(

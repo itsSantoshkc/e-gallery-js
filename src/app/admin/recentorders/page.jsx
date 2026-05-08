@@ -1,6 +1,6 @@
 "use client";
 import { LikedProductSkeleton } from "@/components/Skeleton";
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useCallback, useEffect, useState } from "react";
 import Order from "./order";
 import { IoIosArrowBack } from "react-icons/io";
 import Link from "next/link";
@@ -12,7 +12,7 @@ const Page = () => {
 
   const userId = session?.user?.id;
 
-  const getProducts = async () => {
+  const getProducts = useCallback(async () => {
     if (userId) {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_URL}api/admin/order`,
@@ -28,7 +28,7 @@ const Page = () => {
         setProductData(responseData.data);
       }
     }
-  };
+  }, [userId]);
 
   useEffect(() => {
     getProducts();

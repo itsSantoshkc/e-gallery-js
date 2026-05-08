@@ -7,7 +7,7 @@ import { AiOutlineStock } from "react-icons/ai";
 import RecentOrders from "./RecentOrders";
 import { MdModeEdit } from "react-icons/md";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import UserProduct from "./UserProduct";
 import {
   Select,
@@ -27,7 +27,7 @@ export default function DashboardPage() {
 
   const userId = session?.user?.id;
 
-  const getUserRecentOrders = async () => {
+  const getUserRecentOrders = useCallback(async () => {
     if (userId) {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_URL}api/admin/order`,
@@ -43,7 +43,7 @@ export default function DashboardPage() {
         setRecentOrders(responseData.data);
       }
     }
-  };
+  }, [userId]);
   let totalRevenue = 0;
   let totalSales = 0;
 

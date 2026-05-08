@@ -1,5 +1,5 @@
 "use client";
-import React, { lazy, Suspense, useEffect, useState } from "react";
+import React, { lazy, Suspense, useCallback, useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -33,7 +33,7 @@ const Page = (props) => {
   const [loading, setLoading] = useState(true);
   const userId = session?.user.id;
 
-  const getCartItems = async () => {
+  const getCartItems = useCallback(async () => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_URL}api/cart`, {
       method: "post",
       body: JSON.stringify({
@@ -48,7 +48,7 @@ const Page = (props) => {
     }
     setLoading(false);
     return setcartItems([]);
-  };
+  }, [userId]);
 
   useEffect(() => {
     getCartItems();

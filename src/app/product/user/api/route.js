@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getProductByOwnerId } from "@/data/product";
 
 export async function GET(request) {
@@ -10,7 +12,7 @@ export async function GET(request) {
     if (products === null) {
       return Response.json(
         { message: "Unable to get products" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 

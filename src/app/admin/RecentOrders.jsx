@@ -1,7 +1,7 @@
 "use client";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useSession } from "next-auth/react";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Order from "./Order";
 
 const RecentOrders = (props) => {
@@ -10,7 +10,7 @@ const RecentOrders = (props) => {
 
   const userId = session?.user?.id;
 
-  const getUserRecentOrders = async () => {
+  const getUserRecentOrders = useCallback(async () => {
     if (userId) {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_URL}api/admin/order`,
@@ -19,17 +19,17 @@ const RecentOrders = (props) => {
           body: JSON.stringify({
             user_Id: userId,
           }),
-        }
+        },
       );
       if (response.status === 200) {
         const responseData = await response.json();
         setRecentOrders(responseData.data);
       }
     }
-  };
+  }, [userId]);
   useEffect(() => {
     getUserRecentOrders();
-  }, [userId]);
+  }, [userId, getUserRecentOrders]);
 
   return (
     <div className="flex  justify-center  max-w-full max-h-[88%]">

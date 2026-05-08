@@ -2,6 +2,7 @@
 import React, {
   ChangeEvent,
   FormEvent,
+  useCallback,
   useEffect,
   useRef,
   useState,
@@ -99,7 +100,7 @@ const Page = (props) => {
     return toast.error(responseData.message);
   };
 
-  const getUserData = async () => {
+  const getUserData = useCallback(async () => {
     if (userId === undefined || userId === null) {
       return;
     }
@@ -118,7 +119,7 @@ const Page = (props) => {
 
     address ? setAddress(address) : setAddress("");
     province ? setState(province) : setState("");
-  };
+  }, [userId]);
 
   const handlePasswordChange = async () => {
     if (oldPasswordRef.current.value === newPasswordRef.current.value) {
@@ -144,7 +145,7 @@ const Page = (props) => {
 
   useEffect(() => {
     getUserData();
-  }, [session?.user.id, getUserData]);
+  }, [getUserData]);
 
   if (session === undefined) {
     return (

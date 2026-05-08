@@ -1,7 +1,7 @@
 "use client";
 import { LikedProductSkeleton } from "@/components/Skeleton";
 import Link from "next/link";
-import React, { lazy, Suspense, useEffect, useState } from "react";
+import React, { lazy, Suspense, useCallback, useEffect, useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 
 const OrderProduct = lazy(() => import("./Orders"));
@@ -9,18 +9,18 @@ const OrderProduct = lazy(() => import("./Orders"));
 const Page = ({ params }) => {
   const [orderData, setOrderData] = useState([]);
 
-  const getOrderData = async () => {
+  const getOrderData = useCallback(async () => {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_URL}api/order/${params.id}`,
     );
     const responseData = await response.json();
 
     setOrderData(() => responseData);
-  };
+  }, [params.id]);
 
   useEffect(() => {
     getOrderData();
-  }, [params.id, getOrderData]);
+  }, [getOrderData]);
 
   return (
     <>

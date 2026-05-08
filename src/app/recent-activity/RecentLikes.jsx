@@ -1,13 +1,13 @@
 "use client";
 import { LikedProductSkeleton } from "@/components/Skeleton";
-import React, { lazy, Suspense, useEffect, useState } from "react";
+import React, { lazy, Suspense, useCallback, useEffect, useState } from "react";
 
 const LikedProduct = lazy(() => import("./Like"));
 
 const RecentLikes = ({ userId }) => {
   const [likedProducts, setLikedProducts] = useState([]);
 
-  const getUserLikedProduct = async () => {
+  const getUserLikedProduct = useCallback(async () => {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_URL}api/recentactivity/recentlikes`,
       {
@@ -20,11 +20,11 @@ const RecentLikes = ({ userId }) => {
     const responseData = await response.json();
 
     setLikedProducts(() => responseData);
-  };
+  }, [userId]);
 
   useEffect(() => {
     getUserLikedProduct();
-  }, [userId, getUserLikedProduct]);
+  }, [getUserLikedProduct]);
 
   return (
     <>

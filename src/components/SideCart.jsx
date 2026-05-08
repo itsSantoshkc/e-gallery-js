@@ -25,7 +25,7 @@ const SideCart = (props) => {
   const [loading, setLoading] = useState(false);
 
   const userId = session?.user.id;
-  const getCartItems = async () => {
+  const getCartItems = useCallback(async () => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_URL}api/cart`, {
       method: "post",
       body: JSON.stringify({
@@ -38,7 +38,7 @@ const SideCart = (props) => {
       return setcartItems(() => responseData);
     }
     return setcartItems([]);
-  };
+  }, [userId]);
 
   useEffect(() => {
     getCartItems();
