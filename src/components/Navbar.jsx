@@ -54,7 +54,7 @@ const Navbar = (props) => {
   ];
 
   if (authenticationPath.includes(pathname)) {
-    return;
+    return null;
   }
 
   const handleSearch = (e) => {

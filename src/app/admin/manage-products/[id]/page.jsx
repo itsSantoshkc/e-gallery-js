@@ -15,7 +15,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-const page = ({ params }) => {
+const Page = ({ params }) => {
   const [productInfo, setProductInfo] = useState(null);
   const imageRef = useRef(null);
   const labelRef = useRef(null);
@@ -24,7 +24,7 @@ const page = ({ params }) => {
   const getProduct = async () => {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_URL}api/admin/product/${params.id}`,
-      { method: "GET", cache: "no-store" }
+      { method: "GET", cache: "no-store" },
     );
     if (response.status === 200) {
       const responseData = await response.json();
@@ -43,7 +43,7 @@ const page = ({ params }) => {
         body: JSON.stringify({
           imagePath: imageSrc,
         }),
-      }
+      },
     );
     if (response.status === 200) {
       toast.success("Image has been delete successfully");
@@ -64,7 +64,7 @@ const page = ({ params }) => {
       {
         method: "POST",
         body: formData,
-      }
+      },
     );
     formData.delete("event");
     formData.delete("image");
@@ -198,4 +198,4 @@ const page = ({ params }) => {
   );
 };
 
-export default page;
+export default Page;

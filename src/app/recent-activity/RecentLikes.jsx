@@ -15,7 +15,7 @@ const RecentLikes = ({ userId }) => {
         body: JSON.stringify({
           userId: userId,
         }),
-      }
+      },
     );
     const responseData = await response.json();
 
@@ -24,7 +24,7 @@ const RecentLikes = ({ userId }) => {
 
   useEffect(() => {
     getUserLikedProduct();
-  }, []);
+  }, [userId]);
 
   return (
     <>

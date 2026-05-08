@@ -2,7 +2,7 @@
 import React, { useRef, useState } from "react";
 import { toast } from "sonner";
 
-const page = () => {
+const Page = () => {
   const EmailRef = useRef(null);
   const [loading, setLoading] = useState(false);
 
@@ -13,7 +13,7 @@ const page = () => {
       `${process.env.NEXT_PUBLIC_URL}api/user/password-reset?email=${EmailRef.current.value}`,
       {
         method: "get",
-      }
+      },
     );
     if (response.status === 200) {
       toast.info(`Check you email to reset password`);
@@ -68,4 +68,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

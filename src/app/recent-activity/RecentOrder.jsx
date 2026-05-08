@@ -13,72 +13,11 @@ import OrderTable from "./OrderTable";
 import { useEffect, useState } from "react";
 const RecentOrder = ({ userId }) => {
   const [orderData, setOrderData] = useState([]);
-  const invoices = [
-    {
-      invoice: "INV001",
-      paymentStatus: "Paid",
-      totalAmount: "$250.00",
-      paymentMethod: "Credit Card",
-    },
-    {
-      invoice: "INV002",
-      paymentStatus: "Pending",
-      totalAmount: "$150.00",
-      paymentMethod: "PayPal",
-    },
-    {
-      invoice: "INV003",
-      paymentStatus: "Unpaid",
-      totalAmount: "$350.00",
-      paymentMethod: "Bank Transfer",
-    },
-    {
-      invoice: "INV004",
-      paymentStatus: "Paid",
-      totalAmount: "$450.00",
-      paymentMethod: "Credit Card",
-    },
-    {
-      invoice: "INV005",
-      paymentStatus: "Paid",
-      totalAmount: "$550.00",
-      paymentMethod: "PayPal",
-    },
-    {
-      invoice: "INV006",
-      paymentStatus: "Pending",
-      totalAmount: "$200.00",
-      paymentMethod: "Bank Transfer",
-    },
-    {
-      invoice: "INV007",
-      paymentStatus: "Unpaid",
-      totalAmount: "$300.00",
-      paymentMethod: "Credit Card",
-    },
-    {
-      invoice: "INV008",
-      paymentStatus: "Paid",
-      totalAmount: "$450.00",
-      paymentMethod: "Credit Card",
-    },
-    {
-      invoice: "INV009",
-      paymentStatus: "Paid",
-      totalAmount: "$550.00",
-      paymentMethod: "PayPal",
-    },
-    {
-      invoice: "INV010",
-      paymentStatus: "Pending",
-      totalAmount: "$200.00",
-      paymentMethod: "Bank Transfer",
-    },
-  ];
+
   const getUserRecentOrders = async () => {
     if (userId) {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_URL}api/order?uid=${userId}`
+        `${process.env.NEXT_PUBLIC_URL}api/order?uid=${userId}`,
       );
       if (response.status === 200) {
         const responseData = await response.json();
@@ -89,7 +28,7 @@ const RecentOrder = ({ userId }) => {
 
   useEffect(() => {
     getUserRecentOrders();
-  }, []);
+  }, [userId]);
 
   return (
     <>

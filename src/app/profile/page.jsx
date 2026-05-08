@@ -74,7 +74,7 @@ const Page = (props) => {
 
     if (phone.length < 10) {
       return toast.error(
-        "Please! Make sure you have entered correct phone number"
+        "Please! Make sure you have entered correct phone number",
       );
     }
     const userDetails = {
@@ -133,7 +133,7 @@ const Page = (props) => {
           newPassword: newPasswordRef.current.value,
           userId: userId,
         }),
-      }
+      },
     );
     if (response.status === 200) {
       return toast.success("Password Changed Sucessfully");
@@ -145,6 +145,7 @@ const Page = (props) => {
   useEffect(() => {
     getUserData();
   }, [session?.user.id]);
+
   if (session === undefined) {
     return (
       <div className="flex items-center justify-center w-full h-full overflow-hidden">

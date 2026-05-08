@@ -47,8 +47,8 @@ const ForgetPassword = ({ email, hash }) => {
 
               <Text className="text-center text-[14px]">
                 If you were not expecting this invitation, you can ignore this
-                email. If you are concerned about your account's safety, please
-                reply to this email to get in touch with us.
+                email. If you are concerned about your account&apos;s safety,
+                please reply to this email to get in touch with us.
               </Text>
             </Section>
           </Container>

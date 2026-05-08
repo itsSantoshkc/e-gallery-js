@@ -42,14 +42,14 @@ const SideCart = (props) => {
 
   useEffect(() => {
     getCartItems();
-  }, []);
+  }, [userId]);
 
   const handleCartItemDelete = async (productId) => {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_URL}api/cart/${productId}`,
       {
         method: "delete",
-      }
+      },
     );
     const { message } = await response.json();
     if (response.status === 200) {
@@ -68,7 +68,7 @@ const SideCart = (props) => {
         body: JSON.stringify({
           itemQuantity: itemQuantity,
         }),
-      }
+      },
     );
     if (response.status === 200) {
       await getCartItems();

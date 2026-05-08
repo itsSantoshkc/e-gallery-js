@@ -22,7 +22,7 @@ const Page = () => {
           body: JSON.stringify({
             user_Id: userId,
           }),
-        }
+        },
       );
       if (response.status === 200) {
         const responseData = await response.json();
@@ -37,7 +37,7 @@ const Page = () => {
       {
         method: "delete",
         body: JSON.stringify({ userId: userId, productId: productId }),
-      }
+      },
     );
     if (response.status === 200) {
       getProducts();
@@ -49,7 +49,7 @@ const Page = () => {
     if (status === "authenticated") {
       getProducts();
     }
-  }, [userId]);
+  }, [userId, status, getProducts]);
 
   return (
     <>

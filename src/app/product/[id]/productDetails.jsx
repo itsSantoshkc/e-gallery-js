@@ -84,10 +84,6 @@ const ProductDetails = ({
       toast.error("An Error Occurred!!");
     }
   };
-  const isPostLiked = async () => {
-    const postLiked = await getPostLiked(id, userId);
-    setPostLiked(postLiked);
-  };
 
   const handleItemQuantityInput = (e) => {
     if (parseInt(itemQuantity) > 100) {
@@ -98,7 +94,10 @@ const ProductDetails = ({
   };
 
   useEffect(() => {
-    isPostLiked();
+    const isPostLiked = async () => {
+      const postLiked = await getPostLiked(id, userId);
+      setPostLiked(postLiked);
+    };
     setPostTotalLikes(() => totalLikes);
   }, [totalLikes, status]);
 

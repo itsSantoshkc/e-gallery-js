@@ -11,7 +11,7 @@ const Page = ({ params }) => {
 
   const getOrderData = async () => {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_URL}api/order/${params.id}`
+      `${process.env.NEXT_PUBLIC_URL}api/order/${params.id}`,
     );
     const responseData = await response.json();
 
@@ -20,7 +20,7 @@ const Page = ({ params }) => {
 
   useEffect(() => {
     getOrderData();
-  }, []);
+  }, [params.id]);
 
   return (
     <>

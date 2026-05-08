@@ -22,7 +22,7 @@ const GalleryImage = (props) => {
       {
         method: "post",
         body: JSON.stringify(cartItemData),
-      }
+      },
     );
     const responseData = await respose.json();
     toast.success("Item has been added to cart");
@@ -35,6 +35,7 @@ const GalleryImage = (props) => {
         <img
           className="object-cover w-full h-full transition-all duration-300 group-hover:bg-blend-multiply group-hover:blur-sm rounded-xl group-hover:scale-110 "
           src={props.image}
+          alt={props.name}
         />
       </div>
       <div className="absolute bottom-0 flex flex-col items-center justify-center w-full text-white transition-all duration-300 translate-y-full bg-black bg-opacity-50 border-0 opacity-0 rounded-xl h-1/2 group-hover:translate-y-0 group-hover:opacity-100">

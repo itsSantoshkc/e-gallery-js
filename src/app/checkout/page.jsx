@@ -66,7 +66,7 @@ const Page = (props) => {
       `${process.env.NEXT_PUBLIC_URL}api/cart/${productId}`,
       {
         method: "delete",
-      }
+      },
     );
     const { message } = await response.json();
     if (response.status === 200) {
@@ -86,7 +86,7 @@ const Page = (props) => {
         body: JSON.stringify({
           itemQuantity: itemQuantity,
         }),
-      }
+      },
     );
     if (response.status === 200) {
       await getCartItems();
@@ -195,12 +195,10 @@ const Page = (props) => {
                   >
                     Rs. {total}
                   </TableCell>
-                  {/* <TableCell colSpan={1} className="text-right">
+                  <TableCell colSpan={1} className="text-right">
                     <EsewaPayment userId={userId} />
-                  </TableCell> */}
-                  {/* <TableCell colSpan={2} className="text-right ">
-                    <Payment userId={userId} />
-                  </TableCell> */}
+                  </TableCell>
+
                   <TableCell colSpan={2} className="text-right ">
                     <Popover>
                       <PopoverTrigger asChild>
