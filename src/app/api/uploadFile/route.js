@@ -1,17 +1,30 @@
-import { NextRequest, NextResponse } from "next/server";
-import path from "path";
-import fs from "fs";
+import { NextResponse } from "next/server";
 import { randomUUID } from "crypto";
 import { insertNewProduct, insertProductImage } from "@/data/product";
 import { db } from "@/db/db";
 import { product } from "@/schema/ProductSchema";
 import { eq } from "drizzle-orm";
+import cloudinary from "@/lib/cloudinary";
+
+const uploadToCloudinary = (buffer, folder) => {
+  return new Promise((resolve, reject) => {
+    cloudinary.uploader
+      .upload_stream({ folder }, (error, result) => {
+        if (error) {
+          reject(error);
+        } else resolve(result);
+      })
+      .end(buffer);
+  });
+};
 
 export const POST = async (req) => {
   const productsId = randomUUID();
   try {
     const formData = await req.formData();
-    const body = formData.getAll("file[]");
+    const files = formData
+      .getAll("file[]")
+      .filter((file) => file instanceof File && file.size > 0);
 
     const title = formData.get("title");
     const description = formData.get("description");
@@ -20,7 +33,6 @@ export const POST = async (req) => {
     const availableQuantity = formData.get("availableQuantity");
     const ownerId = formData.get("ownerId");
 
-    const UPLOAD_DIR = path.resolve(`public/uploads/${productsId}`);
     const newProduct = await insertNewProduct(
       productsId,
       title,
@@ -29,45 +41,30 @@ export const POST = async (req) => {
       label,
       0,
       availableQuantity,
-      ownerId
+      ownerId,
     );
+
     if (newProduct === null) {
-      throw new Error("Failed to insert data");
+      throw new Error("Failed to insert product");
     }
 
-    for (let i = 0; i < body.length; i++) {
-      const file = body[i] || null;
-      if (file !== "undefined") {
-        if (file) {
-          const fileName = `${randomUUID()}.${file.type.split("/")[1]}`;
-          const buffer = Buffer.from(await file.arrayBuffer());
-          if (!fs.existsSync(UPLOAD_DIR)) {
-            fs.mkdirSync(UPLOAD_DIR);
-          }
-          fs.writeFileSync(path.resolve(UPLOAD_DIR, fileName), buffer);
-          await insertProductImage(
-            productsId,
-            `/uploads/${productsId}/${fileName}`
-          );
-        } else {
-          return NextResponse.json({
-            success: false,
-          });
-        }
+    for (const file of files) {
+      if (!file) {
+        return NextResponse.json({ success: false }, { status: 400 });
       }
+
+      const buffer = Buffer.from(await file.arrayBuffer());
+      const result = await uploadToCloudinary(buffer, `products/${productsId}`);
+      await insertProductImage(productsId, result.secure_url);
     }
 
     return NextResponse.json(
-      {
-        success: true,
-        productId: productsId,
-      },
-      { status: 200 }
+      { success: true, productId: productsId },
+      { status: 200 },
     );
   } catch (error) {
+    console.error(error);
     await db.delete(product).where(eq(product.id, productsId));
-    return NextResponse.json({
-      success: false,
-    });
+    return NextResponse.json({ success: false }, { status: 500 });
   }
 };

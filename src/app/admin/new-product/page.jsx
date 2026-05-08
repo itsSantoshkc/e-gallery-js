@@ -59,8 +59,9 @@ const Page = (props) => {
       {
         method: "POST",
         body: formData,
-      }
+      },
     );
+    console.log(response);
     if (response.status === 200) {
       const responseData = await response.json();
 

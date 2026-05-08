@@ -1,8 +1,10 @@
-import NextTopLoader from "nextjs-toploader";
+import dynamic from "next/dynamic";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
+import NextTopLoader from "nextjs-toploader";
 import SessionWrapper from "@/components/SessionWrapper";
 import { Toaster } from "@/components/ui/sonner";
+
+const Navbar = dynamic(() => import("@/components/Navbar"), { ssr: false });
 
 export const metadata = {
   title: "E-Gallery",

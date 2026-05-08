@@ -10,7 +10,7 @@ import EdgeRank from "@/helper/EdgeRank";
 export const getPersonalizeProductsByUserId = async (
   userId,
   filterBy,
-  sortBy
+  sortBy,
 ) => {
   const userLikedLabels = await getUserLikedProductsLabel(userId);
 
@@ -211,10 +211,10 @@ export const insertNewProduct = async (
   label,
   totalLike,
   availableQuantity,
-  ownerId
+  ownerId,
 ) => {
   try {
-    await db.insert(product).values({
+    const productData = await db.insert(product).values({
       id: productId,
       name: title,
       description: description,
@@ -228,7 +228,7 @@ export const insertNewProduct = async (
     if (insertLabel === null) {
       return null;
     }
-    return;
+    return productData;
   } catch (error) {
     console.log(error);
     return null;
@@ -342,8 +342,8 @@ export const deleteImage = async (productID, imagePath) => {
       .where(
         and(
           eq(product_image.productId, productID),
-          eq(product_image.image, imagePath)
-        )
+          eq(product_image.image, imagePath),
+        ),
       );
     if (deleteImageFile[0].affectedRows === 0) {
       return null;
