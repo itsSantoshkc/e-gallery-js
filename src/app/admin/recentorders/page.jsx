@@ -21,7 +21,7 @@ const Page = () => {
           body: JSON.stringify({
             user_Id: userId,
           }),
-        }
+        },
       );
       if (response.status === 200) {
         const responseData = await response.json();
@@ -32,7 +32,7 @@ const Page = () => {
 
   useEffect(() => {
     getProducts();
-  }, [userId]);
+  }, [userId, getProducts]);
 
   if (session === undefined || status === "loading") {
     return (

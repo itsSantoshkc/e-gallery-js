@@ -36,7 +36,7 @@ export default function DashboardPage() {
           body: JSON.stringify({
             user_Id: userId,
           }),
-        }
+        },
       );
       if (response.status === 200) {
         const responseData = await response.json();
@@ -58,7 +58,7 @@ export default function DashboardPage() {
   };
   useEffect(() => {
     getUserRecentOrders();
-  }, [userId]);
+  }, [userId, getUserRecentOrders]);
 
   if (session === undefined || status === "loading") {
     return (

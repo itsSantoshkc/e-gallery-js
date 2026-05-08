@@ -44,6 +44,7 @@ const CartItems = (props) => {
               <img
                 className="object-fill w-16 h-16 "
                 src={props.productImage}
+                alt={props.ProductName}
               />
             </div>
             <span className="py-1 font-bold">

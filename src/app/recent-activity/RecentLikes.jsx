@@ -24,7 +24,7 @@ const RecentLikes = ({ userId }) => {
 
   useEffect(() => {
     getUserLikedProduct();
-  }, [userId]);
+  }, [userId, getUserLikedProduct]);
 
   return (
     <>

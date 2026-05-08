@@ -2,9 +2,9 @@
 
 import { useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 
-const PaymentResult = () => {
+const PaymentResultContent = () => {
   const [stripeStatus, setStripeStatus] = useState(null);
 
   const searchParams = useSearchParams();
@@ -16,12 +16,16 @@ const PaymentResult = () => {
     const fetchStatus = async () => {
       if (!sessionId) return;
 
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_URL}/api/stripe?session_id=${sessionId}`,
-      );
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_URL}/api/stripe?session_id=${sessionId}`,
+        );
 
-      const data = await res.json();
-      setStripeStatus(data.status);
+        const data = await res.json();
+        setStripeStatus(data.status);
+      } catch (err) {
+        setStripeStatus("failed");
+      }
     };
 
     fetchStatus();
@@ -30,6 +34,14 @@ const PaymentResult = () => {
   if (!stripeStatus) return <div>Loading...</div>;
 
   return <div>{stripeStatus === "complete" ? "Success" : "Failed"}</div>;
+};
+
+const PaymentResult = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PaymentResultContent />
+    </Suspense>
+  );
 };
 
 export default PaymentResult;

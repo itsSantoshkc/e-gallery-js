@@ -21,7 +21,7 @@ const Product = ({ sort, filter }) => {
       `/api/product/?uid=${session?.user.id}&filter=${filter}&sort=${sort}`,
       {
         method: "get",
-      }
+      },
     );
     const responsData = await response.json();
     setProductData(responsData);
@@ -29,7 +29,7 @@ const Product = ({ sort, filter }) => {
 
   useEffect(() => {
     getProduct();
-  }, [filter]);
+  }, [filter, getProduct]);
 
   if (sort === "price") {
     if (productData.length > 0) {

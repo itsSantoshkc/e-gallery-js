@@ -1,10 +1,10 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import PasswordInput from "@/components/PasswordInput";
 import { toast } from "sonner";
 
-const Page = () => {
+const ResetPasswordContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -19,8 +19,14 @@ const Page = () => {
 
     try {
       const id = searchParams.get("Id");
-      const password = passwordRef.current?.value;
-      const confirmPassword = retypePasswordRef.current?.value;
+
+      if (!id) {
+        toast.error("Invalid or expired reset link");
+        return;
+      }
+
+      const password = passwordRef.current?.value?.trim();
+      const confirmPassword = retypePasswordRef.current?.value?.trim();
 
       if (!password || !confirmPassword) {
         toast.error("Password fields cannot be empty");
@@ -36,28 +42,23 @@ const Page = () => {
         `${process.env.NEXT_PUBLIC_URL}api/user/password-reset`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            Id: id,
-            password,
-          }),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ Id: id, password }),
         },
       );
 
       if (response.status === 401) {
-        toast.error("The link has already expired");
+        toast.error("The reset link has expired");
         return;
       }
 
-      if (response.status === 200) {
+      if (response.ok) {
         toast.success("Password changed successfully");
         router.push("/Login");
         return;
       }
 
-      toast.error("Failed to change password. Please try again later");
+      toast.error("Failed to reset password. Try again later");
     } catch (error) {
       toast.error("Something went wrong");
     } finally {
@@ -67,7 +68,7 @@ const Page = () => {
 
   return (
     <div className="flex items-center justify-center w-screen h-[90vh] overflow-y-hidden">
-      <div className="flex flex-col w-full py-5 mx-4 sm:w-3/4 sm:px-5 md:w-1/2 lg:w-1/3 xl:w-1/4 rounded-xl bg-stone-200">
+      <div className="flex flex-col w-full py-5 mx-4 sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4 rounded-xl bg-stone-200">
         <h1 className="w-full py-3 mt-4 text-3xl font-bold text-center">
           Reset Password
         </h1>
@@ -77,44 +78,50 @@ const Page = () => {
             Enter your new password
           </h2>
 
-          <div className="mx-2">
-            <form className="flex flex-col" onSubmit={handleSubmit}>
-              <label className="px-3 my-2 font-bold text-stone-600">
-                Enter your new password
-              </label>
+          <form className="flex flex-col mx-2" onSubmit={handleSubmit}>
+            <label className="px-3 my-2 font-bold text-stone-600">
+              New password
+            </label>
 
-              <PasswordInput
-                ref={passwordRef}
-                placeholder="Enter your new password"
-                name="password"
-              />
+            <PasswordInput
+              ref={passwordRef}
+              placeholder="Enter your new password"
+              name="password"
+            />
 
-              <label className="px-3 my-2 font-bold text-stone-600">
-                Confirm your new password
-              </label>
+            <label className="px-3 my-2 font-bold text-stone-600">
+              Confirm password
+            </label>
 
-              <PasswordInput
-                ref={retypePasswordRef}
-                placeholder="Re-enter your password"
-                name="confirm-password"
-              />
+            <PasswordInput
+              ref={retypePasswordRef}
+              placeholder="Re-enter your password"
+              name="confirm-password"
+            />
 
-              <button
-                type="submit"
-                disabled={loading}
-                className="flex items-center justify-center p-3 my-3 text-xl font-bold text-white transition-colors duration-500 cursor-pointer rounded-xl bg-stone-500 hover:bg-stone-400 disabled:opacity-60"
-              >
-                {!loading ? (
-                  "Change Password"
-                ) : (
-                  <div className="w-6 h-6 border-2 border-gray-300 rounded-full animate-spin border-t-blue-600" />
-                )}
-              </button>
-            </form>
-          </div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="flex items-center justify-center p-3 my-3 text-xl font-bold text-white rounded-xl bg-stone-500 hover:bg-stone-400 disabled:opacity-60"
+            >
+              {!loading ? (
+                "Change Password"
+              ) : (
+                <div className="w-6 h-6 border-2 border-gray-300 rounded-full animate-spin border-t-blue-600" />
+              )}
+            </button>
+          </form>
         </div>
       </div>
     </div>
+  );
+};
+
+const Page = () => {
+  return (
+    <Suspense fallback={<div className="w-screen h-[90vh]" />}>
+      <ResetPasswordContent />
+    </Suspense>
   );
 };
 

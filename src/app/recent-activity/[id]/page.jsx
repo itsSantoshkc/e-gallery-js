@@ -20,7 +20,7 @@ const Page = ({ params }) => {
 
   useEffect(() => {
     getOrderData();
-  }, [params.id]);
+  }, [params.id, getOrderData]);
 
   return (
     <>

@@ -16,7 +16,7 @@ import {
 } from "@stripe/react-stripe-js";
 
 const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
 );
 
 const StripePayment = ({ userId }) => {
@@ -27,7 +27,7 @@ const StripePayment = ({ userId }) => {
     });
     const data = await res.json();
     return data.clientSecret;
-  }, []);
+  }, [userId]);
 
   const options = { fetchClientSecret };
   return (

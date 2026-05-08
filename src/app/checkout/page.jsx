@@ -52,7 +52,7 @@ const Page = (props) => {
 
   useEffect(() => {
     getCartItems();
-  }, [userId]);
+  }, [userId, getCartItems]);
 
   let total = 0;
   for (let i = 0; i < cartItems.length; i++) {

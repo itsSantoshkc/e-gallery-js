@@ -277,6 +277,7 @@ const Page = (props) => {
                   <img
                     className="hidden object-cover w-full h-full min-w-full min-h-full rounded-full "
                     src=""
+                    alt=""
                   />
                   <CgProfile className="text-[17.75rem]" />
                   <input

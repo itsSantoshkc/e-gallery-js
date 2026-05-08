@@ -28,7 +28,7 @@ const RecentOrder = ({ userId }) => {
 
   useEffect(() => {
     getUserRecentOrders();
-  }, [userId]);
+  }, [userId, getUserRecentOrders]);
 
   return (
     <>

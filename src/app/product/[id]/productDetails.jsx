@@ -99,7 +99,7 @@ const ProductDetails = ({
       setPostLiked(postLiked);
     };
     setPostTotalLikes(() => totalLikes);
-  }, [totalLikes, status]);
+  }, [totalLikes, status, id, userId]);
 
   if (session === undefined || status == "loading") {
     return (

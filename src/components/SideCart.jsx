@@ -42,7 +42,7 @@ const SideCart = (props) => {
 
   useEffect(() => {
     getCartItems();
-  }, [userId]);
+  }, [userId, getCartItems]);
 
   const handleCartItemDelete = async (productId) => {
     const response = await fetch(

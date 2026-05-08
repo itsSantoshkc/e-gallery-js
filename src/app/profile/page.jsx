@@ -144,7 +144,7 @@ const Page = (props) => {
 
   useEffect(() => {
     getUserData();
-  }, [session?.user.id]);
+  }, [session?.user.id, getUserData]);
 
   if (session === undefined) {
     return (
