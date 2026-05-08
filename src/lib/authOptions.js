@@ -1,16 +1,10 @@
 //@ts-ignore
 import bcrypt from "bcryptjs";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import { NextAuthOptions } from "next-auth";
-import GitHubProvider, { GithubProfile } from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider, { GoogleProfile } from "next-auth/providers/google";
 import { db } from "@/db/db";
-import {
-  getUserByEmail,
-  getUsersAccountTableData,
-  reSendVerificationToken,
-} from "@/data/user";
+import { getUserByEmail, reSendVerificationToken } from "@/data/user";
 
 const authOptions = {
   pages: {

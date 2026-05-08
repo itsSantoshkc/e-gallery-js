@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BiSort } from "react-icons/bi";
 
 import { useSession } from "next-auth/react";
