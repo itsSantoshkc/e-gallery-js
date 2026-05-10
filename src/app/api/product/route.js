@@ -7,7 +7,6 @@ export async function GET(request) {
     if (!products || products.length === 0) {
       return Response.json({ message: "No products found" }, { status: 404 });
     }
-    console.log(products);
     return Response.json(products, { status: 200 });
   } catch (error) {
     console.error(error);
