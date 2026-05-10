@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import React, { useRef } from "react";
 import { FaCamera } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
@@ -85,11 +86,7 @@ const NewImage = () => {
       className="relative flex items-center justify-center w-full h-full transition-colors duration-300 border border-dashed hover:bg-stone-400 hover:text-stone-300 text-stone-600 border-stone-500"
     >
       <label className="flex items-center justify-center w-full h-full text-5xl ">
-        <img
-          className="hidden object-cover w-full h-full min-w-full min-h-full rounded-xl"
-          src=""
-          alt="image"
-        />
+        <Image src="" alt="image" fill className="object-cover rounded-xl" />
         <input
           onChange={handleFileChange}
           accept="image/*"

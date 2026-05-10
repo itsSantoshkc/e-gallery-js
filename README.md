@@ -45,11 +45,7 @@ Create a `.env.local` file in the project root:
 
 ```env
 # Database
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_USER=root
-DB_PASSWORD=root
-DB_DATABASE=egallery
+DATABASE_URL=you_postgres_db_connection_string
 
 # NextAuth
 NEXTAUTH_SECRET=your_nextauth_secret
@@ -94,32 +90,6 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
-
----
-
-## Running with Docker Compose
-
-The easiest way to run the full stack (app + database + migrations) in one command:
-
-```bash
-docker compose up --build
-# or with Podman
-podman-compose up --build
-```
-
-This will:
-
-1. Start a MySQL 8.0 container
-2. Run `drizzle-kit push` to create all tables
-3. Start the Next.js app on port 3000
-
-To stop:
-
-```bash
-docker compose down
-# to also remove the database volume
-docker compose down -v
-```
 
 ---
 

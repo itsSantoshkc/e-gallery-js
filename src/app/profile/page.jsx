@@ -40,6 +40,7 @@ import { toast } from "sonner";
 
 import DeleteAccount from "./DeleteAccount";
 import PasswordInput from "@/components/PasswordInput";
+import Image from "next/image";
 
 const Page = (props) => {
   const { data: session } = useSession();
@@ -186,10 +187,11 @@ const Page = (props) => {
               className="grid content-center grid-cols-1 gap-5 pb-16 md:gap-10 md:grid-cols-2"
             >
               <div className="flex flex-col items-center justify-center p-5 md:col-start-2 md:col-span-1 md:row-span-5">
-                <img
-                  className="object-cover w-48 h-48 border rounded-full cursor-pointer hover:opacity-90"
+                <Image
                   src={avatar !== null ? avatar : "/defaultProfilePicture.jpg"}
                   alt={name}
+                  fill
+                  className="object-cover"
                 />
               </div>
               {isEdit && (

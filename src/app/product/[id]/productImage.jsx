@@ -1,9 +1,7 @@
 import React from "react";
 
 const productImage = ({ image, name }) => {
-  return (
-    <img key={image} className="w-screen max-h-screen" src={image} alt={name} />
-  );
+  return <Image src={image} alt={name} fill className="object-contain" />;
 };
 
 export default productImage;

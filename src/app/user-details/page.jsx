@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import { CgProfile } from "react-icons/cg";
 
 import { MdDelete } from "react-icons/md";
+import Image from "next/image";
 
 const Page = (props) => {
   const { data: session, update } = useSession();
@@ -274,11 +275,13 @@ const Page = (props) => {
                   className="flex items-center justify-center w-full h-full text-5xl rounded-full cursor-pointer "
                   htmlFor="profilePicture"
                 >
-                  <img
-                    className="hidden object-cover w-full h-full min-w-full min-h-full rounded-full "
+                  <Image
                     src=""
                     alt=""
+                    fill
+                    className="object-cover rounded-full"
                   />
+
                   <CgProfile className="text-[17.75rem]" />
                   <input
                     ref={profilePictureRef}

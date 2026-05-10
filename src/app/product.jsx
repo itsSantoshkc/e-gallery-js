@@ -20,14 +20,11 @@ const Product = ({ sort, filter }) => {
 
   const getProduct = useCallback(async () => {
     const uid = session?.user?.id ?? null;
-    const response = await fetch(
-      `/api/product/?uid=${uid}&filter=${filter}&sort=${sort}`,
-      { method: "GET" },
-    );
+    const response = await fetch(`/api/product`, { method: "GET" });
     const data = await response.json();
     setOriginalData(data);
     setProductData(data);
-  }, [filter, session?.user?.id]);
+  }, [session?.user?.id]);
 
   useEffect(() => {
     getProduct();
@@ -49,16 +46,20 @@ const Product = ({ sort, filter }) => {
     setProductData(sorted);
   }, [sort, originalData]);
 
+  console.log(filter);
+  const displayData = filter
+    ? productData.filter((product) => product.label === filter)
+    : productData;
   return (
     <div ref={mainContainer} className="flex justify-center w-full">
-      {productData?.length === 0 ? (
+      {displayData?.length === 0 ? (
         <div className="flex flex-col items-center justify-center w-full gap-3 text-gray-400 h-96">
           <h2 className="text-xl font-semibold">No products available</h2>
           <p className="text-sm">Check back later or try a different filter</p>
         </div>
       ) : (
         <div className="grid w-full grid-cols-1 gap-6 m-6 md:grid-cols-2 lg:w-5/6 lg:grid-cols-3 2xl:grid-cols-4">
-          {productData?.map((product) => (
+          {displayData?.map((product) => (
             <div key={product.id} className="w-full h-96">
               <Suspense fallback={<CardSkeleton />}>
                 <ImageComponent

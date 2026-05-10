@@ -32,7 +32,6 @@ const Like = (props) => {
       <div className="flex items-center w-full lg:w-5/6">
         <Link href={`/product/${props.id}`}>
           <div className="w-40 h-40 overflow-hidden min-w-40 min-h-40 rounded-xl md:w-32 md:h-32">
-            import Image from "next/image";
             <Image
               src={props.image}
               alt={props.title}

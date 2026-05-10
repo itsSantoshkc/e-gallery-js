@@ -14,6 +14,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import Image from "next/image";
 
 const Page = ({ params }) => {
   const [productInfo, setProductInfo] = useState(null);
@@ -154,11 +155,7 @@ const Page = ({ params }) => {
                       ref={labelRef}
                       className="flex items-center justify-center w-full h-full text-5xl transition-colors duration-300 border border-dashed cursor-pointer hover:bg-stone-300 rounded-xl border-stone-500 "
                     >
-                      <img
-                        className="hidden object-cover w-full h-full min-w-full min-h-full rounded-xl"
-                        src=""
-                        alt="image"
-                      />
+                      <Image src="" alt="image" fill className="object-cover" />
                       <input
                         ref={imageRef}
                         onChange={handleFileChange}

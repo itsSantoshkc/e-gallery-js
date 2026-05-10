@@ -1,22 +1,16 @@
-//@ts-ignore
-
-import { getPersonalizeProductsByUserId, getProducts } from "@/data/product";
+import { getProducts } from "@/data/product";
 
 export async function GET(request) {
-  const searchParams = request.nextUrl.searchParams;
-  const userId = searchParams.get("uid");
-  const filterBy = searchParams.get("filter");
-  const sortBy = searchParams.get("sort");
-  if (userId) {
-    const products = await getPersonalizeProductsByUserId(
-      userId,
-      filterBy,
-      sortBy
-    );
-    return Response.json(products);
+  try {
+    const products = await getProducts();
+
+    if (!products || products.length === 0) {
+      return Response.json({ message: "No products found" }, { status: 404 });
+    }
+    console.log(products);
+    return Response.json(products, { status: 200 });
+  } catch (error) {
+    console.error(error);
+    return Response.json({ message: "An error occurred" }, { status: 500 });
   }
-
-  const products = await getProducts();
-
-  return Response.json(products);
 }

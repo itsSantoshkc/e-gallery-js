@@ -32,7 +32,7 @@ const SlidingTab = (props) => {
     }
   };
 
-  const handleTabClick = (e, id) => {
+  const handleTabClick = (e, value) => {
     const tabNode = tabContainer.current;
     const tabs = tabNode?.querySelectorAll("li");
 
@@ -55,7 +55,7 @@ const SlidingTab = (props) => {
       });
       e.target.classList.toggle("bg-stone-500");
       e.target.classList.toggle("text-white");
-      props.setFilterValue(() => id);
+      props.setFilterValue(() => value);
     }
   };
 
@@ -105,10 +105,17 @@ const SlidingTab = (props) => {
           ref={tabContainer}
           className="container flex w-full h-full overflow-hidden scroll-smooth "
         >
+          <li
+            onClick={(e) => handleTabClick(e, null)}
+            key={0}
+            className="p-2 m-2 transition-all duration-500 border cursor-pointer whitespace-nowrap hover:bg-stone-500 hover:text-white hover:border-stone-500 rounded-2xl"
+          >
+            Default
+          </li>
           {labels !== null &&
             labels?.map(({ id, label }) => (
               <li
-                onClick={(e) => handleTabClick(e, id)}
+                onClick={(e) => handleTabClick(e, label)}
                 key={id}
                 className="p-2 m-2 transition-all duration-500 border cursor-pointer whitespace-nowrap hover:bg-stone-500 hover:text-white hover:border-stone-500 rounded-2xl"
               >

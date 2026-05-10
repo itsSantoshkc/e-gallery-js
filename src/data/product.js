@@ -4,46 +4,9 @@ import { labels, product_image, product_label } from "@/schema/ProductSchema";
 import { and, asc, eq, like, sql } from "drizzle-orm";
 import { getUserById, getUserLikedProductsLabel } from "./user";
 import EdgeRank from "@/helper/EdgeRank";
+import { users } from "@/schema/userSchema";
 
 //TODO : Optimize the db calls by minimizing no of db calls in one function
-
-export const getPersonalizeProductsByUserId = async (
-  userId,
-  filterBy,
-  sortBy,
-) => {
-  const userLikedLabels = await getUserLikedProductsLabel(userId);
-
-  const products = await getProductDataWithLabels(filterBy, sortBy);
-
-  if (userLikedLabels?.length <= 0) {
-    for (let i = 0; i < products.length; i++) {
-      const { image } = await getProductFirstImage(products[i].id);
-      const { name } = await getUserById(products[i].OwnerId);
-      products[i] = {
-        ...products[i],
-        image,
-        ownerName: name,
-      };
-    }
-    return products;
-  }
-  const edgeRank = new EdgeRank(userLikedLabels, products);
-  const personalizedProduct = await edgeRank.getEdgeValue();
-  for (let i = 0; i < (await personalizedProduct.length); i++) {
-    const { image } = await getProductFirstImage(personalizedProduct[i].id);
-    const { name } = await getUserById(personalizedProduct[i].OwnerId);
-    personalizedProduct[i] = {
-      ...personalizedProduct[i],
-      image,
-      ownerName: name,
-    };
-  }
-  if ((await personalizedProduct.length) > 0) {
-    return personalizedProduct;
-  }
-  return null;
-};
 
 const getProductDataWithLabels = async (filterBy, sortBy) => {
   if (filterBy === "null") {
@@ -191,18 +154,53 @@ export const getProductsFromSearch = async (search) => {
 };
 
 export const getProducts = async () => {
-  let products = await db.select().from(product).limit(100);
-  for (let i = 0; i < products.length; i++) {
-    const { image } = await getProductFirstImage(products[i].id);
-    const { name } = await getUserById(products[i].OwnerId);
-    products[i] = { ...products[i], image, ownerName: name };
-  }
-  if (products.length > 0) {
-    return products;
-  }
-  return null;
-};
+  const results = await db
+    .select({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      description: product.description,
+      availableQuantity: product.availableQuantity,
+      totalLikes: product.totalLikes,
+      createdAt: product.createdAt,
+      OwnerId: product.OwnerId,
+      ownerName: users.name,
+      image: product_image.image,
+      label: labels.label,
+    })
+    .from(product)
+    .leftJoin(users, eq(product.OwnerId, users.id))
+    .leftJoin(product_image, eq(product.id, product_image.productId))
+    .leftJoin(product_label, eq(product.id, product_label.productId))
+    .leftJoin(labels, eq(product_label.labelId, labels.id))
+    .limit(400); // fetch more rows since each product has multiple labels/images
 
+  // group rows by product id
+  const grouped = results.reduce((acc, row) => {
+    if (!acc[row.id]) {
+      acc[row.id] = {
+        id: row.id,
+        name: row.name,
+        price: row.price,
+        description: row.description,
+        availableQuantity: row.availableQuantity,
+        totalLikes: row.totalLikes,
+        createdAt: row.createdAt,
+        OwnerId: row.OwnerId,
+        ownerName: row.ownerName,
+        image: row.image ?? null,
+        label: row.label ?? null,
+      };
+    } else {
+      if (row.image && !acc[row.id].image) {
+        acc[row.id].image = row.image;
+      }
+    }
+    return acc;
+  }, {});
+
+  return Object.values(grouped).slice(0, 100);
+};
 export const insertNewProduct = async (
   productId,
   title,
