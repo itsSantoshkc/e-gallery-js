@@ -2,7 +2,7 @@
 
 > An online marketplace for buying and selling collectibles, artworks, and more.
 
- **Live Demo** : [e-gallery.vercel.app](https://e-gallery.vercel.app)
+ **Live Demo** : [E-Gallery](https://e-gallery-js.vercel.app/)
 
 ---
 
