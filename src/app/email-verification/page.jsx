@@ -30,17 +30,19 @@ const Page = (props) => {
     if (session === null) {
       return;
     }
-
+    console.log(OtpRef.current?.value);
+    const data = {
+      id: session?.user.id,
+      verificationToken: OtpRef.current?.value,
+    };
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_URL}api/auth/email-verification`,
+      `${process.env.NEXT_PUBLIC_URL}/api/auth/email-verification`,
       {
         method: "post",
-        body: JSON.stringify({
-          id: session?.user.id,
-          verificationToken: OtpRef.current?.value,
-        }),
-      }
+        body: JSON.stringify(data),
+      },
     );
+    console.log(data);
     const responseData = await response.json();
     if (response.status === 401) {
       return toast.error(responseData.message);

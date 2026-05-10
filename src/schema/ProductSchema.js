@@ -11,7 +11,7 @@ import {
 import { users } from "./userSchema";
 
 export const labels = pgTable("labels", {
-  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  id: integer("id").primaryKey(),
   label: varchar("label", { length: 255 }),
 });
 

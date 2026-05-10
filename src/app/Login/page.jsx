@@ -11,7 +11,7 @@ const Page = async (props) => {
     redirect("/");
   }
   return (
-    <div className="flex items-center justify-center w-screen h-full overflow-y-hidden">
+    <div className="flex items-center justify-center w-screen h-[95vh] overflow-hidden">
       <LogInForm />
     </div>
   );

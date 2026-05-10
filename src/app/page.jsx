@@ -15,7 +15,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import SlidingTab from "@/components/SlidingTab";
-import { getLabels } from "./action";
 
 export default function Home() {
   const [position, setPosition] = useState("");
@@ -57,6 +56,7 @@ export default function Home() {
                 value={position}
                 onValueChange={setPosition}
               >
+                <DropdownMenuRadioItem value="">Default</DropdownMenuRadioItem>
                 <DropdownMenuRadioItem value="A-Z">
                   Sort By A-Z
                 </DropdownMenuRadioItem>
@@ -64,7 +64,7 @@ export default function Home() {
                   Sort By Likes
                 </DropdownMenuRadioItem>
                 <DropdownMenuRadioItem value="price">
-                  Sort By Pirce
+                  Sort By Price
                 </DropdownMenuRadioItem>
               </DropdownMenuRadioGroup>
             </DropdownMenuContent>

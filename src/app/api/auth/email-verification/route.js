@@ -1,23 +1,31 @@
 import { getUserById, verifyUser } from "@/data/user";
 
 export async function POST(request) {
-  const { id, verificationToken } = await request.json();
+  try {
+    const { id, verificationToken } = await request.json();
+    const user = await getUserById(id);
+    if (!user) {
+      return Response.json({ message: "User doesn't exist" }, { status: 401 });
+    }
+    console.log(user);
+    if (user?.verificationToken !== parseInt(verificationToken)) {
+      return Response.json(
+        { message: "Please! Make sure the login code is correct" },
+        { status: 401 },
+      );
+    }
 
-  const user = await getUserById(id);
-  if (!user) {
-    return Response.json({ message: "User doesn't exist" }, { status: 401 });
-  }
-  if (user?.verificationToken !== parseInt(verificationToken)) {
+    verifyUser(id);
+
     return Response.json(
-      { message: "Please! Make sure the login code is correct" },
-      { status: 401 }
+      { message: "User has been verified Sucessfully" },
+      { status: 200 },
+    );
+  } catch (error) {
+    console.log(error);
+    return Response.json(
+      { message: "Unable to verify the user" },
+      { status: 401 },
     );
   }
-
-  verifyUser(id);
-
-  return Response.json(
-    { message: "User has been verified Sucessfully" },
-    { status: 200 }
-  );
 }

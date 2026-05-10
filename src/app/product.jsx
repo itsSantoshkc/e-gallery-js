@@ -14,67 +14,52 @@ const ImageComponent = lazy(() => import("@/components/GalleryImage"));
 
 const Product = ({ sort, filter }) => {
   const [productData, setProductData] = useState([]);
+  const [originalData, setOriginalData] = useState([]);
   const mainContainer = useRef(null);
   const { data: session } = useSession();
 
   const getProduct = useCallback(async () => {
-    if (session?.user.id === null) {
-      const response = await fetch("/api/product", {
-        method: "get",
-      });
-      const responsData = await response.json();
-      return setProductData(responsData);
-    }
+    const uid = session?.user?.id ?? null;
     const response = await fetch(
-      `/api/product/?uid=${session?.user.id}&filter=${filter}&sort=${sort}`,
-      {
-        method: "get",
-      },
+      `/api/product/?uid=${uid}&filter=${filter}&sort=${sort}`,
+      { method: "GET" },
     );
-    const responsData = await response.json();
-    setProductData(responsData);
-  }, [filter, sort, session?.user.id]);
+    const data = await response.json();
+    setOriginalData(data);
+    setProductData(data);
+  }, [filter, session?.user?.id]);
 
   useEffect(() => {
     getProduct();
   }, [getProduct]);
 
-  if (sort === "price") {
-    if (productData.length > 0) {
-      productData.sort((a, b) => {
-        return b.price - a.price;
-      });
-    }
-  }
-  if (sort === "A-Z") {
-    if (productData.length > 0) {
-      productData.sort((a, b) => {
-        if (a.name < b.name) {
-          return -1;
-        }
-        if (a.name > b.name) {
-          return 1;
-        }
-        return 0;
-      });
-    }
-  }
+  useEffect(() => {
+    if (!originalData.length) return;
 
-  if (sort === "likes") {
-    if (productData.length > 0) {
-      productData.sort((a, b) => {
-        return b.totalLikes - a.totalLikes;
-      });
+    const sorted = [...originalData];
+
+    if (sort === "price") {
+      sorted.sort((a, b) => b.price - a.price);
+    } else if (sort === "A-Z") {
+      sorted.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sort === "likes") {
+      sorted.sort((a, b) => b.totalLikes - a.totalLikes);
     }
-  }
+
+    setProductData(sorted);
+  }, [sort, originalData]);
 
   return (
     <div ref={mainContainer} className="flex justify-center w-full">
-      <div className="grid w-full grid-cols-1 gap-6 m-6 md:grid-cols-2 lg:w-5/6 2xl:grid-cols-4">
-        {productData !== null &&
-          productData !== undefined &&
-          productData?.map((product) => (
-            <div key={product.id} className="w-full *:rounded-xl h-96 ">
+      {productData?.length === 0 ? (
+        <div className="flex flex-col items-center justify-center w-full gap-3 text-gray-400 h-96">
+          <h2 className="text-xl font-semibold">No products available</h2>
+          <p className="text-sm">Check back later or try a different filter</p>
+        </div>
+      ) : (
+        <div className="grid w-full grid-cols-1 gap-6 m-6 md:grid-cols-2 lg:w-5/6 lg:grid-cols-3 2xl:grid-cols-4">
+          {productData?.map((product) => (
+            <div key={product.id} className="w-full h-96">
               <Suspense fallback={<CardSkeleton />}>
                 <ImageComponent
                   description={product.description}
@@ -87,7 +72,8 @@ const Product = ({ sort, filter }) => {
               </Suspense>
             </div>
           ))}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

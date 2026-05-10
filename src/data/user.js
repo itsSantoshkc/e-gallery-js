@@ -39,7 +39,7 @@ export const verifyUser = async (id) => {
   try {
     await db
       .update(users)
-      .set({ emailVerified: null, verificationToken: null })
+      .set({ emailVerified: true, verificationToken: null })
       .where(eq(users.id, id));
     return { message: "Email has been verified" };
   } catch (error) {
@@ -71,7 +71,7 @@ export const newUserDetails = async (
   phone,
   province,
   address,
-  image
+  image,
 ) => {
   try {
     await db
@@ -115,7 +115,7 @@ export const updateExistingUserDetails = async (
   gender,
   phone,
   province,
-  address
+  address,
 ) => {
   try {
     await db
@@ -172,7 +172,7 @@ export const getUserById = async (id) => {
   const user = await db.select().from(users).where(eq(users.id, id));
   const shippingAddress = await db
     .select({
-      address: shippingAddresses.Address,
+      address: shippingAddresses.address,
       province: shippingAddresses.province,
     })
     .from(shippingAddresses)
@@ -180,6 +180,10 @@ export const getUserById = async (id) => {
 
   if (user && shippingAddress) {
     return { ...user[0], ...shippingAddress[0] };
+  }
+  if (user) {
+    console.log(user);
+    return { ...user[0] };
   }
   return null;
 };
