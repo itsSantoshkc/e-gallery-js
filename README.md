@@ -1,27 +1,27 @@
-# E-Gallery 🎨
+# E-Gallery 
 
 > An online marketplace for buying and selling collectibles, artworks, and more.
 
-🌐 **Live Demo** : [e-gallery.vercel.app](https://e-gallery.vercel.app)
+ **Live Demo** : [e-gallery.vercel.app](https://e-gallery.vercel.app)
 
 ---
 
-## ⚠️ Note
+##  Note
 
 Stripe payment is currently in **test mode** as a business account is not yet verified. Use the test credentials below to explore the app.
 
 ---
 
-## 🔐 Test Credentials
+##  Test Credentials
 
-### 👑 Admin
+### Admin
 
 | Field    | Value           |
 | -------- | --------------- |
 | Email    | admin@admin.com |
 | Password | admin123        |
 
-### 👤 User
+###  User
 
 | Field    | Value         |
 | -------- | ------------- |
