@@ -1,4 +1,5 @@
 import { TableCell, TableRow } from "@/components/ui/table";
+import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import { HiMiniMinusCircle, HiMiniPlusCircle } from "react-icons/hi2";
@@ -32,7 +33,13 @@ const CheckoutItems = (props) => {
         <TableRow className="text-center text-[11px]  bg-stone-300 hover:bg-stone-300 md:text-base">
           <TableCell colSpan={2} className="font-medium md:text-center ">
             <div className="flex items-center w-full">
-              <img className="w-24 h-28 rounded-xl" src={props.image} />
+              <Image
+                src={props.image}
+                alt={props.name}
+                width={96}
+                height={112}
+                className="object-cover w-24 h-28 rounded-xl"
+              />
               <Link
                 href={`${process.env.NEXT_PUBLIC_URL}product/${props.productId}`}
               >

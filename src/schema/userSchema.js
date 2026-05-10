@@ -1,15 +1,14 @@
 import {
   boolean,
-  int,
+  integer,
   timestamp,
-  mysqlTable,
+  pgTable,
   primaryKey,
   varchar,
-  datetime,
   date,
-} from "drizzle-orm/mysql-core";
+} from "drizzle-orm/pg-core";
 
-export const users = mysqlTable("user", {
+export const users = pgTable("user", {
   id: varchar("id", { length: 255 })
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
@@ -22,10 +21,10 @@ export const users = mysqlTable("user", {
   image: varchar("image", { length: 255 }),
   role: varchar("role", { length: 50 }),
   birthDate: date("birthdate"),
-  verificationToken: int("verificationToken", { unsigned: true }),
+  verificationToken: integer("verificationToken"),
 });
 
-export const accounts = mysqlTable(
+export const accounts = pgTable(
   "account",
   {
     userId: varchar("userId", { length: 255 })
@@ -36,7 +35,7 @@ export const accounts = mysqlTable(
     providerAccountId: varchar("providerAccountId", { length: 255 }).notNull(),
     refresh_token: varchar("refresh_token", { length: 255 }),
     access_token: varchar("access_token", { length: 255 }),
-    expires_at: int("expires_at"),
+    expires_at: integer("expires_at"),
     token_type: varchar("token_type", { length: 255 }),
     scope: varchar("scope", { length: 255 }),
     id_token: varchar("id_token", { length: 2048 }),
@@ -46,9 +45,10 @@ export const accounts = mysqlTable(
     compoundKey: primaryKey({
       columns: [account.provider, account.providerAccountId],
     }),
-  })
+  }),
 );
-export const authenticators = mysqlTable(
+
+export const authenticators = pgTable(
   "authenticator",
   {
     credentialID: varchar("credentialID", { length: 255 }).notNull().unique(),
@@ -59,7 +59,7 @@ export const authenticators = mysqlTable(
     credentialPublicKey: varchar("credentialPublicKey", {
       length: 255,
     }).notNull(),
-    counter: int("counter").notNull(),
+    counter: integer("counter").notNull(),
     credentialDeviceType: varchar("credentialDeviceType", {
       length: 255,
     }).notNull(),
@@ -70,10 +70,10 @@ export const authenticators = mysqlTable(
     compositePk: primaryKey({
       columns: [authenticator.userId, authenticator.credentialID],
     }),
-  })
+  }),
 );
 
-export const verificationTokens = mysqlTable(
+export const verificationTokens = pgTable(
   "verificationToken",
   {
     identifier: varchar("identifier", { length: 255 }).notNull(),
@@ -84,10 +84,10 @@ export const verificationTokens = mysqlTable(
     compositePk: primaryKey({
       columns: [verificationToken.identifier, verificationToken.token],
     }),
-  })
+  }),
 );
 
-export const sessions = mysqlTable("session", {
+export const sessions = pgTable("session", {
   sessionToken: varchar("sessionToken", { length: 255 }).primaryKey(),
   userId: varchar("userId", { length: 255 })
     .notNull()
@@ -95,20 +95,19 @@ export const sessions = mysqlTable("session", {
   expires: timestamp("expires", { mode: "date" }).notNull(),
 });
 
-export const shippingAddresses = mysqlTable("shippingAddresses", {
+export const shippingAddresses = pgTable("shippingAddresses", {
   userId: varchar("userId", { length: 255 })
     .notNull()
     .primaryKey()
     .references(() => users.id, { onDelete: "cascade" }),
   province: varchar("province", { length: 255 }),
-  Address: varchar("address", { length: 255 }),
+  address: varchar("address", { length: 255 }),
 });
-export const passwordReset = mysqlTable("passwordReset", {
+
+export const passwordReset = pgTable("passwordReset", {
   hash: varchar("id", { length: 255 }).primaryKey(),
-  email: varchar("email", {
-    length: 255,
-  })
+  email: varchar("email", { length: 255 })
     .notNull()
     .references(() => users.email, { onDelete: "cascade" }),
-  expiryDate: datetime("expiryDate"),
+  expiryDate: timestamp("expiryDate", { mode: "date" }),
 });

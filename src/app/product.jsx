@@ -1,5 +1,12 @@
 "use client";
-import React, { lazy, Suspense, useEffect, useRef, useState } from "react";
+import React, {
+  lazy,
+  Suspense,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { CardSkeleton } from "@/components/Skeleton";
 import { useSession } from "next-auth/react";
 

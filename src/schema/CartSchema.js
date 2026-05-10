@@ -1,18 +1,10 @@
-import {
-  boolean,
-  int,
-  timestamp,
-  mysqlTable,
-  primaryKey,
-  varchar,
-  float,
-} from "drizzle-orm/mysql-core";
+import { integer, pgTable, varchar, real } from "drizzle-orm/pg-core";
 import { users } from "./userSchema";
 import { product } from "./ProductSchema";
 
-export const cart = mysqlTable("cart", {
-  itemQuantity: int("itemQuantity"),
-  itemPrice: float("itemPrice"),
+export const cart = pgTable("cart", {
+  itemQuantity: integer("itemQuantity"),
+  itemPrice: real("itemPrice"),
   userId: varchar("userId", { length: 255 })
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),

@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { toast } from "sonner";
@@ -19,7 +20,7 @@ const Like = (props) => {
       {
         method: "post",
         body: JSON.stringify(cartItemData),
-      }
+      },
     );
     const responseData = await respose.json();
     toast.success("Item has been added to cart");
@@ -31,10 +32,12 @@ const Like = (props) => {
       <div className="flex items-center w-full lg:w-5/6">
         <Link href={`/product/${props.id}`}>
           <div className="w-40 h-40 overflow-hidden min-w-40 min-h-40 rounded-xl md:w-32 md:h-32">
-            <img
-              className="object-cover min-w-full min-h-full transition-all duration-300 cursor-pointer hover:rounded-xl hover:scale-110 rounded-xl"
+            import Image from "next/image";
+            <Image
               src={props.image}
               alt={props.title}
+              fill
+              className="object-cover min-w-full min-h-full transition-all duration-300 cursor-pointer hover:rounded-xl hover:scale-110 rounded-xl"
             />
           </div>
         </Link>

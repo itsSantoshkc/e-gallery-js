@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
+import Image from "next/image";
 
 const GalleryImage = (props) => {
   const { data: session } = useSession();
@@ -32,10 +33,11 @@ const GalleryImage = (props) => {
   return (
     <div className="relative w-full h-full overflow-hidden cursor-pointer rounded-xl group ">
       <div className="w-full h-full ">
-        <img
-          className="object-cover w-full h-full transition-all duration-300 group-hover:bg-blend-multiply group-hover:blur-sm rounded-xl group-hover:scale-110 "
+        <Image
           src={props.image}
           alt={props.name}
+          fill
+          className="object-cover w-full h-full transition-all duration-300 group-hover:bg-blend-multiply group-hover:blur-sm rounded-xl group-hover:scale-110"
         />
       </div>
       <div className="absolute bottom-0 flex flex-col items-center justify-center w-full text-white transition-all duration-300 translate-y-full bg-black bg-opacity-50 border-0 opacity-0 rounded-xl h-1/2 group-hover:translate-y-0 group-hover:opacity-100">

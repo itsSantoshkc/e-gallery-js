@@ -10,6 +10,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import Link from "next/link";
+import Image from "next/image";
 
 const CartItems = (props) => {
   const [loading, setLoading] = useState(false);
@@ -41,10 +42,12 @@ const CartItems = (props) => {
         <div className="flex items-center h-full py-5 justify-evenly">
           <div className="flex flex-col mx-2 ">
             <div className="h-full p-2 border rounded-lg ">
-              <img
-                className="object-fill w-16 h-16 "
+              <Image
                 src={props.productImage}
                 alt={props.ProductName}
+                width={64} // w-16 = 64px
+                height={64} // h-16 = 64px
+                className="object-fill w-16 h-16"
               />
             </div>
             <span className="py-1 font-bold">
