@@ -190,8 +190,9 @@ const Page = (props) => {
                 <Image
                   src={avatar !== null ? avatar : "/defaultProfilePicture.jpg"}
                   alt={name}
-                  fill
-                  className="object-cover"
+                  width={100}
+                  height={100}
+                  className="object-cover w-48 h-48 border rounded-full cursor-pointer hover:opacity-90"
                 />
               </div>
               {isEdit && (

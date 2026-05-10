@@ -1,23 +1,50 @@
-# E-Gallery
+# E-Gallery 🎨
 
-An online marketplace for buying and selling artworks, built with Next.js, Drizzle ORM, MySQL, and Cloudinary.
+> An online marketplace for buying and selling collectibles, artworks, and more.
+
+🌐 **Live Demo** : [e-gallery.vercel.app](https://e-gallery.vercel.app)
+
+---
+
+## ⚠️ Note
+
+Stripe payment is currently in **test mode** as a business account is not yet verified. Use the test credentials below to explore the app.
+
+---
+
+## 🔐 Test Credentials
+
+### 👑 Admin
+
+| Field    | Value           |
+| -------- | --------------- |
+| Email    | admin@admin.com |
+| Password | admin123        |
+
+### 👤 User
+
+| Field    | Value         |
+| -------- | ------------- |
+| Email    | user@user.com |
+| Password | user123       |
+
+---
 
 ## Tech Stack
 
 - **Frontend** — Next.js 14, Tailwind CSS, shadcn/ui
 - **Backend** — Next.js API Routes
-- **Database** — MySQL 8.0 with Drizzle ORM
+- **Database** — PostgresSql 17 with Drizzle ORM
 - **Auth** — NextAuth.js
 - **File Storage** — Cloudinary
 - **Payment** — eSewa,Stripe
-- **Containerization** — Docker / Podman
 
 ---
 
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/) v20+
-- [Docker](https://www.docker.com/)
+- [PostgresSql](https://www.postgresql.org/) 17
 - [Cloudinary](https://cloudinary.com/) account
 - [eSewa](https://esewa.com.np/)
 - [Stripe](https://stripe.com/) account
@@ -29,7 +56,7 @@ An online marketplace for buying and selling artworks, built with Next.js, Drizz
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/e-gallery.git
+git clone https://github.com/itsSantoshkc/e-gallery-js
 cd e-gallery
 ```
 
@@ -56,8 +83,7 @@ CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
 
-# App
-NEXT_PUBLIC_URL=http://localhost:3000
+
 ```
 
 Generate a secure `NEXTAUTH_SECRET`:

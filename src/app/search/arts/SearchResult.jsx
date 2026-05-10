@@ -50,7 +50,7 @@ const SearchResults = () => {
   }
 
   return (
-    <main className="h-full">
+    <main className="h-[95vh] mt-[5vh]">
       {isLoading && (
         <div className="flex flex-col items-center justify-center w-full h-full">
           <div className="loader"></div>
