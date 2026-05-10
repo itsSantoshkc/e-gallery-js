@@ -66,24 +66,15 @@ Generate a secure `NEXTAUTH_SECRET`:
 openssl rand -base64 32
 ```
 
-### 4. Start the MySQL database
+````
 
-```bash
-podman run -d \
-  --name mysql-server \
-  -e MYSQL_ROOT_PASSWORD=root \
-  -e MYSQL_DATABASE=egallery \
-  -p 3306:3306 \
-  mysql:8.0
-```
-
-### 5. Push database schema
+### 4. Push database schema
 
 ```bash
 npm run db:push
-```
+````
 
-### 6. Run the development server
+### 5. Run the development server
 
 ```bash
 npm run dev
