@@ -66,13 +66,11 @@ Generate a secure `NEXTAUTH_SECRET`:
 openssl rand -base64 32
 ```
 
-````
-
 ### 4. Push database schema
 
 ```bash
 npm run db:push
-````
+```
 
 ### 5. Run the development server
 
@@ -107,6 +105,7 @@ src/
 ├── lib/              # Utilities (cloudinary, etc.)
 ├── schema/           # Drizzle table schemas
 └── config/           # App configuration
+└── email/            # Email Configuration
 ```
 
 ---
@@ -124,9 +123,9 @@ npm run db:push    # Push schema to database
 
 ## Features
 
-- Browse and search artworks
+- Browse and search Manga,Memerobilia etc
 - User authentication (sign up, login, email verification)
-- Artist profiles and artwork listings
+- Product owners and Manga,Memerobilia etc listings
 - Shopping cart and checkout
 - eSewa payment integration
 - Cloudinary image uploads
