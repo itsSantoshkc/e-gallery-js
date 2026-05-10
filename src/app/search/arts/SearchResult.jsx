@@ -22,9 +22,7 @@ const SearchResults = () => {
       setIsLoading(true);
 
       try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_URL}/search/arts/api?s=${search}`,
-        );
+        const response = await fetch(`/search/arts/api?s=${search}`);
 
         const data = await response.json();
 

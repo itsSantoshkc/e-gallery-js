@@ -13,10 +13,9 @@ const Page = ({ params }) => {
 
   useEffect(() => {
     const fetchProduct = async () => {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_URL}/api/product/${params.id}`,
-        { method: "GET" },
-      );
+      const response = await fetch(`/api/product/${params.id}`, {
+        method: "GET",
+      });
       const data = await response.json();
       setProductDetails(data);
     };

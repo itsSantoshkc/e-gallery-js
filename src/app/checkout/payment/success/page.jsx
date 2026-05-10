@@ -31,17 +31,14 @@ const PaymentSuccessContent = () => {
       if (!paymentInfo || !userId) return;
 
       try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_URL}api/order`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              userId,
-              transaction_id: paymentInfo.transaction_uuid,
-            }),
-          },
-        );
+        const response = await fetch(`api/order`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userId,
+            transaction_id: paymentInfo.transaction_uuid,
+          }),
+        });
 
         if (response.ok) {
           router.push("/");

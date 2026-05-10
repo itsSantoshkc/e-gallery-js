@@ -38,14 +38,11 @@ const ResetPasswordContent = () => {
         return;
       }
 
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_URL}api/user/password-reset`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ Id: id, password }),
-        },
-      );
+      const response = await fetch(`api/user/password-reset`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ Id: id, password }),
+      });
 
       if (response.status === 401) {
         toast.error("The reset link has expired");

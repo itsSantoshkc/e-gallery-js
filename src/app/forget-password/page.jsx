@@ -10,7 +10,7 @@ const Page = () => {
     setLoading(true);
     e.preventDefault();
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_URL}api/user/password-reset?email=${EmailRef.current.value}`,
+      `api/user/password-reset?email=${EmailRef.current.value}`,
       {
         method: "get",
       },

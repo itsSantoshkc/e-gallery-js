@@ -6,7 +6,7 @@ import React from "react";
 
 const CashOnDelivery = ({ userId }) => {
   const handleEsewa = async () => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_URL}api/order`, {
+    const response = await fetch(`api/order`, {
       method: "POST",
       body: JSON.stringify({ user_id: userId }),
     });

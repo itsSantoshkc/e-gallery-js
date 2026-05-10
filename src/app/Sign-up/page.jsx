@@ -36,13 +36,10 @@ const Page = (props) => {
       password: PasswordRef.current?.value,
     };
 
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_URL}api/auth/register`,
-      {
-        method: "post",
-        body: JSON.stringify(formData),
-      }
-    );
+    const response = await fetch(`api/auth/register`, {
+      method: "post",
+      body: JSON.stringify(formData),
+    });
 
     const responseData = await response.json();
 

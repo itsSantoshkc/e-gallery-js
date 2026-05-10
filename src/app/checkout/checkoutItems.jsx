@@ -40,9 +40,7 @@ const CheckoutItems = (props) => {
                 height={112}
                 className="object-cover w-24 h-28 rounded-xl"
               />
-              <Link
-                href={`${process.env.NEXT_PUBLIC_URL}product/${props.productId}`}
-              >
+              <Link href={`product/${props.productId}`}>
                 <h1 className="ml-3 text-base transition-colors duration-300 cursor-pointer lg:text-xl hover:text-blue-400">
                   {" "}
                   - {props.name}

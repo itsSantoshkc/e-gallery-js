@@ -8,15 +8,12 @@ const RecentLikes = ({ userId }) => {
   const [likedProducts, setLikedProducts] = useState([]);
 
   const getUserLikedProduct = useCallback(async () => {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_URL}api/recentactivity/recentlikes`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          userId: userId,
-        }),
-      },
-    );
+    const response = await fetch(`api/recentactivity/recentlikes`, {
+      method: "POST",
+      body: JSON.stringify({
+        userId: userId,
+      }),
+    });
     const responseData = await response.json();
 
     setLikedProducts(() => responseData);

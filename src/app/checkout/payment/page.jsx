@@ -17,9 +17,7 @@ const PaymentResultContent = () => {
       if (!sessionId) return;
 
       try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_URL}/api/stripe?session_id=${sessionId}`,
-        );
+        const res = await fetch(`/api/stripe?session_id=${sessionId}`);
 
         const data = await res.json();
         setStripeStatus(data.status);

@@ -16,9 +16,7 @@ const RecentOrder = ({ userId }) => {
 
   const getUserRecentOrders = useCallback(async () => {
     if (userId) {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_URL}api/order?uid=${userId}`,
-      );
+      const response = await fetch(`api/order?uid=${userId}`);
       if (response.status === 200) {
         const responseData = await response.json();
         setOrderData(responseData.orders);

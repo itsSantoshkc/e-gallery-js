@@ -35,13 +35,10 @@ const Page = (props) => {
       id: session?.user.id,
       verificationToken: OtpRef.current?.value,
     };
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_URL}/api/auth/email-verification`,
-      {
-        method: "post",
-        body: JSON.stringify(data),
-      },
-    );
+    const response = await fetch(`/api/auth/email-verification`, {
+      method: "post",
+      body: JSON.stringify(data),
+    });
     console.log(data);
     const responseData = await response.json();
     if (response.status === 401) {

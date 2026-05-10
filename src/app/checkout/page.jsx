@@ -34,7 +34,7 @@ const Page = (props) => {
   const userId = session?.user.id;
 
   const getCartItems = useCallback(async () => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_URL}api/cart`, {
+    const response = await fetch(`api/cart`, {
       method: "post",
       body: JSON.stringify({
         userId: userId,
@@ -62,12 +62,9 @@ const Page = (props) => {
 
   const handleCartItemDelete = async (productId) => {
     setLoading(true);
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_URL}api/cart/${productId}`,
-      {
-        method: "delete",
-      },
-    );
+    const response = await fetch(`api/cart/${productId}`, {
+      method: "delete",
+    });
     const { message } = await response.json();
     if (response.status === 200) {
       await getCartItems();
@@ -79,15 +76,12 @@ const Page = (props) => {
   };
 
   const handleCartItemQuantity = async (productId, itemQuantity) => {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_URL}api/cart/${productId}`,
-      {
-        method: "PATCH",
-        body: JSON.stringify({
-          itemQuantity: itemQuantity,
-        }),
-      },
-    );
+    const response = await fetch(`api/cart/${productId}`, {
+      method: "PATCH",
+      body: JSON.stringify({
+        itemQuantity: itemQuantity,
+      }),
+    });
     if (response.status === 200) {
       await getCartItems();
       return setLoading(false);

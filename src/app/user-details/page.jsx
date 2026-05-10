@@ -65,7 +65,7 @@ const Page = (props) => {
       formData.set("profilePic", profilePictureRef.current?.files[0]);
     }
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_URL}api/user`, {
+    const response = await fetch(`api/user`, {
       method: "post",
       body: formData,
     });
@@ -82,7 +82,6 @@ const Page = (props) => {
   };
 
   const handleNext = (index) => {
-    console.log(tabContainer.current?.clientWidth);
     if (tabContainer.current) {
       tabContainer.current.style.transform = `translateX(-${
         tabContainer.current?.clientWidth * index
@@ -90,7 +89,6 @@ const Page = (props) => {
     }
   };
   const handleBack = (index) => {
-    console.log(tabContainer.current?.clientWidth);
     if (tabContainer.current) {
       tabContainer.current.style.transform = `translateX(-${
         tabContainer.current?.clientWidth * index
@@ -147,8 +145,6 @@ const Page = (props) => {
     let imageElement = labelElement?.firstElementChild;
     let inputElement = labelElement?.lastElementChild;
     let deleteIcon = mainContainer?.lastElementChild;
-
-    console.log(deleteIcon);
 
     if (imageElement === null || imageElement === undefined) {
       return;

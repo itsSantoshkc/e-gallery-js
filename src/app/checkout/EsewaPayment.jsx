@@ -8,7 +8,7 @@ const EsewaPayment = ({ userId }) => {
   const handleEsewa = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/esewa`, {
+      const response = await fetch(`/api/esewa`, {
         method: "POST",
         body: JSON.stringify({ user_id: userId }),
       });

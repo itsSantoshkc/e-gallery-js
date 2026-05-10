@@ -88,7 +88,7 @@ const Page = (props) => {
       address: address,
       province: state,
     };
-    const response = await fetch(`${process.env.NEXT_PUBLIC_URL}api/user`, {
+    const response = await fetch(`api/user`, {
       method: "PATCH",
       body: JSON.stringify(userDetails),
     });

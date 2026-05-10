@@ -21,7 +21,7 @@ const stripePromise = loadStripe(
 
 const StripePayment = ({ userId }) => {
   const fetchClientSecret = useCallback(async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/stripe`, {
+    const res = await fetch(`/api/stripe`, {
       method: "POST",
       body: JSON.stringify({ user_id: userId }),
     });
